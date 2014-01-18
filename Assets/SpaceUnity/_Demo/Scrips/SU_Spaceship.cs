@@ -99,10 +99,10 @@ public class SU_Spaceship : MonoBehaviour {
 	void FixedUpdate () {
 		// In the physics update...
 		// Add relative rotational roll torque when steering left/right
-		_cacheRigidbody.AddRelativeTorque(new Vector3(0,0,-Input.GetAxis("Horizontal")*rollRate*_cacheRigidbody.mass));
+//		_cacheRigidbody.AddRelativeTorque(new Vector3(0,0,-Input.GetAxis("Horizontal")*rollRate*_cacheRigidbody.mass));
 		// Add rudder yaw torque when steering left/right
-		_cacheRigidbody.AddRelativeTorque(new Vector3(0,Input.GetAxis("Horizontal")*yawRate*_cacheRigidbody.mass,0));
+//		_cacheRigidbody.AddRelativeTorque(new Vector3(0,Input.GetAxis("Horizontal")*yawRate*_cacheRigidbody.mass,0));
 		// Add pitch torque when steering up/down
-		_cacheRigidbody.AddRelativeTorque(new Vector3(Input.GetAxis("Vertical")*pitchRate*_cacheRigidbody.mass,0,0));	
+//		_cacheRigidbody.AddRelativeTorque(new Vector3(Input.GetAxis("Vertical")*pitchRate*_cacheRigidbody.mass,0,0));	
 	}
 }

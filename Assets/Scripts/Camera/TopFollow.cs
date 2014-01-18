@@ -14,7 +14,7 @@ public class TopFollow : MonoBehaviour {
 	void Update () {
 		Vector3 pos = transform.position;
 		pos.x = player.transform.position.x;
-		pos.z = player.transform.position.z;
+		pos.y = player.transform.position.y;
 
 		transform.position = pos;
 	}
