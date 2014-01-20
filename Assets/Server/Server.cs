@@ -3,6 +3,14 @@ using System.Collections;
 
 public class Server : MonoBehaviour {
 
+	void Start () {
+		if (isHeadless()) {
+			StartServer();
+		} else {
+			ConnectToServer();
+		}
+	}
+
 	void StartServer () {
 		Debug.Log ("Starting server... ");
 		MasterServer.ipAddress = "127.0.0.1";
@@ -10,19 +18,12 @@ public class Server : MonoBehaviour {
 		Network.natFacilitatorIP = "127.0.0.1";
 		Network.natFacilitatorPort = 50005;
 		Network.InitializeServer(200, 1919, !Network.HavePublicAddress());
+		Network.logLevel = NetworkLogLevel.Full;
 		MasterServer.RegisterHost("Lonely Galaxy", "Foolish Aggro US 1", "http://foolishaggro.com");
 	}
 
 	void OnServerInitialized () {
 		Debug.Log ("Server started!");
-	}
-
-	void Start () {
-		if (isHeadless()) {
-			StartServer();
-		} else {
-			ConnectToServer();
-		}
 	}
 
 	void ConnectToServer () {
