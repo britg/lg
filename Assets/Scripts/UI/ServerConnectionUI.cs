@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ServerConnectionGUI : MonoBehaviour {
+public class ServerConnectionUI : MonoBehaviour {
 
-	public GameObject UIRoot;
+	public GameObject panel;
 
 	void Awake () {
 		NotificationCenter.AddObserver(this, LG.n_showServerConnectionUI);
@@ -12,6 +12,7 @@ public class ServerConnectionGUI : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
+
 	
 	}
 	
@@ -21,10 +22,10 @@ public class ServerConnectionGUI : MonoBehaviour {
 	}
 
 	void OnShowServerConnectionUI () {
-		UIRoot.SetActive(true);
+		panel.SetActive(true);
 	}
 
 	void OnHideServerConnectionUI () {
-		UIRoot.SetActive(false);
+		panel.SetActive(false);
 	}
 }
