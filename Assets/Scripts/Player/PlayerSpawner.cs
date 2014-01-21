@@ -5,6 +5,8 @@ public class PlayerSpawner : MonoBehaviour {
 
 	public GameObject playerPrefab;
 
+	private GameObject player;
+
 	// Use this for initialization
 	void Start () {
 	
@@ -20,6 +22,13 @@ public class PlayerSpawner : MonoBehaviour {
 	}
 
 	private void SpawnPlayer () {
-		Network.Instantiate(playerPrefab, Vector3.zero, Quaternion.identity, 0);
+		player = (GameObject)Network.Instantiate(playerPrefab, Vector3.zero, Quaternion.identity, 0);
+		NotifyPlayerSpawned();
+	}
+
+	private void NotifyPlayerSpawned () {
+		Hashtable nData = new Hashtable();
+		nData[LG.n_playerKey] = player;
+		NotificationCenter.PostNotification(this, LG.n_playerSpawned, nData);
 	}
 }
