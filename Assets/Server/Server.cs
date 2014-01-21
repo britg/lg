@@ -5,7 +5,11 @@ public class Server : MonoBehaviour {
 
 	void Start () {
 		if (isHeadless()) {
-			StartServer();
+			if (isLocalServer()) {
+				StartLocalServer();
+			} else {
+				StartServer();
+			}
 		} else {
 			ConnectToServer();
 		}
@@ -22,20 +26,44 @@ public class Server : MonoBehaviour {
 		MasterServer.RegisterHost("Lonely Galaxy", "Foolish Aggro US 1", "http://foolishaggro.com");
 	}
 
+	void StartLocalServer () {
+		Debug.Log ("Starting local server... ");
+		Network.InitializeServer(200, 1919, false);
+		Network.logLevel = NetworkLogLevel.Full;
+	}
+
 	void OnServerInitialized () {
 		Debug.Log ("Server started!");
+
+		if (Network.isServer) {
+			Debug.Log ("Hello, I am the server");
+		}
 	}
 
 	void ConnectToServer () {
-		Network.Connect("foolishaggro.com", 1919);
+		Network.Connect("127.0.0.1", 1919);
 	}
 
 	void OnConnectedToServer () {
 		Debug.Log ("Connected to server!");
+
+		if (Network.isClient) {
+			Debug.Log ("Hello, I am a client");
+		}
 	}
 
 	bool isHeadless () {
-		return SystemInfo.graphicsDeviceID == 0;
+		return (CommandLineReader.GetCustomArgument("server") == "1");
+	}
+
+	bool isLocalServer () {
+		return (CommandLineReader.GetCustomArgument("localServer") == "1");
+	}
+
+	void OnPlayerDisconnected(NetworkPlayer player) {
+		Debug.Log("Clean up after player " +  player);
+		Network.RemoveRPCs(player);
+		Network.DestroyPlayerObjects(player);
 	}
 
 }

@@ -13,8 +13,10 @@ public class PlayerMove : MonoBehaviour {
 	}
 	
 	void Update () {
-		MovePlayer();
-		RotatePlayer();
+		if (networkView.isMine) {
+			MovePlayer();
+			RotatePlayer();
+		}
 	}
 
 	void MovePlayer () {

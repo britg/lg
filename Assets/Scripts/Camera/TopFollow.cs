@@ -12,6 +12,12 @@ public class TopFollow : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+		if (player != null) {
+			FollowPlayer();
+		}
+	}
+
+	void FollowPlayer () {
 		Vector3 pos = transform.position;
 		pos.x = player.transform.position.x;
 		pos.y = player.transform.position.y;
