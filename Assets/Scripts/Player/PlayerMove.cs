@@ -4,12 +4,9 @@ using System.Collections;
 public class PlayerMove : MonoBehaviour {
 
 	public float moveSpeed = 10.0f;
-	private GameObject _aimObject;
 	private Vector3 delta;
 
 	void Start () {
-		_aimObject = new GameObject();
-		Instantiate(_aimObject, transform.position, transform.rotation);
 	}
 	
 	void Update () {

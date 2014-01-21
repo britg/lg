@@ -11,7 +11,7 @@ public class Server : MonoBehaviour {
 				StartServer();
 			}
 		} else {
-			ConnectToServer();
+			PromptConnection();
 		}
 	}
 
@@ -40,9 +40,18 @@ public class Server : MonoBehaviour {
 		}
 	}
 
+	void PromptConnection () {
+		NotificationCenter.PostNotification(this, LG.n_showServerConnectionUI);
+	}
+
+	public void ConnectClicked () {
+		ConnectToServer();
+	}
+
 	void ConnectToServer () {
 		Network.Connect("127.0.0.1", 1919);
 	}
+
 
 	void OnConnectedToServer () {
 		Debug.Log ("Connected to server!");
@@ -50,6 +59,8 @@ public class Server : MonoBehaviour {
 		if (Network.isClient) {
 			Debug.Log ("Hello, I am a client");
 		}
+
+		NotificationCenter.PostNotification(this, LG.n_hideServerConnectionUI);
 	}
 
 	bool isHeadless () {
