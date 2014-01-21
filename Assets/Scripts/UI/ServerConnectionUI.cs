@@ -13,7 +13,14 @@ public class ServerConnectionUI : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 
-	
+	}
+
+	void OnConnectedToServer () {
+		panel.SetActive(false);
+	}
+
+	void OnServerInitialized () {
+		panel.SetActive(false);
 	}
 	
 	// Update is called once per frame

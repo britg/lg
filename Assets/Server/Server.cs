@@ -38,6 +38,10 @@ public class Server : MonoBehaviour {
 		if (Network.isServer) {
 			Debug.Log ("Hello, I am the server");
 		}
+
+		if (!isHeadless()) {
+			PlayerShouldSpawn();
+		}
 	}
 
 	void PromptConnection () {
@@ -48,19 +52,17 @@ public class Server : MonoBehaviour {
 		ConnectToServer();
 	}
 
+	public void CreateServerClicked () {
+		StartLocalServer();
+	}
+
 	void ConnectToServer () {
 		Network.Connect("127.0.0.1", 1919);
 	}
 
-
 	void OnConnectedToServer () {
 		Debug.Log ("Connected to server!");
-
-		if (Network.isClient) {
-			Debug.Log ("Hello, I am a client");
-		}
-
-		NotificationCenter.PostNotification(this, LG.n_hideServerConnectionUI);
+		PlayerShouldSpawn();
 	}
 
 	bool isHeadless () {
@@ -69,6 +71,10 @@ public class Server : MonoBehaviour {
 
 	bool isLocalServer () {
 		return (CommandLineReader.GetCustomArgument("localServer") == "1");
+	}
+
+	void PlayerShouldSpawn() {
+		NotificationCenter.PostNotification(this, LG.n_playerShouldSpawn);
 	}
 
 	void OnPlayerDisconnected(NetworkPlayer player) {

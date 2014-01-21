@@ -7,6 +7,10 @@ public class PlayerSpawner : MonoBehaviour {
 
 	private GameObject player;
 
+	void Awake () {
+		NotificationCenter.AddObserver(this, LG.n_playerShouldSpawn);
+	}
+
 	// Use this for initialization
 	void Start () {
 	
@@ -17,7 +21,7 @@ public class PlayerSpawner : MonoBehaviour {
 	
 	}
 
-	void OnConnectedToServer () {
+	void OnPlayerShouldSpawn () {
 		SpawnPlayer();
 	}
 

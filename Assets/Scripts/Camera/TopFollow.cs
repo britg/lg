@@ -12,6 +12,9 @@ public class TopFollow : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+	}
+
+	void LateUpdate () {
 		if (player != null) {
 			FollowPlayer();
 		}
