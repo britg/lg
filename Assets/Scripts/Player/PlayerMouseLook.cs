@@ -5,15 +5,12 @@ using Vectrosity;
 public class PlayerMouseLook : MonoBehaviour {
 
 	private Vector2 playerScreenPos;
-	private Vector3 playerWorldPos;
-	private Vector3 lastMouseWorldPos;
 	private VectorLine pointer;
 
 	// Use this for initialization
 	void Start () {
 		AssignPlayerPos();
 		CreatePointer();
-		AssignMousePos();
 	}
 	
 	// Update is called once per frame
@@ -31,15 +28,9 @@ public class PlayerMouseLook : MonoBehaviour {
 		pointer = VectorLine.SetLine(Color.green, playerScreenPos, playerScreenPos);
 	}
 
-	void AssignMousePos () {
-		lastMouseWorldPos = Camera.main.ScreenToWorldPoint(Input.mousePosition);
-	}
-
 	void PointAtMouse () {
-		Vector2 mouseScreenPos = Input.mousePosition;
-		Vector3 mouseWorldPos = Camera.main.ScreenToWorldPoint(mouseScreenPos);
-		Vector2 towards = (mouseScreenPos - playerScreenPos) * 100;
-
+		Vector2 mousePosition = Input.mousePosition;
+		Vector2 towards = (mousePosition - playerScreenPos) * 100;
 		pointer.points2[1] = playerScreenPos + towards;
 		pointer.Draw();
 	}
