@@ -73,7 +73,7 @@ public class NotificationCenter : MonoBehaviour
       notifyList.Add(observer.gameObject);
     }
 
-	Debug.Log("[NotificationCenter] Observe " + name + " : " + observer);
+	Debug.Log("Observe " + name + " : " + observer);
 
   }
 
@@ -107,7 +107,7 @@ public class NotificationCenter : MonoBehaviour
 
   private static void PostNotification (Notification aNotification)
   {
-	Debug.Log("[NotificationCenter] Post " + aNotification.name + " : " + aNotification.sender);
+	Debug.Log("Post " + aNotification.name + " : " + aNotification.sender);
     if(aNotification.name == null || aNotification.name == "")
     {
       Debug.Log("Null name sent to PostNotification.");
