@@ -11,7 +11,8 @@ public class Server : MonoBehaviour {
 				StartServer();
 			}
 		} else {
-			PromptConnection();
+//			PromptConnection();
+			StartLocalServer();
 		}
 	}
 
