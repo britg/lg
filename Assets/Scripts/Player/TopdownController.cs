@@ -13,7 +13,7 @@ public class TopdownController : uLink.MonoBehaviour {
 
 	void Update() {
 		MovePlayer();
-		//RotatePlayer();
+		RotatePlayer();
 	}
 
 	void MovePlayer () {
