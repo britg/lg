@@ -2630,7 +2630,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &896180176
 Transform:
   m_ObjectHideFlags: 0
@@ -5124,7 +5124,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxParticles: 500
-  range: 200
+  range: 500
   distanceSpawn: .949999988
   minParticleSize: .5
   maxParticleSize: 1
@@ -5132,7 +5132,7 @@ MonoBehaviour:
   minParticleDriftSpeed: 0
   maxParticleDriftSpeed: 1
   driftSpeedMultiplier: 1
-  fadeParticles: 1
+  fadeParticles: 0
   distanceFade: .5
 --- !u!1001 &1121601985
 Prefab:
@@ -6519,6 +6519,26 @@ Prefab:
     - target: {fileID: 100000, guid: 273dc4ff1b8194395b25fdf6bf9f9184, type: 2}
       propertyPath: m_Name
       value: Main Camera
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400004, guid: 273dc4ff1b8194395b25fdf6bf9f9184, type: 2}
+      propertyPath: maxParticles
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400004, guid: 273dc4ff1b8194395b25fdf6bf9f9184, type: 2}
+      propertyPath: range
+      value: 500
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400004, guid: 273dc4ff1b8194395b25fdf6bf9f9184, type: 2}
+      propertyPath: sizeMultiplier
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 11400004, guid: 273dc4ff1b8194395b25fdf6bf9f9184, type: 2}
+      propertyPath: fadeParticles
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 100002, guid: 273dc4ff1b8194395b25fdf6bf9f9184, type: 2}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 273dc4ff1b8194395b25fdf6bf9f9184, type: 2}
