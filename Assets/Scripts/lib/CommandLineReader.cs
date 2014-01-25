@@ -89,9 +89,8 @@ public class CommandLineReader
 		{
 			customArgsStr = commandLineArgs.Where(row => row.Contains(CUSTOM_ARGS_PREFIX)).Single();
 		}
-		catch (Exception e)
+		catch
 		{
-//			Debug.LogError("CommandLineReader.cs - GetCustomArguments() - Can't retrieve any custom arguments in the command line [" + commandLineArgs + "]. Exception: " + e);
 			return customArgsDict;
 		}
 		

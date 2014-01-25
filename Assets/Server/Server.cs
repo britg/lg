@@ -4,16 +4,7 @@ using System.Collections;
 public class Server : MonoBehaviour {
 
 	void Start () {
-		if (isHeadless()) {
-			if (isLocalServer()) {
-				StartLocalServer();
-			} else {
-				StartServer();
-			}
-		} else {
-//			PromptConnection();
-			StartLocalServer();
-		}
+
 	}
 
 	void StartServer () {
