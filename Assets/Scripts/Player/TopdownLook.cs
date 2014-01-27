@@ -2,12 +2,13 @@
 using System.Collections;
 using Vectrosity;
 
-public class PlayerMouseLook : MonoBehaviour {
+public class TopdownLook : MonoBehaviour {
+
+	public Vector3 worldLookPoint;
 
 	private Vector2 playerScreenPos;
 	private VectorLine pointer;
 	private Vector2 lastMousePos;
-
 
 	// Use this for initialization
 	void Start () {
@@ -18,7 +19,7 @@ public class PlayerMouseLook : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		PointAtMouse();
+		FollowMouse();
 		FollowThumbstick();
 	}
 
@@ -32,16 +33,15 @@ public class PlayerMouseLook : MonoBehaviour {
 		pointer = VectorLine.SetLine(Color.green, playerScreenPos, playerScreenPos);
 	}
 
-	void PointAtMouse () {
+	void FollowMouse () {
 		Vector2 mousePos = Input.mousePosition;
 
 		if (lastMousePos.Equals(mousePos)) {
 			return;
 		}
 
-		Vector2 towards = (mousePos - playerScreenPos) * 100;
-		pointer.points2[1] = playerScreenPos + towards;
-		pointer.Draw();
+		Vector2 screenLookPoint = playerScreenPos + (mousePos - playerScreenPos) * 100;
+		UpdateLook (screenLookPoint);
 
 		lastMousePos = mousePos;
 	}
@@ -49,8 +49,14 @@ public class PlayerMouseLook : MonoBehaviour {
 	void FollowThumbstick () {
 		Vector2 lookDirection = new Vector2(Input.GetAxis("Look X"), -Input.GetAxis("Look Y")).normalized * 1000;
 		if (lookDirection.sqrMagnitude > 0f) {
-			pointer.points2[1] = playerScreenPos + lookDirection;
-			pointer.Draw();
+			Vector2 screenLookPoint = playerScreenPos + lookDirection;
+			UpdateLook (screenLookPoint);
 		}
+	}
+
+	void UpdateLook (Vector2 screenLookPoint) {
+		worldLookPoint = transform.position + Camera.main.ScreenToWorldPoint(new Vector3(screenLookPoint.x, screenLookPoint.y, -Camera.main.transform.position.z));
+		pointer.points2[1] = screenLookPoint;
+		pointer.Draw();
 	}
 }
