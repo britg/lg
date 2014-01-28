@@ -4,6 +4,12 @@ using System.Collections;
 public class LGMonoBehaviour : uLink.MonoBehaviour {
 
 	protected GameObject projectileGrouping;
+	protected GameObject projectile;
+	protected PlayerAttributes playerAttributes;
+
+	protected void Start () {
+		Debug.Log ("Parent start");
+	}
 
 	protected void InitProjectiles () {
 		projectileGrouping = GameObject.Find("Projectiles");
@@ -11,6 +17,11 @@ public class LGMonoBehaviour : uLink.MonoBehaviour {
 			projectileGrouping = (GameObject)Instantiate(new GameObject(), Vector3.zero, Quaternion.identity);
 			projectileGrouping.name = "Projectiles";
 		}
+		projectile = (GameObject)Resources.Load("Projectile");
+	}
+
+	protected void AssignPlayerAttributes () {
+		playerAttributes = GetComponent<PlayerAttributes>();
 	}
 
 	protected float AngleDiff (Vector3 v1, Vector3 v2) {
