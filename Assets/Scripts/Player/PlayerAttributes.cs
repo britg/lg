@@ -4,6 +4,8 @@ using System.Collections;
 
 public class PlayerAttributes : LGMonoBehaviour {
 
+	public bool isOwner = false;
+
 	[Serializable]
 	public class ShipAttributes {
 
@@ -19,6 +21,10 @@ public class PlayerAttributes : LGMonoBehaviour {
 	public class WeaponAttributes {
 
 		public float cooldown = 0.2f;
+		public Vector3 aim = Vector3.zero;
+		public float velocity = 500f;
+		public float life = 2f;
+
 	}
 
 	public ShipAttributes shipAttributes = new ShipAttributes();

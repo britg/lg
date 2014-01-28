@@ -23,7 +23,7 @@ public static class AutoBuild
 		BuildPipeline.BuildPlayer(server, "Build/mac/lg_server" + extension, target, BuildOptions.AutoRunPlayer);
 	}
 
-	[MenuItem("AutoBuild/Build Server")]
+	[MenuItem("AutoBuild/Build Client")]
 	public static void Client()
 	{
 		string[] client = new string[] { "Assets/Scenes/Play.unity" };

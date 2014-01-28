@@ -7,10 +7,6 @@ public class LGMonoBehaviour : uLink.MonoBehaviour {
 	protected GameObject projectile;
 	protected PlayerAttributes playerAttributes;
 
-	protected void Start () {
-		Debug.Log ("Parent start");
-	}
-
 	protected void InitProjectiles () {
 		projectileGrouping = GameObject.Find("Projectiles");
 		if (projectileGrouping == null) {

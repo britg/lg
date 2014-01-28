@@ -7,7 +7,6 @@ public class TopFollow : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		NotificationCenter.AddObserver(this, LG.n_playerSpawned);
 	}
 	
 	// Update is called once per frame
@@ -26,11 +25,5 @@ public class TopFollow : MonoBehaviour {
 		pos.y = player.transform.position.y;
 
 		transform.position = pos;
-	}
-
-	void OnPlayerSpawn (Notification n) {
-		Hashtable nData = n.data;
-		GameObject nPlayer = (GameObject)nData[LG.n_playerKey];
-		player = nPlayer;
 	}
 }

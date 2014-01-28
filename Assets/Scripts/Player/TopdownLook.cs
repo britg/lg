@@ -2,7 +2,7 @@
 using System.Collections;
 using Vectrosity;
 
-public class TopdownLook : MonoBehaviour {
+public class TopdownLook : LGMonoBehaviour {
 
 	public Vector3 worldLookPoint;
 
@@ -12,15 +12,20 @@ public class TopdownLook : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		AssignPlayerPos();
-		CreatePointer();
-		lastMousePos = Vector2.zero;
+		AssignPlayerAttributes();
+		if (playerAttributes.isOwner) {
+			AssignPlayerPos();
+			CreatePointer();
+			lastMousePos = Vector2.zero;
+		}
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		FollowMouse();
-		FollowThumbstick();
+		if (playerAttributes.isOwner) {
+			FollowMouse();
+			FollowThumbstick();
+		}
 	}
 
 	void AssignPlayerPos () {

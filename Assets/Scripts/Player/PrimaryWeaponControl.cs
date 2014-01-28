@@ -7,65 +7,74 @@ public class PrimaryWeaponControl : LGMonoBehaviour {
 	private Vector3 worldLookPoint;
 
 	void Start () {
-		Debug.Log ("Child start");
 		InitProjectiles();
 		AssignPlayerAttributes();
-		LoadPrimaryWeapon();
 	}
 
-	void LoadPrimaryWeapon () {
-
-	}
-	
 	// Update is called once per frame
 	void Update () {
-		DetectFireInput();
+		if (playerAttributes.isOwner) {
+			DetectFireInput();
+		}
 	}
 	
 	void DetectFireInput () {
 		if (Input.GetButtonDown("Fire1")) {
-			networkView.UnreliableRPC("StartFiring", uLink.RPCMode.Server);
 			StartFiring ();
 		}
 		
 		if (Input.GetButtonUp ("Fire1")) {
-			networkView.UnreliableRPC("StopFiring", uLink.RPCMode.Server);
 			StopFiring ();
 		}
 	}
+
+	void GetWorldLookPoint () {
+		TopdownLook topdownLook = GetComponent<TopdownLook>();
+		worldLookPoint = topdownLook.worldLookPoint;
+	}
 	
-	[RPC]
 	void StartFiring () {
 		if (isFiring) {
 			return;
 		}
 		isFiring = true;
-		InvokeRepeating("Fire", 0f, playerAttributes.weaponAttributes.cooldown);
+		RepeatFiring ();
+	}
+
+	void RepeatFiring () {
+		InvokeRepeating("Fire", 0.01f, playerAttributes.weaponAttributes.cooldown);
 	}
 	
-	[RPC]
 	void StopFiring () {
 		isFiring = false;
 		CancelInvoke();
 	}
 	
 	void Fire () {
-		SpawnProjectile();
-	}
-	
-	void SpawnProjectile () {
 		GetWorldLookPoint();
-		GameObject _projectile = (GameObject)Instantiate (projectile, transform.position, transform.rotation);
-		float angleDiffLook = AngleDiff(transform.up, worldLookPoint);
-		Vector3 angles = projectile.transform.eulerAngles;
-		angles.z -= angleDiffLook;
-		_projectile.transform.eulerAngles = angles;
-		_projectile.transform.parent = projectileGrouping.transform;
+		SpawnProjectile(worldLookPoint);
+		networkView.UnreliableRPC("SpawnProjectile", uLink.RPCMode.Server, worldLookPoint);
 	}
 
-	void GetWorldLookPoint () {
-		TopdownLook topdownLook = GetComponent<TopdownLook>();
-		worldLookPoint = topdownLook.worldLookPoint;
+	[RPC]
+	void SpawnProjectile (Vector3 _direction) {
+		if (uLink.Network.isServer) {
+			networkView.UnreliableRPC("SpawnProjectile", uLink.RPCMode.AllExceptOwner, _direction);
+		}
+
+		GameObject _projectile = (GameObject)Instantiate (projectile, transform.position, transform.rotation);
+		_projectile.transform.parent = projectileGrouping.transform;
+
+		// Set the projectile attributes from player attributes
+		Projectile projectileAttributes = _projectile.GetComponent<Projectile>();
+		projectileAttributes.velocity = playerAttributes.weaponAttributes.velocity;
+		projectileAttributes.life = playerAttributes.weaponAttributes.life;
+
+		// Set the correct angle on the projectile
+		float angleDiffLook = AngleDiff(transform.up, _direction);
+		Vector3 angles = projectile.transform.eulerAngles;
+		angles.z -= angleDiffLook - transform.eulerAngles.z;
+		_projectile.transform.eulerAngles = angles;
 	}
 
 }

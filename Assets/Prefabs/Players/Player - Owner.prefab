@@ -464,6 +464,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 316d61420de4d45f395d136a94484faa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  isOwner: 1
   shipAttributes:
     name: Starter Ship
     shields: 0
@@ -471,6 +472,7 @@ MonoBehaviour:
     fuel: 100
   weaponAttributes:
     cooldown: .200000003
+    aim: {x: 0, y: 0, z: 0}
 --- !u!114 &11400004
 MonoBehaviour:
   m_ObjectHideFlags: 1
