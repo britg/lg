@@ -13,8 +13,18 @@ public class PlayerAttributes : LGMonoBehaviour {
 
 		public int shields = 0;
 		public int hull = 100;
-		public int fuel = 100;
-		public int fuelBurn = 2;
+		public float fuel = 100f;
+		public float fuelBurn = 2f;
+		public float speed = 6f;
+
+		public bool hasEnoughFuel (float deltaTime) {
+			return (fuel - fuelBurn*deltaTime) >= 0f;
+		}
+
+		public float UseFuel (float deltaTime) {
+			fuel -= deltaTime * fuelBurn;
+			return fuel;
+		}
 
 	}
 
@@ -64,6 +74,11 @@ public class PlayerAttributes : LGMonoBehaviour {
 	[RPC]
 	void SyncAmmo (int ammo) {
 		weaponAttributes.ammo = ammo;
+	}
+
+	[RPC]
+	void SyncFuel (float fuel) {
+		shipAttributes.fuel = fuel;
 	}
 
 }

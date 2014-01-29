@@ -51,6 +51,6 @@ public class StatsDisplay : LGMonoBehaviour {
 	}
 
 	void UpdateFuel () {
-		fuel.text = "Fuel: " + playerAttributes.shipAttributes.fuel;
+		fuel.text = "Fuel: " + playerAttributes.shipAttributes.fuel.ToString("F2");
 	}
 }

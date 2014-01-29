@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class PrimaryWeaponControl : LGMonoBehaviour {
+public class WeaponController : LGMonoBehaviour {
 
 	private bool isFiring = false;
 	private Vector3 worldLookPoint;

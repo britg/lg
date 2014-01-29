@@ -1,33 +1,12 @@
-// (c)2011 MuchDifferent. All Rights Reserved.
+﻿// (c)2011 MuchDifferent. All Rights Reserved.
 
 using System;
 using System.Collections.Generic;
 using UnityEngine;
 using uLink;
 
-/// <summary>
-/// A script example that can be use for players' objects in a 3d game without gravity. 
-/// The object is floating in space just like a spaceship or a submarine does.
-/// </summary>
-/// <remarks>
-/// When using this example script, it should be added as a component to the game object that a player controls.
-/// The server should be authoritative when using this script (uLink.Network.isAuthoritativeServer = true).
-/// The basic idea is that the server simulates all physics and checks if any player tries to cheat by 
-/// sending movment orders as an RPC (The RPC name is ServerMove) with false coordinates to move faster than allowed in the game.
-/// The server checks the incoming ServerMove RPC from the client and sends two kinds of RPCs back to the client.
-/// If the client did move too fast (due to a cheating attempt or a bug or whatever) the server sends an RPC named
-/// AdjustOwnerPos. If the position is good, the server sends an RPC named GoodOwnerPos. They are both sent as unreliable
-/// RPCs from the server to the client to minimize server resources.
-///
-/// This script component also makes sure interpolation and extrapolation is used for the state synchronozation sent from
-/// the server to clients. The state synchronization, arriving at the client, is stored in an internal array and the 
-/// public properties interpolationBackTime and extrapolationLimit can be used to tune the correct behavior for every game. 
-/// Please read the code for more details.
-/// </remarks>
-
-[AddComponentMenu("uLink Utilities/Strict Character")]
 [RequireComponent(typeof(uLinkNetworkView))]
-public class uLinkStrictCharacter : uLink.MonoBehaviour
+public class MoveController : LGMonoBehaviour
 {
 	private struct State
 	{
@@ -36,67 +15,73 @@ public class uLinkStrictCharacter : uLink.MonoBehaviour
 		public Vector3 vel;
 		public Quaternion rot;
 	}
-
+	
 	private struct Move : IComparable<Move>
 	{
 		public double timestamp;
 		public float deltaTime;
 		public Vector3 vel;
-
+		
 		public static bool operator ==(Move lhs, Move rhs) { return lhs.timestamp == rhs.timestamp; }
 		public static bool operator !=(Move lhs, Move rhs) { return lhs.timestamp != rhs.timestamp; }
 		public static bool operator >=(Move lhs, Move rhs) { return lhs.timestamp >= rhs.timestamp; }
 		public static bool operator <=(Move lhs, Move rhs) { return lhs.timestamp <= rhs.timestamp; }
 		public static bool operator >(Move lhs, Move rhs) { return lhs.timestamp > rhs.timestamp; }
 		public static bool operator <(Move lhs, Move rhs) { return lhs.timestamp < rhs.timestamp; }
-
+		
 		public override bool Equals(object other)
 		{
 			if (other == null || !(other is Move))
 				return false;
-
+			
 			return this == (Move)other;
 		}
-
+		
 		public override int GetHashCode()
 		{
 			return timestamp.GetHashCode();
 		}
-
+		
 		public int CompareTo(Move other)
 		{
 			if (this > other)
 				return 1;
-
+			
 			if (this < other)
 				return -1;
-
+			
 			return 0;
 		}
 	}
-
+	
 	public double interpolationBackTime = 0.2;
 	public double extrapolationLimit = 0.5;
-
+	
 	public float sqrMaxServerError = 300.0f;
 	public float sqrMaxServerSpeed = 1000.0f;
-
+	
 	private CharacterController character;
+	private TopdownController topdownController;
 	
 	// We store twenty states with "playback" information
 	State[] proxyStates = new State[20];
 	// Keep track of what slots are used
 	int proxyStateCount;
-
+	
 	List<Move> ownerMoves = new List<Move>();
-
+	
 	double serverLastTimestamp = 0;
-
+	
 	void Awake()
 	{
 		character = GetComponent<CharacterController>();
 	}
-
+	
+	void Start () {
+		AssignPlayerAttributes();
+		topdownController = GetComponent<TopdownController>();
+	}
+	
 	void uLink_OnSerializeNetworkView(uLink.BitStream stream, uLink.NetworkMessageInfo info)
 	{
 		if (stream.isWriting)
@@ -104,7 +89,7 @@ public class uLinkStrictCharacter : uLink.MonoBehaviour
 			Vector3 pos = transform.position;
 			Quaternion rot = transform.rotation;
 			Vector3 velocity = character.velocity;
-
+			
 			stream.Serialize(ref pos);
 			stream.Serialize(ref velocity);
 			stream.Serialize(ref rot);
@@ -114,32 +99,32 @@ public class uLinkStrictCharacter : uLink.MonoBehaviour
 			Vector3 pos = Vector3.zero;
 			Vector3 velocity = Vector3.zero;
 			Quaternion rot = Quaternion.identity;
-
+			
 			stream.Serialize(ref pos);
 			stream.Serialize(ref velocity);
 			stream.Serialize(ref rot);
-
+			
 			// Shift the buffer sideways, deleting state 20
 			for (int i = proxyStates.Length - 1; i >= 1; i--)
 			{
 				proxyStates[i] = proxyStates[i - 1];
 			}
-
-
+			
+			
 			// Record current state in slot 0
 			State state;
 			state.timestamp = info.timestamp;
-
+			
 			state.pos = pos;
 			state.vel = velocity;
 			state.rot = rot;
 			proxyStates[0] = state;
-
+			
 			// Update used slot count, however never exceed the buffer size
 			// Slots aren't actually freed so this just makes sure the buffer is
 			// filled up and that uninitalized slots aren't used.
 			proxyStateCount = Mathf.Min(proxyStateCount + 1, proxyStates.Length);
-
+			
 			// Check if states are in order
 			if (proxyStates[0].timestamp < proxyStates[1].timestamp)
 				Debug.LogError("Timestamp inconsistent: " + proxyStates[0].timestamp + " should be greater than " + proxyStates[1].timestamp);
@@ -155,7 +140,7 @@ public class uLinkStrictCharacter : uLink.MonoBehaviour
 		{
 			return;
 		}
-
+		
 		// This is the target playback time of the rigid body
 		double interpolationTime = uLink.Network.time - interpolationBackTime;
 		
@@ -206,26 +191,33 @@ public class uLinkStrictCharacter : uLink.MonoBehaviour
 			}
 		}
 	}
-
+	
 	void LateUpdate()
 	{
 		if (!uLink.Network.isAuthoritativeServer || uLink.Network.isServerOrCellServer || !networkView.isMine)
 		{
 			return;
 		}
-
+		
 		// TODO: optimize by not sending rpc if no input and rotation. also add idleTime so server's timestamp is still in sync
+		if (topdownController.movedThisFrame) {
+			Move move;
+			move.timestamp = uLink.Network.time;
+			move.deltaTime = (ownerMoves.Count > 0) ? (float)(move.timestamp - ownerMoves[ownerMoves.Count - 1].timestamp) : 0.0f;
+			move.vel = character.velocity;
 
-		Move move;
-		move.timestamp = uLink.Network.time;
-		move.deltaTime = (ownerMoves.Count > 0) ? (float)(move.timestamp - ownerMoves[ownerMoves.Count - 1].timestamp) : 0.0f;
-		move.vel = character.velocity;
-
-		ownerMoves.Add(move);
-
-		networkView.UnreliableRPC("ServerMove", uLink.NetworkPlayer.server, transform.position, move.vel, transform.rotation);
+			ownerMoves.Add(move);
+			networkView.UnreliableRPC("ServerMove", uLink.NetworkPlayer.server, transform.position, move.vel, transform.rotation);
+		} else {
+			networkView.UnreliableRPC("ServerIdleTime", uLink.NetworkPlayer.server);
+		}
 	}
 
+	[RPC]
+	void ServerIdleTime (uLink.NetworkMessageInfo info) {
+		serverLastTimestamp = info.timestamp;
+	}
+	
 	[RPC]
 	void ServerMove(Vector3 ownerPos, Vector3 vel, Quaternion rot, uLink.NetworkMessageInfo info)
 	{
@@ -233,24 +225,28 @@ public class uLinkStrictCharacter : uLink.MonoBehaviour
 		{
 			return;
 		}
-
+		
 		transform.rotation = rot;
-
+		
 		if (vel.sqrMagnitude > sqrMaxServerSpeed)
 		{
 			vel.x = vel.y = Mathf.Sqrt(sqrMaxServerSpeed) / 3.0f;
 		}
-
+		
 		float deltaTime = (float)(info.timestamp - serverLastTimestamp);
 		Vector3 deltaPos = vel * deltaTime;
 		deltaPos.z = 0;
-
+		
 		character.Move(deltaPos);
-		serverLastTimestamp = info.timestamp;
 
+		float currentFuel = playerAttributes.shipAttributes.UseFuel(deltaTime);
+		networkView.UnreliableRPC("SyncFuel", uLink.RPCMode.Others, currentFuel);
+
+		serverLastTimestamp = info.timestamp;
+		
 		Vector3 serverPos = transform.position;
 		Vector3 diff = serverPos - ownerPos;
-
+		
 		if (Vector3.SqrMagnitude(diff) > sqrMaxServerError)
 		{
 			networkView.UnreliableRPC("AdjustOwnerPos", uLink.RPCMode.Owner, serverPos);
@@ -260,7 +256,7 @@ public class uLinkStrictCharacter : uLink.MonoBehaviour
 			networkView.UnreliableRPC("GoodOwnerPos", uLink.RPCMode.Owner);
 		}
 	}
-
+	
 	[RPC]
 	void GoodOwnerPos(uLink.NetworkMessageInfo info)
 	{
@@ -268,20 +264,20 @@ public class uLinkStrictCharacter : uLink.MonoBehaviour
 		goodMove.timestamp = info.timestamp;
 		goodMove.deltaTime = 0;
 		goodMove.vel = Vector3.zero;
-
+		
 		int index = ownerMoves.BinarySearch(goodMove);
 		if (index < 0) index = ~index;
-
+		
 		ownerMoves.RemoveRange(0, index);
 	}
-
+	
 	[RPC]
 	void AdjustOwnerPos(Vector3 pos, uLink.NetworkMessageInfo info)
 	{
 		GoodOwnerPos(info);
 		
 		transform.position = pos;
-
+		
 		foreach (Move move in ownerMoves)
 		{
 			character.Move(move.vel * move.deltaTime);

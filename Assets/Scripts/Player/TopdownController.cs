@@ -2,33 +2,39 @@
 using System.Collections;
 
 public class TopdownController : LGMonoBehaviour {
-	
-	//Variables
-	public float turnspeed=180f;
-	public float speed = 6.0F;
 
+	public bool movedThisFrame = false;
+	
 	private Vector3 moveDirection = Vector3.zero;
 	private CharacterController controller;
 
 	void Start () {
+		AssignPlayerAttributes();
 		controller = GetComponent<CharacterController>();
 	}
 
 	void Update() {
-		DetectInput();
-		RotatePlayer();
+		if (playerAttributes.isOwner) {
+			DetectInput();
+			RotatePlayer();
+		}
 	}
 
 	void DetectInput () {
 		moveDirection = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0);
-		if (moveDirection.sqrMagnitude > 0f) {
+		if (moveDirection.sqrMagnitude > 0f && playerAttributes.shipAttributes.hasEnoughFuel(Time.deltaTime)) {
 			Move(moveDirection);
+			movedThisFrame = true;
+		} else {
+			movedThisFrame = false;
 		}
 	}
 
 	void Move (Vector3 dir) {
+		float speed = playerAttributes.shipAttributes.speed;
 		Vector3 moveV = dir * speed * Time.deltaTime;
 		controller.Move(moveV);
+		playerAttributes.shipAttributes.UseFuel(Time.deltaTime);
 	}
 
 	void RotatePlayer () {
