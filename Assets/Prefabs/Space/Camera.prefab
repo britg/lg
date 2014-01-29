@@ -38,7 +38,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &100004
 GameObject:
   m_ObjectHideFlags: 0
@@ -64,7 +64,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -300}
+  m_LocalPosition: {x: 0, y: 0, z: -500}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400002}
@@ -181,7 +181,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxParticles: 500
-  range: 200
+  range: 500
   distanceSpawn: .949999988
   minParticleSize: .5
   maxParticleSize: 1
@@ -189,7 +189,7 @@ MonoBehaviour:
   minParticleDriftSpeed: 0
   maxParticleDriftSpeed: 1
   driftSpeedMultiplier: 1
-  fadeParticles: 1
+  fadeParticles: 0
   distanceFade: .5
 --- !u!114 &11400006
 MonoBehaviour:

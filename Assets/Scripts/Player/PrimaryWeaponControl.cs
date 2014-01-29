@@ -52,16 +52,28 @@ public class PrimaryWeaponControl : LGMonoBehaviour {
 	
 	void Fire () {
 		GetWorldLookPoint();
-		SpawnProjectile(worldLookPoint);
-		networkView.UnreliableRPC("SpawnProjectile", uLink.RPCMode.Server, worldLookPoint);
+		if (playerAttributes.weaponAttributes.hasEnoughAmmo()) {
+			FireAmmo (worldLookPoint);
+			networkView.UnreliableRPC("FireAmmo", uLink.RPCMode.Server, worldLookPoint);
+		}
+	}
+
+	[RPC]
+	void FireAmmo (Vector3 _direction) {
+		// server check
+		if (!playerAttributes.weaponAttributes.hasEnoughAmmo()) {
+			return;
+		}
+
+		playerAttributes.weaponAttributes.UseAmmo();
+		SpawnProjectile(_direction);
+		if (uLink.Network.isServer) {
+			networkView.UnreliableRPC("SyncAmmo", uLink.RPCMode.Others, playerAttributes.weaponAttributes.ammo);
+		}
 	}
 
 	[RPC]
 	void SpawnProjectile (Vector3 _direction) {
-		if (uLink.Network.isServer) {
-			networkView.UnreliableRPC("SpawnProjectile", uLink.RPCMode.AllExceptOwner, _direction);
-		}
-
 		GameObject _projectile = (GameObject)Instantiate (projectile, transform.position, transform.rotation);
 		_projectile.transform.parent = projectileGrouping.transform;
 

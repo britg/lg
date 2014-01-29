@@ -1,26 +1,34 @@
 ﻿using UnityEngine; 
 using System.Collections;
 
-public class TopdownController : uLink.MonoBehaviour {
+public class TopdownController : LGMonoBehaviour {
 	
 	//Variables
 	public float turnspeed=180f;
 	public float speed = 6.0F;
+
 	private Vector3 moveDirection = Vector3.zero;
+	private CharacterController controller;
 
 	void Start () {
+		controller = GetComponent<CharacterController>();
 	}
 
 	void Update() {
-		MovePlayer();
+		DetectInput();
 		RotatePlayer();
 	}
 
-	void MovePlayer () {
-		CharacterController controller = GetComponent<CharacterController>();
+	void DetectInput () {
 		moveDirection = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0);
-		moveDirection = moveDirection * speed;
-		controller.Move(moveDirection * Time.deltaTime);
+		if (moveDirection.sqrMagnitude > 0f) {
+			Move(moveDirection);
+		}
+	}
+
+	void Move (Vector3 dir) {
+		Vector3 moveV = dir * speed * Time.deltaTime;
+		controller.Move(moveV);
 	}
 
 	void RotatePlayer () {

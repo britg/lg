@@ -7,6 +7,7 @@ public class LG  {
 	public static string n_playerShouldSpawn = "OnPlayerShouldSpawn";
 	public static string n_playerSpawned = "OnPlayerSpawn";
 	public static string n_playerKey = "player";
+	public static string n_playerLoaded = "OnPlayerLoaded";
 
 	/* End Player Messages */
 
