@@ -37,6 +37,7 @@ public class PlayerAttributes : LGMonoBehaviour {
 		public Vector3 aim = Vector3.zero;
 		public float velocity = 500f;
 		public float life = 2f;
+		public float damage = 10f;
 
 		public bool hasEnoughAmmo () {
 			return hasEnoughAmmo(ammoBurn);
@@ -79,6 +80,16 @@ public class PlayerAttributes : LGMonoBehaviour {
 	[RPC]
 	void SyncFuel (float fuel) {
 		shipAttributes.fuel = fuel;
+	}
+
+	[RPC]
+	void SyncDamage (float damage) {
+		Debug.Log ("Taking damage ! " + damage);
+		shipAttributes.hull -= (int)damage;
+
+		if (shipAttributes.hull <= 0f) {
+			Destroy (gameObject);
+		}
 	}
 
 }

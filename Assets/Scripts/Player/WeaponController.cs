@@ -69,7 +69,7 @@ public class WeaponController : LGMonoBehaviour {
 		SpawnProjectile(_direction);
 		if (uLink.Network.isServer) {
 			networkView.UnreliableRPC("SyncAmmo", uLink.RPCMode.Others, playerAttributes.weaponAttributes.ammo);
-			networkView.UnreliableRPC("SpawnProjectile", uLink.RPCMode.Others, _direction);
+			networkView.UnreliableRPC("SpawnProjectile", uLink.RPCMode.AllExceptOwner, _direction);
 		}
 	}
 
@@ -82,6 +82,7 @@ public class WeaponController : LGMonoBehaviour {
 		Projectile projectileAttributes = _projectile.GetComponent<Projectile>();
 		projectileAttributes.velocity = playerAttributes.weaponAttributes.velocity;
 		projectileAttributes.life = playerAttributes.weaponAttributes.life;
+		projectileAttributes.firedBy = transform;
 
 		// Set the correct angle on the projectile
 		float angleDiffLook = AngleDiff(transform.up, _direction);

@@ -40,7 +40,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inputName: 1
   quickText: Play on Localhost
-  quickHost: localhost
+  quickHost: foolishaggro.com
   quickPort: 7100
   hasAdvancedMode: 1
   gameType: MyUniqueGameType

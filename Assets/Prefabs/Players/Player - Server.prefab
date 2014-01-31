@@ -71,6 +71,7 @@ GameObject:
   - 114: {fileID: 11400004}
   - 114: {fileID: 11400008}
   - 114: {fileID: 11400006}
+  - 114: {fileID: 11400012}
   m_Layer: 0
   m_Name: Player - Server
   m_TagString: Untagged
@@ -484,8 +485,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interpolationBackTime: .20000000000000001
   extrapolationLimit: .5
-  sqrMaxServerError: 300
-  sqrMaxServerSpeed: 10000
+  sqrMaxServerError: 30000
+  sqrMaxServerSpeed: 100000
 --- !u!114 &11400006
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -504,7 +505,7 @@ MonoBehaviour:
     hull: 100
     fuel: 100
     fuelBurn: 2
-    speed: 6
+    speed: 75
   weaponAttributes:
     ammo: 100
     ammoBurn: 1
@@ -512,6 +513,7 @@ MonoBehaviour:
     aim: {x: 0, y: 0, z: 0}
     velocity: 500
     life: 2
+    damage: 10
 --- !u!114 &11400008
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -535,6 +537,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   particles: {fileID: 0}
+--- !u!114 &11400012
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 89a2160a4c92742ba9923cd42430c874, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!143 &14300000
 CharacterController:
   m_ObjectHideFlags: 1

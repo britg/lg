@@ -46,21 +46,24 @@ public class Projectile : MonoBehaviour {
 			// If the raycast from previous position in the specified direction at (or before) the distance...
 			if (Physics.Raycast(_oldPos, _direction, out _hit, _distance)) {
 				// and if the transform we hit isn't a the ship that fired the weapon and the collider isn't just a trigger...
-				if (_hit.transform != firedBy && !_hit.collider.isTrigger) {		
-					// Set the rotation of the impact effect to the normal of the impact surface (we wan't the impact effect to
-					// throw particles out from the object we just hit...
-//					Quaternion _rotation = Quaternion.FromToRotation(Vector3.up, _hit.normal);
-//					// Instantiate the imapct effect at impact position
-//					Instantiate(impactEffect, _hit.point, _rotation);
-//					// If random number is a small value...
-//					if (Random.Range(0,20) < 2) {
-//						// Instantiate the explosion effect at the point of impact
-//						Instantiate(explosionEffect, _hit.transform.position, _rotation);
-//						// Destroy the game object that we just hit
-//						Destroy(_hit.transform.gameObject);
-//					}
-//					// Destroy the laser shot game object
-//					Destroy(gameObject);
+				if (_hit.transform != firedBy && !_hit.collider.isTrigger) {
+//					 Set the rotation of the impact effect to the normal of the impact surface (we wan't the impact effect to
+//					 throw particles out from the object we just hit...
+					Quaternion _rotation = Quaternion.FromToRotation(Vector3.up, _hit.normal);
+
+					if (uLink.Network.isClient) {
+						Instantiate(impactEffect, _hit.point, _rotation);
+					}
+
+					Destroy(gameObject);
+
+					if (uLink.Network.isServer) {
+						GameObject hitObject = _hit.transform.gameObject;
+						Hashtable nData = new Hashtable();
+						nData["shooter"] = firedBy.gameObject;
+						nData["hit"] = hitObject;
+						NotificationCenter.PostNotification(this, LG.n_playerHit, nData);
+					}
 				}
 			}
 		}

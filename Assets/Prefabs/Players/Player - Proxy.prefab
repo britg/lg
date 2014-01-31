@@ -484,8 +484,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interpolationBackTime: .20000000000000001
   extrapolationLimit: .5
-  sqrMaxServerError: 300
-  sqrMaxServerSpeed: 10000
+  sqrMaxServerError: 30000
+  sqrMaxServerSpeed: 100000
 --- !u!114 &11400006
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -504,7 +504,7 @@ MonoBehaviour:
     hull: 100
     fuel: 100
     fuelBurn: 2
-    speed: 6
+    speed: 75
   weaponAttributes:
     ammo: 100
     ammoBurn: 1
@@ -512,6 +512,7 @@ MonoBehaviour:
     aim: {x: 0, y: 0, z: 0}
     velocity: 500
     life: 2
+    damage: 10
 --- !u!114 &11400008
 MonoBehaviour:
   m_ObjectHideFlags: 1

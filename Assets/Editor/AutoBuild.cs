@@ -44,20 +44,7 @@ public static class AutoBuild
 	[MenuItem("AutoBuild/Build Both")]
 	public static void Both()
 	{
-		string[] server = new string[] { "Assets/Scenes/Server_default.unity" };
-		string[] client = new string[] { "Assets/Scenes/Play.unity" };
-		
-		BuildTarget target;
-		string extension = "";
-		
-		switch (Application.platform)
-		{
-		case RuntimePlatform.WindowsEditor: target = BuildTarget.StandaloneWindows; extension = ".exe"; break;
-		case RuntimePlatform.OSXEditor: target = BuildTarget.StandaloneOSXIntel; extension = ".app"; break;
-		default: return;
-		}
-		
-		BuildPipeline.BuildPlayer(server, "Build/mac/lg_server" + extension, target, BuildOptions.AutoRunPlayer);
-		BuildPipeline.BuildPlayer(client, "Build/mac/LonelyGalaxy" + extension, target, BuildOptions.AutoRunPlayer);
+		Server();
+		Client();
 	}
 }
