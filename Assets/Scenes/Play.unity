@@ -5318,6 +5318,10 @@ Prefab:
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 11400002, guid: fc89608cad6b54e88ae5d0f98002b69f, type: 2}
+      propertyPath: quickHost
+      value: foolishaggro.com
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: fc89608cad6b54e88ae5d0f98002b69f, type: 2}
   m_RootGameObject: {fileID: 1881685116}
@@ -7131,7 +7135,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   inputName: 1
   quickText: Play on Localhost
-  quickHost: localhost
+  quickHost: foolishaggro.com
   quickPort: 7100
   hasAdvancedMode: 1
   gameType: MyUniqueGameType

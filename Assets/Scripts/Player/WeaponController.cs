@@ -69,6 +69,7 @@ public class WeaponController : LGMonoBehaviour {
 		SpawnProjectile(_direction);
 		if (uLink.Network.isServer) {
 			networkView.UnreliableRPC("SyncAmmo", uLink.RPCMode.Others, playerAttributes.weaponAttributes.ammo);
+			networkView.UnreliableRPC("SpawnProjectile", uLink.RPCMode.Others, _direction);
 		}
 	}
 
