@@ -4,6 +4,8 @@ using System.Collections;
 public class Zoom : MonoBehaviour {
 
 	public float multiplier = 2f;
+	public float max = -300f;
+	public float min = -800f;
 
 	void Update () {
 		DetectInput();
@@ -13,7 +15,7 @@ public class Zoom : MonoBehaviour {
 		float wheelInput = Input.GetAxis ("Mouse ScrollWheel");
 		if(!wheelInput.Equals(0f)) {
 			Vector3 pos = transform.position;
-			pos.z += wheelInput;
+			pos.z = Mathf.Clamp(pos.z + wheelInput, min, max);
 			transform.position = pos;
 		}
 	}
