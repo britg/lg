@@ -62,7 +62,7 @@ public class uLinkClientGUI : uLink.MonoBehaviour
 		if (dontDestroyOnLoad) DontDestroyOnLoad(this);
 
 		playerName = PlayerPrefs.GetString("playerName", "Guest" + Random.Range(1, 100));
-		Connect(quickHost, quickPort);
+//		Connect(quickHost, quickPort);
 	}
 
 	void OnDisable()

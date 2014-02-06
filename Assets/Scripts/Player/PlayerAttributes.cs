@@ -5,6 +5,7 @@ using System.Collections;
 public class PlayerAttributes : LGMonoBehaviour {
 
 	public bool isOwner = false;
+	public string playerName = "Player";
 
 	[Serializable]
 	public class ShipAttributes {
@@ -66,10 +67,26 @@ public class PlayerAttributes : LGMonoBehaviour {
 		}
 	}
 
+	void uLink_OnNetworkInstantiate (uLink.NetworkMessageInfo info) {
+		info.networkView.initialData.TryRead<string>(out playerName);
+		TextMesh nameLabel = transform.Find("Nametag").GetComponent<TextMesh>();
+		nameLabel.text = playerName;
+	}
+	
 	void AnnounceLoaded() {
 		Hashtable notificationData = new Hashtable();
 		notificationData[LG.n_playerKey] = gameObject;
 		NotificationCenter.PostNotification(this, LG.n_playerLoaded, notificationData);
+	}
+
+	[RPC]
+	public void SyncAttributes (Hashtable attributes) {
+
+	}
+
+	[RPC]
+	public void SyncStartPostition (Vector3 pos) {
+		transform.position = pos;
 	}
 
 	[RPC]

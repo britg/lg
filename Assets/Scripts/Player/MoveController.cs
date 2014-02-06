@@ -199,7 +199,6 @@ public class MoveController : LGMonoBehaviour
 			return;
 		}
 		
-		// TODO: optimize by not sending rpc if no input and rotation. also add idleTime so server's timestamp is still in sync
 		if (topdownController.movedThisFrame) {
 			Move move;
 			move.timestamp = uLink.Network.time;
@@ -246,6 +245,11 @@ public class MoveController : LGMonoBehaviour
 		
 		Vector3 serverPos = transform.position;
 		Vector3 diff = serverPos - ownerPos;
+
+		
+//		PlayerRequest playerRequest = (new GameObject()).AddComponent<PlayerRequest>();
+//		playerRequest.SetPlayerPosition(playerAttributes, serverPos);
+
 		
 		if (Vector3.SqrMagnitude(diff) > sqrMaxServerError)
 		{

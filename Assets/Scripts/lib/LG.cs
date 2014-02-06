@@ -3,6 +3,8 @@ using System.Collections;
 
 public class LG  {
 
+	public static string dbHost = "127.0.0.1:3000";
+
 	/* Player Messages */
 	public static string n_playerShouldSpawn = "OnPlayerShouldSpawn";
 	public static string n_playerSpawned = "OnPlayerSpawn";

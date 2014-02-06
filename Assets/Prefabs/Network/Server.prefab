@@ -8,6 +8,7 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 400000}
+  - 114: {fileID: 11400002}
   - 114: {fileID: 11400000}
   m_Layer: 0
   m_Name: Server
@@ -35,7 +36,19 @@ MonoBehaviour:
   m_GameObject: {fileID: 100000}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 70aca81a980d02644a47c438f68e4cfd, type: 3}
+  m_Script: {fileID: 11500000, guid: 259cfc7e0745f401f9d0a3a97761d3c2, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  urlBase: 127.0.0.1:3000
+--- !u!114 &11400002
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100000}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2805b02e3b788480fa8bd6a20bbdcd99, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   port: 7100
@@ -45,12 +58,11 @@ MonoBehaviour:
   targetFrameRate: 60
   dontDestroyOnLoad: 0
   instantiateOnConnected:
-    startPosition: {x: 0, y: 0, z: 0}
+    startPosition: {x: 0, y: 3, z: 0}
     startRotation: {x: 0, y: 0, z: 0}
     ownerPrefab: {fileID: 100006, guid: 2814d4c4c3f08429aab016f6c5fc7ef6, type: 2}
     proxyPrefab: {fileID: 100006, guid: afd19b906ea9141f3a810133ad4fad34, type: 2}
     serverPrefab: {fileID: 100006, guid: 079a729f10dd74e79bac6cf0d9a086f6, type: 2}
-    appendLoginData: 0
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
