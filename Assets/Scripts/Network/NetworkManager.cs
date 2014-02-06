@@ -43,6 +43,7 @@ public class NetworkManager : uLink.MonoBehaviour {
 	}
 
 	void uLink_OnConnectedToServer () {
+		connectingGUI.SetActive(false);
 		serverConnectionGUI.SetActive(false);
 		statsGUI.SetActive(true);
 	}

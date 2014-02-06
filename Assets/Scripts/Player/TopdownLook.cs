@@ -64,4 +64,8 @@ public class TopdownLook : LGMonoBehaviour {
 		pointer.points2[1] = screenLookPoint;
 		pointer.Draw();
 	}
+
+	void uLink_OnDisconnectedFromServer (uLink.NetworkDisconnection mode) {
+		VectorLine.Destroy(ref pointer);
+	}
 }
