@@ -9,6 +9,7 @@ public class NetworkManager : uLink.MonoBehaviour {
 	public int port = 7100;
 
 	public GameObject serverConnectionGUI;
+	public GameObject connectingGUI;
 	public GameObject statsGUI;
 	public UIInput playerNameInput;
 	
@@ -31,7 +32,14 @@ public class NetworkManager : uLink.MonoBehaviour {
 	}
 
 	public void Connect(string _host, int _port, string playerName) {
+		serverConnectionGUI.SetActive(false);
+		connectingGUI.SetActive(true);
 		uLink.Network.Connect(_host, _port, "", playerName);
+	}
+
+	public void uLink_OnFailedToConnect (uLink.NetworkConnectionError error) {
+		serverConnectionGUI.SetActive(true);
+		connectingGUI.SetActive(false);
 	}
 
 	void uLink_OnConnectedToServer () {
@@ -40,7 +48,8 @@ public class NetworkManager : uLink.MonoBehaviour {
 	}
 
 	void uLink_OnDisconnectedFromServer(uLink.NetworkDisconnection mode) {
-//		Debug.LogError ("Disconnected from server!");
+		serverConnectionGUI.SetActive(true);
+		statsGUI.SetActive(false);
 	}
 }
 
