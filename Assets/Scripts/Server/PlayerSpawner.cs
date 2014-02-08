@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections;
-using SimpleJSON;
 
 public class PlayerSpawner : PersistenceRequest {
 
@@ -15,27 +14,25 @@ public class PlayerSpawner : PersistenceRequest {
 
 	public void StartPlayer (uLink.NetworkPlayer _networkPlayer) {
 		networkPlayer = _networkPlayer;
-		initialData = new object[1];
+		initialData = new object[2];
 		initialData[0] = networkPlayer.loginData;
 		string playerName;
 		networkPlayer.loginData.TryRead(out playerName);
 
-		GetPlayerAttributesByName(playerName);
+		RegisterPlayer(playerName);
 	}
 
-	public void GetPlayerAttributesByName (string playerName) {
-		string endpoint = "/players/" + playerName + ".json";
-		WWW request = new WWW(Endpoint(endpoint));
-		onSuccess = GetPlayerAttributesByNameSuccess;
-		onError = LogResponse;
-		StartCoroutine(Request(request));
+	public void RegisterPlayer (string playerName) {
+		WWWForm formData = new WWWForm();
+		formData.AddField("player[name]", playerName);
+		Post ("/players", formData, RegisterPlayerSuccess);
 	}
 
-	void GetPlayerAttributesByNameSuccess (string response, GameObject receiver) {
-		Debug.Log ("Get player attribtues by name success: " + response);
-		JSONNode serverAttr = JSON.Parse(response);
-		Vector3 startPosition = new Vector3(serverAttr["x"].AsFloat, serverAttr["y"].AsFloat, serverAttr["z"].AsFloat);
+	void RegisterPlayerSuccess (IDictionary serverAttr, GameObject receiver) {
+		Vector3 startPosition = new Vector3((float)(double)serverAttr["x"], (float)(double)serverAttr["y"], (float)(double)serverAttr["z"]);
 		Quaternion rotation = Quaternion.Euler(startRotation);
+		Debug.Log ("id is " + serverAttr["id"]);
+		initialData[1] = System.Convert.ToInt32(serverAttr["id"]);
 		uLink.Network.Instantiate(networkPlayer, 
 			                        proxyPrefab, 
 			                        ownerPrefab, 

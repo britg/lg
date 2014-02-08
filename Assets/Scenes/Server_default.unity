@@ -84,6 +84,7 @@ GameObject:
   - 4: {fileID: 56097698}
   - 114: {fileID: 56097699}
   - 114: {fileID: 56097697}
+  - 114: {fileID: 56097700}
   m_Layer: 0
   m_Name: Server
   m_TagString: Untagged
@@ -136,6 +137,17 @@ MonoBehaviour:
   targetFrameRate: 60
   dontDestroyOnLoad: 0
   playerSpawner: {fileID: 56097697}
+--- !u!114 &56097700
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 56097696}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2dd1033669de8490eba43bfd34f3b2bb, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &376517247
 Prefab:
   m_ObjectHideFlags: 0

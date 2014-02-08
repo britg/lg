@@ -6,6 +6,7 @@ public class PlayerStateSync : PersistenceRequest {
 	public float repeatRate = 1f;
 
 	void Start () {
+		AssignPlayerAttributes();
 		StartSync();
 	}
 
@@ -14,18 +15,12 @@ public class PlayerStateSync : PersistenceRequest {
 	}
 
 	void Sync () {
-		Debug.Log ("Sync");
-	}
-
-	public void SetPlayerPosition (Vector3 pos) {
-		string endpoint = Endpoint("/players/" + "test" + ".json");
+		Vector3 pos = transform.position;
 		WWWForm formData = new WWWForm();
-		formData.AddField("_method", "PUT");
 		formData.AddField("player[x]", pos.x.ToString());
 		formData.AddField("player[y]", pos.y.ToString());
 		formData.AddField("player[z]", pos.z.ToString());
-		WWW request = new WWW(endpoint, formData);
-		StartCoroutine(Request(request));
+		Put ("/players/" + playerAttributes.playerId, formData);
 	}
-	
+
 }

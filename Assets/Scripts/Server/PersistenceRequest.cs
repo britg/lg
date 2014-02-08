@@ -1,11 +1,15 @@
 ﻿using UnityEngine;
 using System.Collections;
+//using SimpleJSON;
+using MiniJSON;
 
-public class PersistenceRequest : MonoBehaviour {
+public class PersistenceRequest : LGMonoBehaviour {
+
+	public static string authenticityToken = "";
 
 	private string urlBase;
 
-	public delegate void SuccessHandler(string response, GameObject receiver);
+	public delegate void SuccessHandler(IDictionary response, GameObject receiver);
 	public delegate void ErrorHandler(string response, GameObject receiver);
 	
 	protected SuccessHandler onSuccess;
@@ -25,12 +29,34 @@ public class PersistenceRequest : MonoBehaviour {
 	
 	public void Post (string endpoint, WWWForm formData,
 	                  SuccessHandler successHandler, ErrorHandler errorHandler) {
+
+		formData.AddField("authenticity_token", PersistenceRequest.authenticityToken);
+		formData.headers["Content-Type"] = "application/json";
 		WWW request = new WWW(Endpoint(endpoint), formData);
 		onSuccess = successHandler;
 		onError = errorHandler;
 		StartCoroutine(Request(request));
 	}
+
+	public void Put (string endpoint, WWWForm formData) {
+		Put(endpoint, formData, LogResponse, LogResponse);
+	}
 	
+	public void Put (string endpoint, WWWForm formData, SuccessHandler successHandler) {
+		Put(endpoint, formData, successHandler, LogResponse);
+	}
+	
+	public void Put (string endpoint, WWWForm formData,
+	                  SuccessHandler successHandler, ErrorHandler errorHandler) {
+		formData.AddField("authenticity_token", PersistenceRequest.authenticityToken);
+		formData.AddField("_method", "PUT");
+		formData.headers["Content-Type"] = "application/json";
+		WWW request = new WWW(Endpoint(endpoint), formData);
+		onSuccess = successHandler;
+		onError = errorHandler;
+		StartCoroutine(Request(request));
+	}
+
 	public void Get (string endpoint, SuccessHandler successHandler) {
 		Get(endpoint, successHandler, LogResponse);
 	}
@@ -44,12 +70,7 @@ public class PersistenceRequest : MonoBehaviour {
 	}
 
 	protected IEnumerator Request (WWW request) {
-		yield return request;
-		if (request.error != null) {
-			onError(request.error, null);
-		} else {
-			onSuccess(request.text, null);
-		}
+		return Request (request, null);
 	}
 	
 	protected IEnumerator Request (WWW request, GameObject receiver) {
@@ -57,16 +78,27 @@ public class PersistenceRequest : MonoBehaviour {
 		if (request.error != null) {
 			onError(request.error, receiver);
 		} else {
-			onSuccess(request.text, receiver);
+			IDictionary response;
+			if (request.text.Length > 0) {
+				 response = (IDictionary) Json.Deserialize(request.text);
+			} else {
+				response = new Hashtable();
+			}
+
+			onSuccess(response, receiver);
 		}
 	}
-	
+
+	protected void LogResponse (IDictionary response, GameObject receiver) {
+		Debug.Log("DB: Request response unhandled: " + response);
+	}
+
 	protected void LogResponse (string response, GameObject receiver) {
-		Debug.Log("Request response unhandled: " + response);
+		Debug.Log("DB: Request response unhandled: " + response);
 	}
 
 	protected string Endpoint (string endpoint) {
-		endpoint = urlBase + endpoint;
+		endpoint = urlBase + endpoint + ".json";
 		return endpoint;
 	}
 

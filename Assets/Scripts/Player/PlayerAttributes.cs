@@ -6,6 +6,7 @@ public class PlayerAttributes : LGMonoBehaviour {
 
 	public bool isOwner = false;
 	public string playerName = "Player";
+	public int playerId;
 
 	[Serializable]
 	public class ShipAttributes {
@@ -69,6 +70,7 @@ public class PlayerAttributes : LGMonoBehaviour {
 
 	void uLink_OnNetworkInstantiate (uLink.NetworkMessageInfo info) {
 		info.networkView.initialData.TryRead<string>(out playerName);
+		info.networkView.initialData.TryRead<int>(out playerId);
 		TextMesh nameLabel = transform.Find("Nametag").GetComponent<TextMesh>();
 		nameLabel.text = playerName;
 	}
