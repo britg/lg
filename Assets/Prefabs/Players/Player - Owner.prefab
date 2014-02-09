@@ -537,6 +537,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   isOwner: 1
+  playerName: Player
+  playerId: 0
   shipAttributes:
     name: Starter Ship
     shields: 0

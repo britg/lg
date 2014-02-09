@@ -9,7 +9,7 @@ public class PersistenceRequest : LGMonoBehaviour {
 
 	private string urlBase;
 
-	public delegate void SuccessHandler(IDictionary response, GameObject receiver);
+	public delegate void SuccessHandler(Hashtable response, GameObject receiver);
 	public delegate void ErrorHandler(string response, GameObject receiver);
 	
 	protected SuccessHandler onSuccess;
@@ -78,18 +78,17 @@ public class PersistenceRequest : LGMonoBehaviour {
 		if (request.error != null) {
 			onError(request.error, receiver);
 		} else {
-			IDictionary response;
+			Hashtable response = new Hashtable();
 			if (request.text.Length > 0) {
-				 response = (IDictionary) Json.Deserialize(request.text);
-			} else {
-				response = new Hashtable();
-			}
+				response = Json.Hashtable(request.text);
+				response["raw"] = request.text;
+			} 
 
 			onSuccess(response, receiver);
 		}
 	}
 
-	protected void LogResponse (IDictionary response, GameObject receiver) {
+	protected void LogResponse (Hashtable response, GameObject receiver) {
 		Debug.Log("DB: Request response unhandled: " + response);
 	}
 

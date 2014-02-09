@@ -16,8 +16,16 @@ public class LGMonoBehaviour : uLink.MonoBehaviour {
 		projectile = (GameObject)Resources.Load("Projectile");
 	}
 
+	protected GameObject thePlayer () {
+		GameObject test = GameObject.Find ("Player - Owner(Clone)");
+		if (test == null) {
+			return gameObject;
+		}
+		return test;
+	}
+
 	protected void AssignPlayerAttributes () {
-		playerAttributes = GetComponent<PlayerAttributes>();
+		playerAttributes = thePlayer().GetComponent<PlayerAttributes>();
 	}
 
 	protected float AngleDiff (Vector3 v1, Vector3 v2) {

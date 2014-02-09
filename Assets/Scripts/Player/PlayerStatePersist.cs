@@ -1,0 +1,77 @@
+﻿using UnityEngine;
+using System.Collections;
+
+public class PlayerStatePersist : PersistenceRequest {
+
+	public float repeatRate = 1f;
+	bool shouldSync = true;
+	bool lastSyncReturned = false;
+
+	void Start () {
+		AssignPlayerAttributes();
+		StartSync();
+	}
+
+	void StartSync () {
+		lastSyncReturned = true;
+		InvokeRepeating("Sync", repeatRate, repeatRate);
+	}
+
+	void Sync () {
+		if (!lastSyncReturned) {
+//			return;
+		}
+
+		if (!shouldSync) {
+			return;
+		}
+
+		lastSyncReturned = false;
+
+		Vector3 pos = transform.position;
+		WWWForm formData = new WWWForm();
+
+		// Position
+		formData.AddField("player[x]", pos.x.ToString());
+		formData.AddField("player[y]", pos.y.ToString());
+		formData.AddField("player[z]", pos.z.ToString());
+
+		// Ship status
+		formData.AddField("player[shields]", playerAttributes.shipAttributes.shields.ToString());
+		formData.AddField("player[hull]", playerAttributes.shipAttributes.hull.ToString());
+		formData.AddField("player[fuel]", playerAttributes.shipAttributes.fuel.ToString());
+		formData.AddField("player[fuel_burn]", playerAttributes.shipAttributes.fuelBurn.ToString());
+		formData.AddField("player[speed]", playerAttributes.shipAttributes.speed.ToString());
+
+		// Weapon attributes
+		formData.AddField("player[ammo]", playerAttributes.weaponAttributes.ammo.ToString());
+		formData.AddField("player[ammo_burn]", playerAttributes.weaponAttributes.ammoBurn.ToString());
+		formData.AddField("player[cooldown]", playerAttributes.weaponAttributes.cooldown.ToString());
+		formData.AddField("player[ammo_velocity]", playerAttributes.weaponAttributes.velocity.ToString());
+		formData.AddField("player[ammo_duration]", playerAttributes.weaponAttributes.life.ToString());
+		formData.AddField("player[ammo_damage]", playerAttributes.weaponAttributes.damage.ToString());
+
+		Put ("/players/" + playerAttributes.playerId, formData, SyncSuccess);
+	}
+
+	void SyncSuccess (Hashtable response, GameObject receiver) {
+		lastSyncReturned = true;
+	}
+
+	[RPC]
+	void Respawn () {
+		shouldSync = false;
+		Post ("/players/" + playerAttributes.playerId + "/respawn", new WWWForm(), RespawnSuccess);
+	}
+	
+	void RespawnSuccess (Hashtable response, GameObject receiver) {
+		Debug.Log ("Respawn success");
+		playerAttributes.SyncAttributes((string)response["raw"]);
+	}
+
+/* :shields, :hull, :fuel, :fuel_burn, :speed,
+
+                     :ammo, :ammo_burn, :cooldown,
+                     :ammo_velocity, :ammo_duration, :ammo_damage] */
+
+}

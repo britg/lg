@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections;
+using System.Collections.Generic;
 
 public class PlayerAttributes : LGMonoBehaviour {
 
@@ -13,11 +14,11 @@ public class PlayerAttributes : LGMonoBehaviour {
 
 		public string name = "Starter Ship";
 
-		public int shields = 0;
-		public int hull = 100;
-		public float fuel = 100f;
-		public float fuelBurn = 2f;
-		public float speed = 6f;
+		public int 		shields = 0;
+		public int 		hull = 100;
+		public float 	fuel = 100f;
+		public float 	fuelBurn = 2f;
+		public float 	speed = 6f;
 
 		public bool hasEnoughFuel (float deltaTime) {
 			return (fuel - fuelBurn*deltaTime) >= 0f;
@@ -33,13 +34,13 @@ public class PlayerAttributes : LGMonoBehaviour {
 	[Serializable]
 	public class WeaponAttributes {
 
-		public int ammo = 100;
-		public int ammoBurn = 1;
-		public float cooldown = 0.2f;
-		public Vector3 aim = Vector3.zero;
-		public float velocity = 500f;
-		public float life = 2f;
-		public float damage = 10f;
+		public int 		ammo = 100;
+		public int 		ammoBurn = 1;
+		public float 	cooldown = 0.2f;
+		public Vector3 	aim = Vector3.zero;
+		public float 	velocity = 500f;
+		public float 	life = 2f;
+		public float 	damage = 10f;
 
 		public bool hasEnoughAmmo () {
 			return hasEnoughAmmo(ammoBurn);
@@ -71,6 +72,7 @@ public class PlayerAttributes : LGMonoBehaviour {
 	void uLink_OnNetworkInstantiate (uLink.NetworkMessageInfo info) {
 		info.networkView.initialData.TryRead<string>(out playerName);
 		info.networkView.initialData.TryRead<int>(out playerId);
+
 		TextMesh nameLabel = transform.Find("Nametag").GetComponent<TextMesh>();
 		nameLabel.text = playerName;
 	}
@@ -81,9 +83,34 @@ public class PlayerAttributes : LGMonoBehaviour {
 		NotificationCenter.PostNotification(this, LG.n_playerLoaded, notificationData);
 	}
 
-	[RPC]
-	public void SyncAttributes (Hashtable attributes) {
+	public void SyncAttributes (string rawAttributes) {
+		Debug.Log ("Syncing attribtues from server to client");
+		networkView.RPC ("AssignAttributes", uLink.RPCMode.All, rawAttributes);
+	}
 
+	[RPC]
+	public void AssignAttributes (string rawAttributes) {
+		Debug.Log ("Assigning attributes to this player " + rawAttributes);
+		Hashtable attributes = MiniJSON.Json.Hashtable(rawAttributes);
+
+		IDictionary props = (IDictionary) attributes["properties"];
+
+		// position
+		Vector3 pos = transform.position;
+		float.TryParse(props["x"].ToString(), out pos.x);
+		float.TryParse(props["y"].ToString(), out pos.y);
+		float.TryParse(props["z"].ToString(), out pos.z);
+		transform.position = pos;
+
+		int.TryParse(props["shields"].ToString(), out shipAttributes.shields);
+		int.TryParse(props["hull"].ToString(), out shipAttributes.hull);
+		float.TryParse(props["fuel"].ToString(), out shipAttributes.fuel);
+		int.TryParse(props["ammo"].ToString(), out weaponAttributes.ammo);
+
+		/* :shields, :hull, :fuel, :fuel_burn, :speed,
+
+                     :ammo, :ammo_burn, :cooldown,
+                     :ammo_velocity, :ammo_duration, :ammo_damage] */
 	}
 
 	[RPC]
@@ -109,6 +136,10 @@ public class PlayerAttributes : LGMonoBehaviour {
 		if (shipAttributes.hull <= 0f) {
 			Destroy (gameObject);
 		}
+	}
+
+	public void RequestRespawn () {
+		networkView.RPC ("Respawn", uLink.RPCMode.Server);
 	}
 
 }

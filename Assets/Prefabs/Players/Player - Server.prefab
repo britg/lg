@@ -572,6 +572,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isOwner: 0
   playerName: Player
+  playerId: 0
   shipAttributes:
     name: Starter Ship
     shields: 0
@@ -629,7 +630,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 100006}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 78492e4a0a1554520a8ff056ea009d8b, type: 3}
+  m_Script: {fileID: 11500000, guid: cb6f25ba38b944e50868c37bd22ec32c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   repeatRate: 1

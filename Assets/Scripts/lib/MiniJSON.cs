@@ -87,6 +87,15 @@ namespace MiniJSON {
 			
 			return Parser.Parse(json);
 		}
+
+		public static Hashtable Hashtable(string json) {
+			Hashtable response = new Hashtable();
+			IDictionary dict = (IDictionary) Deserialize(json);
+			foreach (DictionaryEntry prop in dict) {
+				response[prop.Key] = prop.Value;
+			}
+			return response;
+		}
 		
 		sealed class Parser : IDisposable {
 			const string WORD_BREAK = "{}[],:\"";

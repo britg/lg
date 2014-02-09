@@ -2,7 +2,8 @@
 using System.Collections;
 
 public class StatsDisplay : LGMonoBehaviour {
-	
+
+	public UILabel pos;
 	public UILabel ammo;
 	public UILabel shields;
 	public UILabel hull;
@@ -27,15 +28,23 @@ public class StatsDisplay : LGMonoBehaviour {
 		Hashtable data = note.data;
 		player = (GameObject)data[LG.n_playerKey];
 		playerAttributes = player.GetComponent<PlayerAttributes>();
-		Debug.Log ("Player stats loaded " + player);
 		InvokeRepeating("UpdateDisplay", 0.1f, 0.1f);
 	}
 
 	void UpdateDisplay () {
+		UpdatePos ();
 		UpdateAmmo ();
 		UpdateShields();
 		UpdateHull ();
 		UpdateFuel();
+	}
+
+	void uLink_OnDisconnectedFromServer () {
+		CancelInvoke();
+	}
+
+	void UpdatePos () {
+		pos.text = "Pos: " + player.transform.position.ToString();
 	}
 
 	void UpdateAmmo () {

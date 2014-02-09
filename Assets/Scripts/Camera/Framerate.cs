@@ -8,6 +8,7 @@ public class Framerate : MonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		Application.targetFrameRate = framerate;
+		Screen.SetResolution(1440, 900, false);
 	}
 	
 	// Update is called once per frame

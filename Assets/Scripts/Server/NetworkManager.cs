@@ -31,6 +31,10 @@ public class NetworkManager : uLink.MonoBehaviour {
 		Connect (host, port, selectedName);
 	}
 
+	public void Disconnect () {
+		uLink.Network.Disconnect();
+	}
+
 	public void Connect(string _host, int _port, string playerName) {
 		serverConnectionGUI.SetActive(false);
 		connectingGUI.SetActive(true);
@@ -41,6 +45,7 @@ public class NetworkManager : uLink.MonoBehaviour {
 		serverConnectionGUI.SetActive(true);
 		connectingGUI.SetActive(false);
 	}
+
 
 	void uLink_OnConnectedToServer () {
 		connectingGUI.SetActive(false);

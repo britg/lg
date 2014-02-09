@@ -43,7 +43,7 @@ MonoBehaviour:
   xSizePercent: .899999976
   textFieldHeight: 24
   lineHeight: 22
-  transitionTime: 1
+  transitionTime: .200000003
   autocompleteBoxMaxSize: {x: 200, y: 250}
   autocompleteSelectedColor: {r: 0, g: 1, b: 0, a: 1}
   toggleKeyCode: 96
