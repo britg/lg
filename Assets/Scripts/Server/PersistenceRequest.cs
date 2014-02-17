@@ -1,6 +1,5 @@
 ﻿using UnityEngine;
 using System.Collections;
-//using SimpleJSON;
 using MiniJSON;
 
 public class PersistenceRequest : LGMonoBehaviour {
