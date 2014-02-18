@@ -50,8 +50,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f0211a992589344483e6c0cb0560e68, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  url: http://lonely-galaxy.s3.amazonaws.com
-  version: 0.0.2v002
+  startGUI: {fileID: 0}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

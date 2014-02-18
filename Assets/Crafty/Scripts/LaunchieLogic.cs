@@ -8,7 +8,7 @@ public class LaunchieLogic : MonoBehaviour
 
 	public GameObject startGUI;
 	// location of patches
-	public string url;
+	string url;
 	
 	// current version of game
 	string version;
@@ -24,6 +24,7 @@ public class LaunchieLogic : MonoBehaviour
 	{
 		Debug.Log ("Start launcher check");
 		version = LG.version;
+		url = LG.patchHost;
 	
 		if (Application.isEditor) {
 			startGUI.SetActive(true);
