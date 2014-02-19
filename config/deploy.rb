@@ -12,6 +12,12 @@ set :patches_path, "/Users/Eezo/games/lg/Patchie/_output"
 
 namespace :lg do
 
+  task :default do
+    admin
+    server
+    client
+  end
+
   task :server, roles: :app do
     system "#{unity} -projectPath #{project_path} -executeMethod AutoBuild.ServerLinux -batchMode -quit"
     system "cd #{server_repo} && git commit -am 'update #{Time.now}' && git push lg"

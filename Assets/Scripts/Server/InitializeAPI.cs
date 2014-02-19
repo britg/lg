@@ -5,15 +5,15 @@ public class InitializeAPI : PersistenceRequest {
 
 	void Start () {
 		GetAuthToken();
+		InvokeRepeating("GetAuthToken", 60f, 60f);
 	}
 
 	void GetAuthToken () {
-		Get("/servers", GetAuthTokenSuccess);
+		Get("/servers", "v=" + LG.version, GetAuthTokenSuccess);
 	}
 
 	void GetAuthTokenSuccess (IDictionary response, GameObject receiver) {
-		Debug.Log ("Get auth token success " + response);
 		PersistenceRequest.authenticityToken = (string) response["authenticity_token"];
-		Debug.Log("Persistence token is now " + PersistenceRequest.authenticityToken);
+		Debug.Log("Heartbeat " + PersistenceRequest.authenticityToken);
 	}
 }

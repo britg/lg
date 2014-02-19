@@ -15,7 +15,7 @@ public class PersistenceRequest : LGMonoBehaviour {
 	protected ErrorHandler onError;
 
 	void Awake () {
-		urlBase = LG.dbHost;
+		urlBase = LG.dbHost + "/api";
 	}
 
 	public void Post (string endpoint, WWWForm formData) {
@@ -57,12 +57,16 @@ public class PersistenceRequest : LGMonoBehaviour {
 	}
 
 	public void Get (string endpoint, SuccessHandler successHandler) {
-		Get(endpoint, successHandler, LogResponse);
+		Get (endpoint, "", successHandler);
+	}
+
+	public void Get (string endpoint, string getParams, SuccessHandler successHandler) {
+		Get(endpoint, getParams, successHandler, LogResponse);
 	}
 	
-	public void Get (string endpoint,
+	public void Get (string endpoint, string getParams,
 	                 SuccessHandler successHandler, ErrorHandler errorHandler) {
-		WWW request = new WWW(Endpoint(endpoint));
+		WWW request = new WWW(Endpoint(endpoint, getParams));
 		onSuccess = successHandler;
 		onError = errorHandler;
 		StartCoroutine(Request(request));
@@ -84,6 +88,7 @@ public class PersistenceRequest : LGMonoBehaviour {
 			} 
 
 			onSuccess(response, receiver);
+			request.Dispose();
 		}
 	}
 
@@ -96,7 +101,14 @@ public class PersistenceRequest : LGMonoBehaviour {
 	}
 
 	protected string Endpoint (string endpoint) {
+		return Endpoint (endpoint, "");
+	}
+
+	protected string Endpoint (string endpoint, string getParams) {
 		endpoint = urlBase + endpoint + ".json";
+		if (getParams.Length > 0) {
+			endpoint += "?" + getParams;
+		}
 		return endpoint;
 	}
 

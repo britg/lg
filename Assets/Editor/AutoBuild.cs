@@ -26,7 +26,7 @@ public static class AutoBuild
 		BuildPipeline.BuildPlayer(client, "Patchie/_current/lg_client_win.exe", BuildTarget.StandaloneWindows, BuildOptions.AutoRunPlayer);
 	}
 
-	[MenuItem("AutoBuild/Server Mac")]
+	[MenuItem("AutoBuild/Server Mac %&s")]
 	public static void ServerMac () {
 		string[] server = new string[] { "Assets/Scenes/Server_default.unity" };
 		BuildPipeline.BuildPlayer(server, "Build/mac/lg_server.app", BuildTarget.StandaloneOSXIntel, BuildOptions.AutoRunPlayer);
