@@ -557,7 +557,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interpolationBackTime: .20000000000000001
   extrapolationLimit: .5
-  sqrMaxServerError: 30000
+  sqrMaxServerError: 625
   sqrMaxServerSpeed: 100000
 --- !u!114 &11400006
 MonoBehaviour:

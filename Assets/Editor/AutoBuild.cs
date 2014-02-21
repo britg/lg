@@ -12,7 +12,7 @@ public static class AutoBuild
 		ClientWin();
 	}
 
-	[MenuItem("AutoBuild/Client Mac")]
+	[MenuItem("AutoBuild/Client Mac %&c")]
 	public static void ClientMac () {
 		EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTarget.StandaloneOSXIntel);
 		string[] client = new string[] { "Assets/Scenes/Launch.unity", "Assets/Scenes/Play.unity" };

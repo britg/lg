@@ -29,12 +29,13 @@ public class PlayerStatePersist : PersistenceRequest {
 		lastSyncReturned = false;
 
 		Vector3 pos = transform.position;
+		Quaternion rot = transform.rotation;
 		WWWForm formData = new WWWForm();
 
 		// Position
 		formData.AddField("player[x]", pos.x.ToString());
 		formData.AddField("player[y]", pos.y.ToString());
-		formData.AddField("player[z]", pos.z.ToString());
+		formData.AddField("player[z]", rot.eulerAngles.z.ToString());
 
 		// Ship status
 		formData.AddField("player[shields]", playerAttributes.shipAttributes.shields.ToString());
@@ -50,6 +51,12 @@ public class PlayerStatePersist : PersistenceRequest {
 		formData.AddField("player[ammo_velocity]", playerAttributes.weaponAttributes.velocity.ToString());
 		formData.AddField("player[ammo_duration]", playerAttributes.weaponAttributes.life.ToString());
 		formData.AddField("player[ammo_damage]", playerAttributes.weaponAttributes.damage.ToString());
+
+		// Element Stores
+		formData.AddField("player[oxygen]", playerAttributes.elementStores.oxygen.ToString());
+		formData.AddField("player[hydrogen]", playerAttributes.elementStores.hydrogen.ToString());
+		formData.AddField("player[nitrogen]", playerAttributes.elementStores.nitrogen.ToString());
+		formData.AddField("player[carbon]", playerAttributes.elementStores.carbon.ToString());
 
 		Put ("/players/" + playerAttributes.playerId, formData, SyncSuccess);
 	}

@@ -3,7 +3,7 @@ using System.Collections;
 
 public class LG  {
 
-	public static string version = "0.0.14";
+	public static string version = "0.0.15";
 	public static string patchHost = "http://lg.foolishaggro.com/system/_output";
 
 	public static string dbHost = "lg.foolishaggro.dev";
@@ -28,6 +28,7 @@ public class LG  {
 
 	/* End GUI Messages */
 
-
+	/* Server Startup Messages */
+	public static string n_worldObjectsSpawned = "OnWorldObjectsSpawned";
 
 }

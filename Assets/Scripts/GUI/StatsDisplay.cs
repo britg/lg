@@ -8,6 +8,7 @@ public class StatsDisplay : LGMonoBehaviour {
 	public UILabel shields;
 	public UILabel hull;
 	public UILabel fuel;
+	public UILabel elements;
 
 	private GameObject player;
 
@@ -37,6 +38,7 @@ public class StatsDisplay : LGMonoBehaviour {
 		UpdateShields();
 		UpdateHull ();
 		UpdateFuel();
+		UpdateElements();
 	}
 
 	void uLink_OnDisconnectedFromServer () {
@@ -61,5 +63,13 @@ public class StatsDisplay : LGMonoBehaviour {
 
 	void UpdateFuel () {
 		fuel.text = "Fuel: " + playerAttributes.shipAttributes.fuel.ToString("F2");
+	}
+
+	void UpdateElements () {
+		int o = playerAttributes.elementStores.oxygen;
+		int h = playerAttributes.elementStores.hydrogen;
+		int n = playerAttributes.elementStores.nitrogen;
+		int c = playerAttributes.elementStores.carbon;
+		elements.text = "O: " + o + " | H: " + h + " | C: " + c + " | N: " + n;
 	}
 }

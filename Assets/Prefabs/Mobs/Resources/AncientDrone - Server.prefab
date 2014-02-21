@@ -65,9 +65,10 @@ GameObject:
   - 4: {fileID: 400006}
   - 114: {fileID: 11400008}
   - 143: {fileID: 14300000}
+  - 114: {fileID: 11400002}
   - 114: {fileID: 11400000}
   m_Layer: 0
-  m_Name: Enemy - Server
+  m_Name: AncientDrone - Server
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -512,13 +513,36 @@ MonoBehaviour:
   m_GameObject: {fileID: 100006}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 81a5c1159dbae43269eb2792c0ed7425, type: 3}
+  m_Script: {fileID: 11500000, guid: dfa9352c17dab4156a18682b12f696b9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   interpolationBackTime: .20000000000000001
   extrapolationLimit: .5
-  sqrMaxServerError: 30000
-  sqrMaxServerSpeed: 100000
+  sqrMaxServerError: 300
+  sqrMaxServerSpeed: 1000
+--- !u!114 &11400002
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0a6b33169bab24170a1fec6a6d4b44a1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  persistId: 0
+  shipAttributes:
+    name: Starter Mob Ship
+    shields: 0
+    hull: 100
+    speed: 6
+  weaponAttributes:
+    cooldown: .200000003
+    aim: {x: 0, y: 0, z: 0}
+    velocity: 500
+    life: 2
+    damage: 10
 --- !u!114 &11400008
 MonoBehaviour:
   m_ObjectHideFlags: 1

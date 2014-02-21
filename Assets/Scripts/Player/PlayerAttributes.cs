@@ -19,6 +19,9 @@ public class PlayerAttributes : LGMonoBehaviour {
 		public float 	fuel = 100f;
 		public float 	fuelBurn = 2f;
 		public float 	speed = 6f;
+		public float	extractorLength = 50f;
+		public float 	extractorAngle = 15f;
+		public float 	extractorRadius = 22.5f;
 
 		public bool hasEnoughFuel (float deltaTime) {
 			return (fuel - fuelBurn*deltaTime) >= 0f;
@@ -57,11 +60,21 @@ public class PlayerAttributes : LGMonoBehaviour {
 		public void UseAmmo (int amount) {
 			ammo -= amount;
 		}
+	}
+
+	[Serializable]
+	public class ElementStores {
+
+		public int oxygen = 0;
+		public int carbon = 0;
+		public int hydrogen = 0;
+		public int nitrogen = 0;
 
 	}
 
 	public ShipAttributes shipAttributes = new ShipAttributes();
 	public WeaponAttributes weaponAttributes = new WeaponAttributes();
+	public ElementStores elementStores = new ElementStores();
 
 	void Start () {
 		if (isOwner) {
@@ -97,15 +110,25 @@ public class PlayerAttributes : LGMonoBehaviour {
 
 		// position
 		Vector3 pos = transform.position;
+		Quaternion rot = transform.rotation;
+		Vector3 eulerAngles = rot.eulerAngles;
 		float.TryParse(props["x"].ToString(), out pos.x);
 		float.TryParse(props["y"].ToString(), out pos.y);
-		float.TryParse(props["z"].ToString(), out pos.z);
+		float.TryParse(props["z"].ToString(), out eulerAngles.z);
+		pos.z = 0f;
 		transform.position = pos;
+		rot.eulerAngles = eulerAngles;
+		transform.rotation = rot;
 
 		int.TryParse(props["shields"].ToString(), out shipAttributes.shields);
 		int.TryParse(props["hull"].ToString(), out shipAttributes.hull);
 		float.TryParse(props["fuel"].ToString(), out shipAttributes.fuel);
 		int.TryParse(props["ammo"].ToString(), out weaponAttributes.ammo);
+
+		int.TryParse(props["oxygen"].ToString(), out elementStores.oxygen);
+		int.TryParse(props["hydrogen"].ToString(), out elementStores.hydrogen);
+		int.TryParse(props["nitrogen"].ToString(), out elementStores.nitrogen);
+		int.TryParse(props["carbon"].ToString(), out elementStores.carbon);
 
 		/* :shields, :hull, :fuel, :fuel_burn, :speed,
 

@@ -11,7 +11,16 @@ public class ServerDamageReceiver : LGMonoBehaviour {
 		Hashtable nData = n.data;
 
 		GameObject shipMesh = (GameObject)nData["hit"];
-		GameObject hit  = shipMesh.transform.parent.transform.parent.gameObject;
+
+		if (shipMesh == null)
+			return;
+
+		GameObject hit;
+		try {
+			hit = shipMesh.transform.parent.transform.parent.gameObject;
+		} catch {
+			return;
+		}
 
 		if (hit == gameObject) {
 
