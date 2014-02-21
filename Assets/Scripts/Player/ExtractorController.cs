@@ -9,6 +9,7 @@ public class ExtractorController : LGMonoBehaviour {
 	TopdownLook topdownLook;
 
 	bool isExtracting = false;
+	float extractRPCRate = 0.1f;
 
 	void Start () {
 		AssignPlayerAttributes();
@@ -18,10 +19,7 @@ public class ExtractorController : LGMonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		DetectInput();
-
-		if (isExtracting) {
-			TurnExtractor();
-		}
+		TurnExtractor();
 	}
 
 	void DetectInput () {
@@ -35,11 +33,18 @@ public class ExtractorController : LGMonoBehaviour {
 	void StartExtracting () {
 		isExtracting = true;
 		extractor.Play();
+		InvokeRepeating("RemoteExtract", extractRPCRate, extractRPCRate);
+	}
+
+	void RemoteExtract () {
+		networkView.UnreliableRPC("SignalExtract", uLink.RPCMode.Server, topdownLook.worldLookPoint.normalized);
 	}
 
 	void StopExtracting () {
 		isExtracting = false;
 		extractor.Stop();
+		networkView.UnreliableRPC("StopExtracting", uLink.RPCMode.Server);
+		CancelInvoke();
 	}
 
 	void TurnExtractor () {

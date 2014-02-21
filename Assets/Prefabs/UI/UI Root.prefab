@@ -496,7 +496,7 @@ Transform:
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1000, y: 1000, z: 1000}
-  m_LocalScale: {x: .00416666688, y: .00416666688, z: .00416666688}
+  m_LocalScale: {x: .00288600288, y: .00288600288, z: .00288600288}
   m_Children:
   - {fileID: 400004}
   - {fileID: 400028}
@@ -1555,7 +1555,7 @@ MonoBehaviour:
   keepAspectRatio: 0
   aspectRatio: 5.8499999
   keepCrispWhenShrunk: 1
-  mTrueTypeFont: {fileID: -689731375, guid: 0000000000000000d000000000000000, type: 0}
+  mTrueTypeFont: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
   mFont: {fileID: 0}
   mText: 'Fuel: 0'
   mFontSize: 13
@@ -1615,7 +1615,7 @@ MonoBehaviour:
   keepAspectRatio: 0
   aspectRatio: 5.8499999
   keepCrispWhenShrunk: 1
-  mTrueTypeFont: {fileID: 1421065236, guid: 0000000000000000d000000000000000, type: 0}
+  mTrueTypeFont: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
   mFont: {fileID: 0}
   mText: 'Hull: 0'
   mFontSize: 13
@@ -1675,7 +1675,7 @@ MonoBehaviour:
   keepAspectRatio: 0
   aspectRatio: 17.25
   keepCrispWhenShrunk: 1
-  mTrueTypeFont: {fileID: -689731375, guid: 0000000000000000d000000000000000, type: 0}
+  mTrueTypeFont: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
   mFont: {fileID: 0}
   mText: 'O: 0 | H: 0 | C: 0 | N: 0'
   mFontSize: 13
@@ -1714,7 +1714,7 @@ MonoBehaviour:
   shields: {fileID: 11400034}
   hull: {fileID: 11400028}
   fuel: {fileID: 11400026}
-  elements: {fileID: 0}
+  elements: {fileID: 11400030}
 --- !u!114 &11400034
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1752,7 +1752,7 @@ MonoBehaviour:
   keepAspectRatio: 0
   aspectRatio: 5.8499999
   keepCrispWhenShrunk: 1
-  mTrueTypeFont: {fileID: -689731375, guid: 0000000000000000d000000000000000, type: 0}
+  mTrueTypeFont: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
   mFont: {fileID: 0}
   mText: 'Shields: 0'
   mFontSize: 13
@@ -2541,7 +2541,7 @@ MonoBehaviour:
   keepAspectRatio: 0
   aspectRatio: 5.8499999
   keepCrispWhenShrunk: 1
-  mTrueTypeFont: {fileID: -689731375, guid: 0000000000000000d000000000000000, type: 0}
+  mTrueTypeFont: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
   mFont: {fileID: 0}
   mText: 'Ammo: 0'
   mFontSize: 13
@@ -2730,7 +2730,7 @@ MonoBehaviour:
   keepAspectRatio: 0
   aspectRatio: 17.25
   keepCrispWhenShrunk: 1
-  mTrueTypeFont: {fileID: -689731375, guid: 0000000000000000d000000000000000, type: 0}
+  mTrueTypeFont: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
   mFont: {fileID: 0}
   mText: 'Pos: 0, 0'
   mFontSize: 13

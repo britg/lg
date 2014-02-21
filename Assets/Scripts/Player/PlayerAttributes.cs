@@ -19,6 +19,8 @@ public class PlayerAttributes : LGMonoBehaviour {
 		public float 	fuel = 100f;
 		public float 	fuelBurn = 2f;
 		public float 	speed = 6f;
+
+		public float 	extractorRate = 1f;
 		public float	extractorLength = 50f;
 		public float 	extractorAngle = 15f;
 		public float 	extractorRadius = 22.5f;

@@ -6,7 +6,7 @@ public class PersistenceRequest : LGMonoBehaviour {
 
 	public static string authenticityToken = "";
 
-	private string urlBase;
+	public string urlBase;
 
 	public delegate void SuccessHandler(Hashtable response, GameObject receiver);
 	public delegate void ErrorHandler(string response, GameObject receiver);

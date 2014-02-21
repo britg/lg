@@ -44,10 +44,7 @@ public class MobAttributes : LGMonoBehaviour {
 	public void AssignAttributes (string rawAttributes) {
 		Debug.Log ("Assigning attributes to this mob " + rawAttributes);
 		Hashtable attributes = MiniJSON.Json.Hashtable(rawAttributes);
-
-		IDictionary props = (IDictionary) attributes["properties"];
-
 		int.TryParse(attributes["id"].ToString (), out persistId);
-		int.TryParse(props["health"].ToString(), out shipAttributes.hull);
+		int.TryParse(attributes["health"].ToString(), out shipAttributes.hull);
 	}
 }

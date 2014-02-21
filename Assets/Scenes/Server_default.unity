@@ -106,6 +106,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3ecf32c4dd4b348088f1b0ea952b6e03, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  urlBase: 
   ownerPrefab: {fileID: 100006, guid: 2814d4c4c3f08429aab016f6c5fc7ef6, type: 2}
   proxyPrefab: {fileID: 100006, guid: afd19b906ea9141f3a810133ad4fad34, type: 2}
   serverPrefab: {fileID: 100006, guid: 079a729f10dd74e79bac6cf0d9a086f6, type: 2}
@@ -151,6 +152,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2dd1033669de8490eba43bfd34f3b2bb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  urlBase: 
 --- !u!114 &56097701
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -162,6 +164,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bd6f60208bf9c4a679d7d2b9a33a4564, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  urlBase: 
 --- !u!114 &56097702
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -173,6 +176,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c563a9b3987684899bb327c5ba79d110, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  urlBase: 
 --- !u!1 &93445926
 GameObject:
   m_ObjectHideFlags: 0
