@@ -31,6 +31,9 @@ public class ExtractorController : LGMonoBehaviour {
 	}
 
 	void StartExtracting () {
+		if (isExtracting) {
+			return;
+		}
 		isExtracting = true;
 		extractor.Play();
 		InvokeRepeating("RemoteExtract", extractRPCRate, extractRPCRate);
@@ -49,7 +52,6 @@ public class ExtractorController : LGMonoBehaviour {
 
 	void TurnExtractor () {
 		Vector3 angles = extractorTurnPoint.eulerAngles;
-		float playerAngle = transform.eulerAngles.z;
 		float lookAngle = Vector3.Angle(Vector3.up, topdownLook.worldLookPoint);
 		angles.z = lookAngle;
 		if (topdownLook.worldLookPoint.x > 0) {

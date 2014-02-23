@@ -39,11 +39,13 @@ public class ExtractorProcessor : LGMonoBehaviour {
 		RaycastHit hit;
 		if (Physics.Raycast(transform.position, direction, out hit, extendLength)) {
 			Debug.Log ("Extractor hit something " + hit.collider.gameObject);
-			hit.collider.gameObject.SendMessage("Extract", SendMessageOptions.DontRequireReceiver);
+			hit.collider.gameObject.SendMessage("Extract", this, SendMessageOptions.DontRequireReceiver);
 		}
-		// if hit
-		// Call extract on that object
-		// else
-		// Do nothing
+	}
+
+	public void YieldElements (ElementYield e) {
+		Debug.Log ("Elements yielded " + e);
+		playerAttributes.elementStores.Add (e);
+		Debug.Log ("New elementStores is " + playerAttributes.elementStores);
 	}
 }

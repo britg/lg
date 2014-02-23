@@ -66,10 +66,6 @@ public class StatsDisplay : LGMonoBehaviour {
 	}
 
 	void UpdateElements () {
-		int o = playerAttributes.elementStores.oxygen;
-		int h = playerAttributes.elementStores.hydrogen;
-		int n = playerAttributes.elementStores.nitrogen;
-		int c = playerAttributes.elementStores.carbon;
-		elements.text = "O: " + o + " | H: " + h + " | C: " + c + " | N: " + n;
+		elements.text = playerAttributes.elementStores.ToString();
 	}
 }

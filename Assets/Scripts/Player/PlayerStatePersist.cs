@@ -57,6 +57,7 @@ public class PlayerStatePersist : PersistenceRequest {
 		formData.AddField("player[hydrogen]", playerAttributes.elementStores.hydrogen.ToString());
 		formData.AddField("player[nitrogen]", playerAttributes.elementStores.nitrogen.ToString());
 		formData.AddField("player[carbon]", playerAttributes.elementStores.carbon.ToString());
+		formData.AddField("player[trace]", playerAttributes.elementStores.trace.ToString());
 
 		Put ("/players/" + playerAttributes.playerId, formData, SyncSuccess);
 	}

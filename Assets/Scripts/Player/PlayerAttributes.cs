@@ -64,19 +64,9 @@ public class PlayerAttributes : LGMonoBehaviour {
 		}
 	}
 
-	[Serializable]
-	public class ElementStores {
-
-		public int oxygen = 0;
-		public int carbon = 0;
-		public int hydrogen = 0;
-		public int nitrogen = 0;
-
-	}
-
 	public ShipAttributes shipAttributes = new ShipAttributes();
 	public WeaponAttributes weaponAttributes = new WeaponAttributes();
-	public ElementStores elementStores = new ElementStores();
+	public ElementYield elementStores = new ElementYield();
 
 	void Start () {
 		if (isOwner) {
@@ -127,10 +117,7 @@ public class PlayerAttributes : LGMonoBehaviour {
 		float.TryParse(props["fuel"].ToString(), out shipAttributes.fuel);
 		int.TryParse(props["ammo"].ToString(), out weaponAttributes.ammo);
 
-		int.TryParse(props["oxygen"].ToString(), out elementStores.oxygen);
-		int.TryParse(props["hydrogen"].ToString(), out elementStores.hydrogen);
-		int.TryParse(props["nitrogen"].ToString(), out elementStores.nitrogen);
-		int.TryParse(props["carbon"].ToString(), out elementStores.carbon);
+		elementStores.Add (props);
 
 		/* :shields, :hull, :fuel, :fuel_burn, :speed,
 

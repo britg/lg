@@ -4,9 +4,6 @@ using uLink;
 
 public class MobSpawner : PersistenceRequest {
 
-	GameObject mobProxy;
-	GameObject mobServer;
-
 	Transform mobBucket;
 
 	void Awake () {
@@ -14,8 +11,6 @@ public class MobSpawner : PersistenceRequest {
 	}
 
 	void Start () {
-		mobProxy = (GameObject)Resources.Load("AncientDrone - Proxy");
-		mobServer = (GameObject)Resources.Load ("AncientDrone - Server");
 		NotificationCenter.AddObserver(this, LG.n_worldObjectsSpawned);
 	}
 
