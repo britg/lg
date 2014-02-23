@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class WorldObject : MonoBehaviour {
+public class WorldObject : LGMonoBehaviour {
 
 	public int worldObjectId;
 	protected string rawAttributes;

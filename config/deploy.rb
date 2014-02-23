@@ -9,6 +9,7 @@ set :unity, "/Applications/Unity/Unity.app/Contents/MacOS/Unity"
 set :project_path, "/Users/Eezo/games/lg"
 set :server_repo, "/Users/Eezo/games/lg_server"
 set :patches_path, "/Users/Eezo/games/lg/Patchie/_output"
+set :builds_path, "/Users/Eezo/games/"
 
 namespace :lg do
 
@@ -29,6 +30,7 @@ namespace :lg do
   task :client do
     write_versions
     upload_new_patches
+    upload_latest_build
   end
 
   task :admin do
@@ -81,4 +83,8 @@ end
 
 def upload_new_patches
   system "rsync -r -v #{patches_path} #{user}@lg.foolishaggro.com:~/apps/lg/shared/system"
+end
+
+def upload_latest_build
+
 end

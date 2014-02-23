@@ -6,6 +6,8 @@ public class LGMonoBehaviour : uLink.MonoBehaviour {
 	protected GameObject projectileGrouping;
 	protected GameObject projectile;
 	protected PlayerAttributes playerAttributes;
+	protected FloatingTextController notifier;
+
 
 	protected void InitProjectiles () {
 		projectileGrouping = GameObject.Find("Projectiles");
@@ -32,6 +34,10 @@ public class LGMonoBehaviour : uLink.MonoBehaviour {
 	    float angle = Vector3.Angle(v1, v2);
 	    float sign = Mathf.Sign(Vector3.Dot(-Vector3.forward, Vector3.Cross(v1, v2)));
 	    return angle*sign;
+	}
+
+	protected void AssignNotifier () {
+		notifier = GameObject.Find ("Notifications").GetComponent<FloatingTextController>();
 	}
 
 }

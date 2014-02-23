@@ -21,7 +21,7 @@ public class PlayerAttributes : LGMonoBehaviour {
 		public float 	speed = 6f;
 
 		public float 	extractorRate = 1f;
-		public float	extractorLength = 50f;
+		public float	extractorLength = 100f;
 		public float 	extractorAngle = 15f;
 		public float 	extractorRadius = 22.5f;
 
@@ -71,6 +71,7 @@ public class PlayerAttributes : LGMonoBehaviour {
 	void Start () {
 		if (isOwner) {
 			AnnounceLoaded();
+			AssignNotifier();
 		}
 	}
 
@@ -153,6 +154,13 @@ public class PlayerAttributes : LGMonoBehaviour {
 	[RPC]
 	void SyncElementStores (ElementYield update) {
 		elementStores = update;
+		notifier.Notify(gameObject, "hello");
+	}
+
+	[RPC]
+	void AddElementStores (ElementYield toAdd) {
+		elementStores.Add (toAdd);
+		notifier.Notify (gameObject, toAdd.ToFloatingText());
 	}
 
 	public void RequestRespawn () {

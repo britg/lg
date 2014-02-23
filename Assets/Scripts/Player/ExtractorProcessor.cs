@@ -38,15 +38,16 @@ public class ExtractorProcessor : LGMonoBehaviour {
 		float extendLength = playerAttributes.shipAttributes.extractorLength;
 		RaycastHit hit;
 		if (Physics.Raycast(transform.position, direction, out hit, extendLength)) {
-			Debug.Log ("Extractor hit something " + hit.collider.gameObject);
+//			Debug.Log ("Extractor hit something " + hit.collider.gameObject);
 			hit.collider.gameObject.SendMessage("Extract", this, SendMessageOptions.DontRequireReceiver);
 		}
 	}
 
 	public void YieldElements (ElementYield e) {
-		Debug.Log ("Elements yielded " + e);
+//		Debug.Log ("Elements yielded " + e);
 		playerAttributes.elementStores.Add (e);
-		Debug.Log ("New elementStores is " + playerAttributes.elementStores);
-		networkView.UnreliableRPC("SyncElementStores", uLink.RPCMode.Owner, playerAttributes.elementStores);
+//		Debug.Log ("New elementStores is " + playerAttributes.elementStores);
+//		networkView.UnreliableRPC("SyncElementStores", uLink.RPCMode.Owner, playerAttributes.elementStores);
+		networkView.UnreliableRPC("AddElementStores", uLink.RPCMode.Owner, e);
 	}
 }

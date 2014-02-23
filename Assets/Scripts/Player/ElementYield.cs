@@ -42,9 +42,6 @@ public class ElementYield {
 	}
 
 	public int of (string elementName) {
-		Debug.Log ("element name is " + elementName);
-		Debug.Log (this.GetType());
-		Debug.Log (this.GetType().GetField(elementName));
 		return (int)this.GetType().GetField(elementName).GetValue(this);
 	}
 
@@ -84,6 +81,31 @@ public class ElementYield {
 				Add (type, amount);
 			}
 		}
+	}
+
+	public ElementYield Remove (ElementYield other) {
+		foreach(ElementYieldType type in Enum.GetValues(typeof(ElementYieldType))) {
+			Remove (type, other.of (type));
+		}
+
+		return this;
+	}
+
+	public int Remove (ElementYieldType t, int amount) {
+		return Add (t, -amount);
+	}
+
+	public string ToFloatingText () {
+		string text = "";
+		int amount;
+		foreach(ElementYieldType type in Enum.GetValues(typeof(ElementYieldType))) {
+			amount = of(type);
+			if (amount > 0) {
+				text += "+" + amount + " " + type.ToString () + " ";
+			}
+		}
+
+		return text;
 	}
 
 }
