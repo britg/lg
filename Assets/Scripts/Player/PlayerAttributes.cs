@@ -150,6 +150,11 @@ public class PlayerAttributes : LGMonoBehaviour {
 		}
 	}
 
+	[RPC]
+	void SyncElementStores (ElementYield update) {
+		elementStores = update;
+	}
+
 	public void RequestRespawn () {
 		networkView.RPC ("Respawn", uLink.RPCMode.Server);
 	}

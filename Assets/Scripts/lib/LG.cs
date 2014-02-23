@@ -3,7 +3,7 @@ using System.Collections;
 
 public class LG  {
 
-	public static string version = "0.0.16";
+	public static string version = "0.0.17";
 	public static string patchHost = "http://lg.foolishaggro.com/system/_output";
 
 	public static string dbHost = "lg.foolishaggro.dev";

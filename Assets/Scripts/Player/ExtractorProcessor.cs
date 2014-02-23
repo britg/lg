@@ -47,5 +47,6 @@ public class ExtractorProcessor : LGMonoBehaviour {
 		Debug.Log ("Elements yielded " + e);
 		playerAttributes.elementStores.Add (e);
 		Debug.Log ("New elementStores is " + playerAttributes.elementStores);
+		networkView.UnreliableRPC("SyncElementStores", uLink.RPCMode.Owner, playerAttributes.elementStores);
 	}
 }
