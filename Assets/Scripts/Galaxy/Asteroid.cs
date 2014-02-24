@@ -6,7 +6,7 @@ public class Asteroid : WorldObject {
 	public ElementYield elementStore;
 
 	void Awake () {
-		transform.parent = GameObject.Find ("WorldObjects").transform;
+		base.Awake();
 		elementStore = new ElementYield();
 		Refill();
 		InvokeRepeating ("Refill", 300f, 300f);

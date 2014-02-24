@@ -70,7 +70,6 @@ public class PlayerAttributes : LGMonoBehaviour {
 
 	void Start () {
 		if (isOwner) {
-			AnnounceLoaded();
 			AssignNotifier();
 		}
 	}
@@ -120,10 +119,9 @@ public class PlayerAttributes : LGMonoBehaviour {
 
 		elementStores.Add (props);
 
-		/* :shields, :hull, :fuel, :fuel_burn, :speed,
-
-                     :ammo, :ammo_burn, :cooldown,
-                     :ammo_velocity, :ammo_duration, :ammo_damage] */
+		if (isOwner) {
+			AnnounceLoaded();
+		}
 	}
 
 	[RPC]

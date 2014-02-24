@@ -1,10 +1,14 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System.Collections.Generic;
+using uLink;
 
-public class WorldObjectSpawner : PersistenceRequest {
+public class GalaxyProcessor : PersistenceRequest {
 
-	void uLink_OnServerInitialized () {
+	Hashtable prefabCache = new Hashtable();
+	string allObjectsRaw;
+
+	void uLink_OnNetworkInstantiate () {
 		// Request to get all world objects (will need to be optimized later)
 		// Loop through each and spawn them
 		// Fault tolerant: must have a prefab available for the objects.
@@ -17,6 +21,8 @@ public class WorldObjectSpawner : PersistenceRequest {
 
 	void GetSpawnsSuccess (Hashtable response, GameObject receiver) {
 //		Debug.Log("Get spawns success " + response["objects"].GetType());
+
+		allObjectsRaw = (string)response["raw"];
 
 		// Instantiate a bunch of objects
 		List<object> objects = (List<object>)response["objects"];
@@ -43,15 +49,27 @@ public class WorldObjectSpawner : PersistenceRequest {
 			}
 
 //			Debug.Log ("Need to instantiate: " + name);
-			GameObject proxy = (GameObject)Resources.Load (name + " - Proxy");
-			GameObject server = (GameObject)Resources.Load (name + " - Server");
-			GameObject serverObj = uLink.Network.Instantiate( proxy, server, 
-			                                                  startPosition, Quaternion.identity, 0);
-			serverObj.SendMessage("AssignAttributes", raw, SendMessageOptions.DontRequireReceiver);
+			GameObject cached = (GameObject)prefabCache[name];
+			if (cached == null) {
+				prefabCache[name] = (GameObject)Resources.Load (name);
+				cached = (GameObject)prefabCache[name];
+			}
+
+			GameObject serverObj = (GameObject)Instantiate( cached, startPosition, Quaternion.identity);
+			serverObj.transform.parent = transform;
+//			serverObj.SendMessage("AssignAttributes", raw, SendMessageOptions.DontRequireReceiver);
 		}
 
 		// Notify the system that objects have been instantiated
 		NotificationCenter.PostNotification(this, LG.n_worldObjectsSpawned);
+	}
+
+	[RPC]
+	void GetNearbyObjects (Vector3 pos, uLink.NetworkMessageInfo info) {
+		Debug.Log ("Getting nearby objects for " + pos);
+		// Get objects near the player and RPC back to the player the list of objects
+		Debug.Log ("Raw response " + allObjectsRaw);
+		networkView.RPC("LoadNearbyObjects", info.sender, allObjectsRaw);
 	}
 
 }

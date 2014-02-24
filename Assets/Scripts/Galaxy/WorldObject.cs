@@ -8,8 +8,7 @@ public class WorldObject : LGMonoBehaviour {
 	public Hashtable attributes;
 	public IDictionary properties;
 
-	void Awake () {
-		transform.parent = GameObject.Find ("WorldObjects").transform;
+	protected void Awake () {
 	}
 
 	public void AssignAttributes (string _rawAttributes) {

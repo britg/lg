@@ -14,7 +14,7 @@ public class WeaponController : LGMonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (playerAttributes.isOwner) {
-			DetectFireInput();
+//			DetectFireInput();
 		}
 	}
 	

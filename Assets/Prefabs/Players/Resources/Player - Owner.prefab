@@ -603,6 +603,7 @@ MonoBehaviour:
     fuel: 100
     fuelBurn: 2
     speed: 75
+    extractorRate: 1
     extractorLength: 50
     extractorAngle: 15
     extractorRadius: 22.5
@@ -616,9 +617,10 @@ MonoBehaviour:
     damage: 10
   elementStores:
     oxygen: 0
-    carbon: 0
     hydrogen: 0
     nitrogen: 0
+    carbon: 0
+    trace: 1
 --- !u!114 &11400004
 MonoBehaviour:
   m_ObjectHideFlags: 1
