@@ -34,7 +34,7 @@ namespace :lg do
   end
 
   task :admin do
-    system "cd ../lg_admin && cap deploy"
+    system "cd ../lg_admin && cap deploy:migrations"
   end
 
   task :all do
