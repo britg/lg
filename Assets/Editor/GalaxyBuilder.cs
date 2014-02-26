@@ -9,19 +9,27 @@ public static class GalaxyBuilder {
 
 	public static GameObject go;
 
-	[MenuItem("Lonely Galaxy/Persist Selection %&b")]
+	[MenuItem("Lonely Galaxy/Persist Galaxy %&b")]
 	public static void PersistGalaxy() {
 
 //		Object[] selection = Selection.GetFiltered(typeof(Object), SelectionMode.TopLevel);
+
 //		UnityEngine.Debug.Log(Selection.activeObject);
 //		string fullName = Selection.activeObject.ToString();
 //		string apiName = fullName.Split(new string[] {" - "}, System.StringSplitOptions.None)[0];
 //		Vector3 pos = Selection.activeTransform.position;
 //		Selection.objects = selection;
-		
-		
-		go = new GameObject("GalaxyBuilder");
-		PersistenceRequest api = (PersistenceRequest)go.AddComponent<PersistenceRequest>();
+
+		if (EditorApplication.currentScene != "Assets/Scenes/GalaxyBuilder.unity") {
+			return;
+		}
+
+		go = GameObject.Find ("GalaxyBuilder");
+		if (go == null) {
+			go = new GameObject("GalaxyBuilder");
+			go.AddComponent<PersistenceRequest>();
+		}
+		PersistenceRequest api = go.GetComponent<PersistenceRequest>();
 		WWWForm postData = new WWWForm();
 
 		int i = 0;
