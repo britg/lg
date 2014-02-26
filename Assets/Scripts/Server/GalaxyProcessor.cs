@@ -20,49 +20,43 @@ public class GalaxyProcessor : PersistenceRequest {
 	}
 
 	void GetSpawnsSuccess (Hashtable response, GameObject receiver) {
-//		Debug.Log("Get spawns success " + response["objects"].GetType());
-
 		allObjectsRaw = (string)response["raw"];
-
-		// Instantiate a bunch of objects
 		List<object> objects = (List<object>)response["objects"];
 		foreach (var obj in objects) {
-//			Debug.Log ("Object is " + obj);
-			IDictionary dict = (IDictionary)obj;
-			string name = "";
-			Vector3 startPosition = Vector3.zero;
-			string raw = "";
-			foreach (DictionaryEntry prop in dict) {
-//				Debug.Log ("key: " + prop.Key + " " + " value: " + prop.Value);
-				if (prop.Key.ToString() == "template") {
-					name = (string)prop.Value;
-				}
-				if (prop.Key.ToString() == "x") {
-					float.TryParse(prop.Value.ToString(), out startPosition.x);
-				}
-				if (prop.Key.ToString() == "y") {
-					float.TryParse(prop.Value.ToString(), out startPosition.y);
-				}
-				if (prop.Key.ToString() == "raw") {
-					raw = (string)prop.Value;
-				}
-			}
 
-//			Debug.Log ("Need to instantiate: " + name);
-			GameObject cached = (GameObject)prefabCache[name];
-			if (cached == null) {
-				prefabCache[name] = (GameObject)Resources.Load (name);
-				cached = (GameObject)prefabCache[name];
-			}
+			Hashtable attributes = new Hashtable((IDictionary)obj);
+			bool networked = (bool)attributes["networked"];
 
-			GameObject serverObj = (GameObject)Instantiate( cached, startPosition, Quaternion.identity);
-			serverObj.transform.parent = transform;
-//			serverObj.SendMessage("AssignAttributes", raw, SendMessageOptions.DontRequireReceiver);
+			if (networked) {
+
+			} else {
+				PlaceStaticObject(attributes);
+			}
 		}
 
-		// Notify the system that objects have been instantiated
 		NotificationCenter.PostNotification(this, LG.n_worldObjectsSpawned);
 	}
+
+	void PlaceStaticObject (Hashtable attributes) {
+		int worldObjectId 		= System.Convert.ToInt32(attributes["id"]);
+		string name 			= (string)attributes["name"];
+		Vector3 pos 		  	= WorldObject.ExtractPosition(attributes);
+
+		GameObject cached = (GameObject)prefabCache[name];
+		if (cached == null) {
+			prefabCache[name] = (GameObject)Resources.Load (name);
+			cached = (GameObject)prefabCache[name];
+		}
+
+		GameObject serverObj = (GameObject)Instantiate(cached, pos, Quaternion.identity);
+		serverObj.transform.parent = transform;
+		serverObj.SendMessage("AssignAttributes", attributes, SendMessageOptions.DontRequireReceiver);
+	}
+
+	void PlaceNetworkedObject (string name, int id, Hashtable attributes) {
+
+	}
+
 
 	[RPC]
 	void GetNearbyObjects (Vector3 pos, uLink.NetworkMessageInfo info) {

@@ -4,16 +4,16 @@ using System.Collections;
 public class Asteroid : WorldObject {
 
 	public ElementYield elementStore;
+	public int refillInterval = 300;
 
 	void Awake () {
-		base.Awake();
 		elementStore = new ElementYield();
 		Refill();
-		InvokeRepeating ("Refill", 300f, 300f);
+		InvokeRepeating ("Refill", refillInterval, refillInterval);
 	}
 
-	new void AssignAttributes (string rawAttributes) {
-		base.AssignAttributes(rawAttributes);
+	new void AssignAttributes (Hashtable attributes) {
+		base.AssignAttributes(attributes);
 	}
 
 	void Extract (ExtractorProcessor processor) {

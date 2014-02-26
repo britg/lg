@@ -24,6 +24,12 @@ public static class AutoBuild
 		EditorApplication.OpenScene("Assets/Scenes/Server_default.unity");
 	}
 
+	[MenuItem("Lonely Galaxy/Switch to Builder %&#b")]
+	public static void SwitchToBuilder () {
+		EditorApplication.SaveScene(EditorApplication.currentScene);
+		EditorApplication.OpenScene("Assets/Scenes/GalaxyBuilder.unity");
+	}
+
 	[MenuItem("Lonely Galaxy/Client Mac %&c")]
 	public static void ClientMac () {
 		EditorUserBuildSettings.SwitchActiveBuildTarget(BuildTarget.StandaloneOSXIntel);
@@ -43,7 +49,6 @@ public static class AutoBuild
 		string[] server = new string[] { "Assets/Scenes/Server_default.unity" };
 		BuildPipeline.BuildPlayer(server, "Build/mac/lg_server.app", BuildTarget.StandaloneOSXIntel, BuildOptions.AutoRunPlayer);
 	}
-
 
 	[MenuItem("Lonely Galaxy/Server Linux")]
 	public static void ServerLinux () {

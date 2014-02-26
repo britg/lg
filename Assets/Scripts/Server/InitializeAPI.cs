@@ -19,7 +19,7 @@ public class InitializeAPI : PersistenceRequest {
 
 	void GetAuthTokenSuccess (IDictionary response, GameObject receiver) {
 		PersistenceRequest.authenticityToken = (string) response["authenticity_token"];
-		Debug.Log("Heartbeat " + PersistenceRequest.authenticityToken);
+		Debug.Log(System.DateTime.Now.ToString("MM/dd/yyyy h:mm:ss ") + " Heartbeat " + PersistenceRequest.authenticityToken);
 	}
 
 	void BuildGalaxy () {
