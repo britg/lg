@@ -32,15 +32,19 @@ public class PlayerSpawner : PersistenceRequest {
 		initialData[1] = System.Convert.ToInt32(serverAttr["id"]);
 
 		Vector3 startPosition = Vector3.zero;
+		Quaternion rotation = new Quaternion();
+		Vector3 angles = rotation.eulerAngles;
 		float.TryParse(properties["x"].ToString(), out startPosition.x);
 		float.TryParse(properties["y"].ToString(), out startPosition.y);
-		float.TryParse(properties["z"].ToString(), out startPosition.z);
+		float.TryParse(properties["z"].ToString(), out angles.z);
+		rotation.eulerAngles = angles;
 
 		GameObject serverPlayer = uLink.Network.Instantiate(networkPlayer, 
 									                        proxyPrefab, 
 									                        ownerPrefab, 
 									                        serverPrefab, 
-									                        startPosition, Quaternion.identity, 0, initialData);
+									                        startPosition, rotation, 0, initialData);
+		serverPlayer.transform.eulerAngles = angles;
 		Debug.Log ("Server player is " + serverPlayer);
 		PlayerAttributes playerAttributes = serverPlayer.GetComponent<PlayerAttributes>();
 		playerAttributes.SyncAttributes((string)serverAttr["raw"]);

@@ -90,7 +90,7 @@ public class PlayerAttributes : LGMonoBehaviour {
 
 	public void SyncAttributes (string rawAttributes) {
 		Debug.Log ("Syncing attribtues from server to client");
-		networkView.RPC ("AssignAttributes", uLink.RPCMode.All, rawAttributes);
+//		networkView.RPC ("AssignAttributes", uLink.RPCMode.All, rawAttributes);
 	}
 
 	[RPC]
@@ -101,16 +101,14 @@ public class PlayerAttributes : LGMonoBehaviour {
 		IDictionary props = (IDictionary) attributes["properties"];
 
 		// position
-		Vector3 pos = transform.position;
-		Quaternion rot = transform.rotation;
-		Vector3 eulerAngles = rot.eulerAngles;
-		float.TryParse(props["x"].ToString(), out pos.x);
-		float.TryParse(props["y"].ToString(), out pos.y);
-		float.TryParse(props["z"].ToString(), out eulerAngles.z);
-		pos.z = 0f;
-		transform.position = pos;
-		rot.eulerAngles = eulerAngles;
-		transform.rotation = rot;
+//		Vector3 pos = transform.position;
+//		Vector3 eulerAngles = transform.eulerAngles;
+//		float.TryParse(props["x"].ToString(), out pos.x);
+//		float.TryParse(props["y"].ToString(), out pos.y);
+//		float.TryParse(props["z"].ToString(), out eulerAngles.z);
+//		pos.z = 0f;
+//		transform.position = pos;
+//		transform.eulerAngles = eulerAngles;
 
 		int.TryParse(props["shields"].ToString(), out shipAttributes.shields);
 		int.TryParse(props["hull"].ToString(), out shipAttributes.hull);

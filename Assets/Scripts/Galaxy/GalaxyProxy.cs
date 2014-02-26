@@ -21,6 +21,10 @@ public class GalaxyProxy : LGMonoBehaviour {
 		GetNearbyObjects();
 	}
 
+	void uLink_OnNetworkInstantiate () {
+		GetNearbyObjects();
+	}
+
 	void GetNearbyObjects () {
 		networkView.UnreliableRPC("GetNearbyObjects", uLink.RPCMode.Server, thePlayer().transform.position);
 	}

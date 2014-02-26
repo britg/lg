@@ -70,10 +70,11 @@ public class PlayerStatePersist : PersistenceRequest {
 	void Respawn () {
 		shouldSync = false;
 		Post ("/players/" + playerAttributes.playerId + "/respawn", new WWWForm(), RespawnSuccess);
+
 	}
 	
 	void RespawnSuccess (Hashtable response, object receiver) {
-		Debug.Log ("Respawn success");
+		Debug.Log ("Respawn success ");
 		playerAttributes.SyncAttributes((string)response["raw"]);
 	}
 

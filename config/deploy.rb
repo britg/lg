@@ -88,3 +88,7 @@ end
 def upload_latest_build
 
 end
+
+def bump_version
+
+end
