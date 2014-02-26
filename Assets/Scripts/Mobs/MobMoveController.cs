@@ -61,8 +61,7 @@ public class MobMoveController : LGMonoBehaviour
 	public float sqrMaxServerSpeed = 1000.0f;
 	
 	private CharacterController character;
-	private TopdownController topdownController;
-	
+
 	// We store twenty states with "playback" information
 	State[] proxyStates = new State[20];
 	// Keep track of what slots are used
@@ -76,12 +75,7 @@ public class MobMoveController : LGMonoBehaviour
 	{
 		character = GetComponent<CharacterController>();
 	}
-	
-	void Start () {
-		AssignPlayerAttributes();
-		topdownController = GetComponent<TopdownController>();
-	}
-	
+
 	void uLink_OnSerializeNetworkView(uLink.BitStream stream, uLink.NetworkMessageInfo info)
 	{
 		if (stream.isWriting)
@@ -199,7 +193,7 @@ public class MobMoveController : LGMonoBehaviour
 			return;
 		}
 		
-		if (topdownController.movedThisFrame) {
+//		if (topdownController.movedThisFrame) {
 			Move move;
 			move.timestamp = uLink.Network.time;
 			move.deltaTime = (ownerMoves.Count > 0) ? (float)(move.timestamp - ownerMoves[ownerMoves.Count - 1].timestamp) : 0.0f;
@@ -207,9 +201,9 @@ public class MobMoveController : LGMonoBehaviour
 			
 			ownerMoves.Add(move);
 			networkView.UnreliableRPC("ServerMove", uLink.NetworkPlayer.server, transform.position, move.vel, transform.rotation);
-		} else {
-			networkView.UnreliableRPC("ServerIdleTime", uLink.NetworkPlayer.server);
-		}
+//		} else {
+//			networkView.UnreliableRPC("ServerIdleTime", uLink.NetworkPlayer.server);
+//		}
 	}
 	
 	[RPC]
@@ -238,19 +232,12 @@ public class MobMoveController : LGMonoBehaviour
 		
 		character.Move(deltaPos);
 		
-		float currentFuel = playerAttributes.shipAttributes.UseFuel(deltaTime);
-		networkView.UnreliableRPC("SyncFuel", uLink.RPCMode.Others, currentFuel);
-		
 		serverLastTimestamp = info.timestamp;
 		
 		Vector3 serverPos = transform.position;
 		Vector3 diff = serverPos - ownerPos;
 		
-		
-		//		PlayerRequest playerRequest = (new GameObject()).AddComponent<PlayerRequest>();
-		//		playerRequest.SetPlayerPosition(playerAttributes, serverPos);
-		
-		
+
 		if (Vector3.SqrMagnitude(diff) > sqrMaxServerError)
 		{
 			networkView.UnreliableRPC("AdjustOwnerPos", uLink.RPCMode.Owner, serverPos);

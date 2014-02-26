@@ -7,6 +7,62 @@ public class WorldObject : LGMonoBehaviour {
 	public Hashtable attributes;
 	public IDictionary properties;
 
+	static Hashtable prefabCache = new Hashtable();
+	public static GameObject galaxy;
+
+	public static void PlaceObjects (IList objects) {
+		foreach (var obj in objects) {
+			
+			Hashtable attributes = new Hashtable((IDictionary)obj);
+			bool networked = (bool)attributes["networked"];
+			
+			if (networked) {
+				if (uLink.Network.isServer) {
+					PlaceNetworkedObject(attributes);
+				}
+			} else {
+				PlaceStaticObject(attributes);
+			}
+		}	
+	}
+
+	static void PlaceStaticObject (Hashtable attributes) {
+		string name 			= (string)attributes["name"];
+		Vector3 pos 		  	= WorldObject.ExtractPosition(attributes);
+		
+		GameObject cached = (GameObject)prefabCache[name];
+		if (cached == null) {
+			prefabCache[name] = (GameObject)Resources.Load (name);
+			cached = (GameObject)prefabCache[name];
+		}
+		
+		GameObject serverObj = (GameObject)Instantiate(cached, pos, Quaternion.identity);
+		serverObj.transform.parent = galaxy.transform;
+		serverObj.SendMessage("AssignAttributes", attributes, SendMessageOptions.DontRequireReceiver);
+	}
+	
+	static void PlaceNetworkedObject (Hashtable attributes) {
+		string name 			= (string)attributes["name"];
+		string serverName 		= name + " - Server";
+		string proxyName 		= name + " - Proxy";
+		Vector3 pos 		  	= WorldObject.ExtractPosition(attributes);
+		
+		GameObject serverPrefab = (GameObject)prefabCache[serverName];
+		GameObject proxyPrefab = (GameObject)prefabCache[proxyName];
+		if (serverPrefab == null) {
+			prefabCache[serverName] = (GameObject)Resources.Load (serverName);
+			serverPrefab = (GameObject)prefabCache[serverName];
+		}
+		if (proxyPrefab == null) {
+			prefabCache[proxyName] = (GameObject)Resources.Load (proxyName);
+			proxyPrefab = (GameObject)prefabCache[proxyName];
+		}
+		
+		GameObject serverObj = uLink.Network.Instantiate(proxyPrefab, serverPrefab, pos, Quaternion.identity, 0);
+		serverObj.transform.parent = galaxy.transform;
+		serverObj.SendMessage("AssignAttributes", attributes, SendMessageOptions.DontRequireReceiver);
+	}
+
 	public static Vector3 ExtractPosition (Hashtable attributes) {
 		string xStr = (string)attributes["x"];
 		string yStr = (string)attributes["y"];

@@ -27,7 +27,7 @@ public static class GalaxyBuilder {
 		int i = 0;
 		GameObject galaxy = GameObject.Find ("Galaxy");
 		foreach (Transform child in galaxy.transform) {
-			postData.AddField("o[][name]", child.gameObject.name);
+			postData.AddField("o[][name]", TemplateName(child.gameObject.name));
 			postData.AddField("o[][x]", child.transform.position.x.ToString());
 			postData.AddField("o[][y]", child.transform.position.y.ToString());
 			postData.AddField("o[][z]", child.transform.position.z.ToString());
@@ -43,12 +43,16 @@ public static class GalaxyBuilder {
 		api.Post ("/galaxy", postData, OnPersistSuccess, OnPersistError);
 	}
 
-	static void OnPersistSuccess (Hashtable response, GameObject receiver) {
+	static string TemplateName (string goName) {
+		return goName.Split(new string[]{" - "}, StringSplitOptions.RemoveEmptyEntries)[0];
+	}
+
+	static void OnPersistSuccess (Hashtable response, object receiver) {
 		UnityEngine.Debug.Log("Success");
 		Reset();
 	}
 
-	static void OnPersistError (string response, GameObject receiver) {
+	static void OnPersistError (string response, object receiver) {
 		UnityEngine.Debug.Log("Error: " + response);
 		Reset();
 	}

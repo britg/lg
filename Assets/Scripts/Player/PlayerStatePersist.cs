@@ -62,7 +62,7 @@ public class PlayerStatePersist : PersistenceRequest {
 		Put ("/players/" + playerAttributes.playerId, formData, SyncSuccess);
 	}
 
-	void SyncSuccess (Hashtable response, GameObject receiver) {
+	void SyncSuccess (Hashtable response, object receiver) {
 		lastSyncReturned = true;
 	}
 
@@ -72,7 +72,7 @@ public class PlayerStatePersist : PersistenceRequest {
 		Post ("/players/" + playerAttributes.playerId + "/respawn", new WWWForm(), RespawnSuccess);
 	}
 	
-	void RespawnSuccess (Hashtable response, GameObject receiver) {
+	void RespawnSuccess (Hashtable response, object receiver) {
 		Debug.Log ("Respawn success");
 		playerAttributes.SyncAttributes((string)response["raw"]);
 	}

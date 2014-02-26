@@ -17,7 +17,7 @@ public class InitializeAPI : PersistenceRequest {
 		Get("/servers", "v=" + LG.version, GetAuthTokenSuccess);
 	}
 
-	void GetAuthTokenSuccess (IDictionary response, GameObject receiver) {
+	void GetAuthTokenSuccess (IDictionary response, object receiver) {
 		PersistenceRequest.authenticityToken = (string) response["authenticity_token"];
 		Debug.Log(System.DateTime.Now.ToString("MM/dd/yyyy h:mm:ss ") + " Heartbeat " + PersistenceRequest.authenticityToken);
 	}

@@ -24,7 +24,7 @@ public class PlayerSpawner : PersistenceRequest {
 		Post ("/players", formData, RegisterPlayerSuccess);
 	}
 
-	void RegisterPlayerSuccess (Hashtable serverAttr, GameObject receiver) {
+	void RegisterPlayerSuccess (Hashtable serverAttr, object receiver) {
 		IDictionary properties = (IDictionary)serverAttr["properties"];
 		object[] initialData = new object[2];
 

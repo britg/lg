@@ -50,12 +50,12 @@ public class MobSpawner : PersistenceRequest {
 		Post("/spawns", postData, SpawnRequestSuccess, SpawnRequestError);
 	}
 
-	void SpawnRequestSuccess (Hashtable response, GameObject receiver) {
+	void SpawnRequestSuccess (Hashtable response, object receiver) {
 		Debug.Log ("Spawn request success");
 
 	}
 
-	void SpawnRequestError (string response, GameObject receiver) {
+	void SpawnRequestError (string response, object receiver) {
 		Debug.Log ("Spawn request error");
 	}
 

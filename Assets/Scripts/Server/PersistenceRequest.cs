@@ -8,8 +8,8 @@ public class PersistenceRequest : LGMonoBehaviour {
 
 	public string urlBase;
 
-	public delegate void SuccessHandler(Hashtable response, GameObject receiver);
-	public delegate void ErrorHandler(string response, GameObject receiver);
+	public delegate void SuccessHandler(Hashtable response, object receiver);
+	public delegate void ErrorHandler(string response, object receiver);
 	
 	protected SuccessHandler onSuccess;
 	protected ErrorHandler onError;
@@ -63,20 +63,29 @@ public class PersistenceRequest : LGMonoBehaviour {
 	public void Get (string endpoint, string getParams, SuccessHandler successHandler) {
 		Get(endpoint, getParams, successHandler, LogResponse);
 	}
+
+	public void Get (string endpoint, string getParams, object receiver, SuccessHandler successHandler) {
+		Get(endpoint, getParams, receiver, successHandler, LogResponse);
+	}
 	
 	public void Get (string endpoint, string getParams,
+	                 SuccessHandler successHandler, ErrorHandler errorHandler) {
+		Get (endpoint, getParams, null, successHandler, errorHandler);
+	}
+
+	public void Get (string endpoint, string getParams, object receiver,
 	                 SuccessHandler successHandler, ErrorHandler errorHandler) {
 		WWW request = new WWW(Endpoint(endpoint, getParams));
 		onSuccess = successHandler;
 		onError = errorHandler;
-		StartCoroutine(Request(request));
+		StartCoroutine(Request(request, receiver));
 	}
 
 	protected IEnumerator Request (WWW request) {
 		return Request (request, null);
 	}
 	
-	protected IEnumerator Request (WWW request, GameObject receiver) {
+	protected IEnumerator Request (WWW request, object receiver) {
 		yield return request;
 		if (request.error != null) {
 			onError(request.error, receiver);
@@ -92,11 +101,11 @@ public class PersistenceRequest : LGMonoBehaviour {
 		}
 	}
 
-	protected void LogResponse (Hashtable response, GameObject receiver) {
+	protected void LogResponse (Hashtable response, object receiver) {
 		Debug.Log("DB: Request response unhandled: " + response);
 	}
 
-	protected void LogResponse (string response, GameObject receiver) {
+	protected void LogResponse (string response, object receiver) {
 		Debug.Log("DB: Request response unhandled: " + response);
 	}
 

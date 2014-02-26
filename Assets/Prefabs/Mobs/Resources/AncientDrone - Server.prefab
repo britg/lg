@@ -421,7 +421,7 @@ TextMesh:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
-  m_Text: Player
+  m_Text: Enemy
   m_OffsetZ: 0
   m_CharacterSize: 8
   m_LineSpacing: 1
@@ -434,7 +434,7 @@ TextMesh:
   m_Font: {fileID: 10102, guid: 0000000000000000e000000000000000, type: 0}
   m_Color:
     serializedVersion: 2
-    rgba: 4294967295
+    rgba: 4278190335
 --- !u!108 &10800000
 Light:
   m_ObjectHideFlags: 1
@@ -531,7 +531,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0a6b33169bab24170a1fec6a6d4b44a1, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  persistId: 0
+  worldObjectId: 0
   shipAttributes:
     name: Starter Mob Ship
     shields: 0
