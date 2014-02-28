@@ -66,7 +66,6 @@ public class PlayerAttributes : LGMonoBehaviour {
 
 	public ShipAttributes shipAttributes = new ShipAttributes();
 	public WeaponAttributes weaponAttributes = new WeaponAttributes();
-	public ElementYield elementStores = new ElementYield();
 
 	void Start () {
 		if (isOwner) {
@@ -115,8 +114,6 @@ public class PlayerAttributes : LGMonoBehaviour {
 		float.TryParse(props["fuel"].ToString(), out shipAttributes.fuel);
 		int.TryParse(props["ammo"].ToString(), out weaponAttributes.ammo);
 
-		elementStores.Add (props);
-
 		if (isOwner) {
 			AnnounceLoaded();
 		}
@@ -148,15 +145,8 @@ public class PlayerAttributes : LGMonoBehaviour {
 	}
 
 	[RPC]
-	void SyncElementStores (ElementYield update) {
-		elementStores = update;
-		notifier.Notify(gameObject, "hello");
-	}
-
-	[RPC]
-	void AddElementStores (ElementYield toAdd) {
-		elementStores.Add (toAdd);
-		notifier.Notify (gameObject, toAdd.ToFloatingText());
+	void AddResources (Resource[] resources) {
+//		notifier.Notify (gameObject, toAdd.ToFloatingText());
 	}
 
 	public void RequestRespawn () {

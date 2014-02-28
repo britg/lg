@@ -66,6 +66,5 @@ public class StatsDisplay : LGMonoBehaviour {
 	}
 
 	void UpdateElements () {
-		elements.text = playerAttributes.elementStores.ToString();
 	}
 }

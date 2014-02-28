@@ -43,11 +43,7 @@ public class ExtractorProcessor : LGMonoBehaviour {
 		}
 	}
 
-	public void YieldElements (ElementYield e) {
-//		Debug.Log ("Elements yielded " + e);
-		playerAttributes.elementStores.Add (e);
-//		Debug.Log ("New elementStores is " + playerAttributes.elementStores);
-//		networkView.UnreliableRPC("SyncElementStores", uLink.RPCMode.Owner, playerAttributes.elementStores);
-		networkView.UnreliableRPC("AddElementStores", uLink.RPCMode.Owner, e);
+	public void YieldResources (Resource[] resources) {
+		networkView.UnreliableRPC("AddElementStores", uLink.RPCMode.Owner, resources);
 	}
 }

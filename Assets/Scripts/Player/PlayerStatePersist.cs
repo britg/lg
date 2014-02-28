@@ -52,13 +52,6 @@ public class PlayerStatePersist : PersistenceRequest {
 		formData.AddField("player[ammo_duration]", playerAttributes.weaponAttributes.life.ToString());
 		formData.AddField("player[ammo_damage]", playerAttributes.weaponAttributes.damage.ToString());
 
-		// Element Stores
-		formData.AddField("player[oxygen]", playerAttributes.elementStores.oxygen.ToString());
-		formData.AddField("player[hydrogen]", playerAttributes.elementStores.hydrogen.ToString());
-		formData.AddField("player[nitrogen]", playerAttributes.elementStores.nitrogen.ToString());
-		formData.AddField("player[carbon]", playerAttributes.elementStores.carbon.ToString());
-		formData.AddField("player[trace]", playerAttributes.elementStores.trace.ToString());
-
 		Put ("/players/" + playerAttributes.playerId, formData, SyncSuccess);
 	}
 
