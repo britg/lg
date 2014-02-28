@@ -20,7 +20,7 @@ public class ExtractorProcessor : LGMonoBehaviour {
 
 	void StartExtracting () {
 		isExtracting = true;
-		float rate = player.shipAttributes.extractorRate;
+		float rate = player.stats.Get("extractor_rate").value;
 		InvokeRepeating("Extract", rate, rate);
 	}
 
@@ -35,7 +35,7 @@ public class ExtractorProcessor : LGMonoBehaviour {
 	}
 
 	void DetectHit () {
-		float extendLength = player.shipAttributes.extractorLength;
+		float extendLength = player.stats.Get("extractor_length").value;
 		RaycastHit hit;
 		if (Physics.Raycast(transform.position, direction, out hit, extendLength)) {
 //			Debug.Log ("Extractor hit something " + hit.collider.gameObject);

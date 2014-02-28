@@ -24,12 +24,6 @@ public class ServerDamageReceiver : LGMonoBehaviour {
 
 		if (hit == gameObject) {
 
-			GameObject shooter = (GameObject)nData["shooter"];
-			Player shooterAttributes = shooter.GetComponent<Player>();
-			float damage = shooterAttributes.weaponAttributes.damage;
-
-			Debug.Log ("Player hit me:" + hit + " with damage " + damage);
-			networkView.UnreliableRPC("SyncDamage", uLink.RPCMode.All, damage);
 		}
 	}
 

@@ -238,9 +238,6 @@ public class MoveController : LGMonoBehaviour
 		
 		character.Move(deltaPos);
 
-		float currentFuel = player.shipAttributes.UseFuel(deltaTime);
-		networkView.UnreliableRPC("SyncFuel", uLink.RPCMode.Others, currentFuel);
-
 		serverLastTimestamp = info.timestamp;
 		
 		Vector3 serverPos = transform.position;

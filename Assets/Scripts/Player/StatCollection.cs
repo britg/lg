@@ -20,11 +20,24 @@ public class StatCollection {
 	public WWWForm toFormData () {
 		WWWForm formData = new WWWForm();
 		foreach (DictionaryEntry pair in statsTable) {
-			string k = "player[" + pair.Key.ToString() + "]";
+			string k = "player[properties][" + pair.Key.ToString() + "]";
 			string v = Get(pair.Key.ToString()).ToString();
 			formData.AddField(k, v);
 		}
 
 		return formData;
+	}
+
+	public string[] toRPCSerialization () {
+		string[] arr = new string[statsTable.Count*2];
+		int i = 0;
+		foreach (DictionaryEntry pair in statsTable) {
+			arr[i] = pair.Key.ToString();
+			i++;
+			arr[i] = pair.Value.ToString();
+			i++;
+		}
+
+		return arr;
 	}
 }

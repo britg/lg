@@ -1,6 +1,7 @@
 ﻿// (c)2011 MuchDifferent. All Rights Reserved.
 
 using System;
+using System.Collections;
 using UnityEngine;
 using uLink;
 
@@ -16,11 +17,10 @@ public class ServerManager : uLink.MonoBehaviour
 
 	public PlayerSpawner playerSpawner;
 
-
 	void Start()
 	{
 		Application.targetFrameRate = targetFrameRate;
-		
+
 		if (dontDestroyOnLoad) DontDestroyOnLoad(this);
 		
 		uLink.Network.InitializeServer(maxConnections, port);

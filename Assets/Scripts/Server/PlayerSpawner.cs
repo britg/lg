@@ -11,7 +11,7 @@ public class PlayerSpawner : PersistenceRequest {
 	public void StartPlayer (uLink.NetworkPlayer networkPlayer) {
 		string playerName;
 		networkPlayer.loginData.TryRead(out playerName);
-		WWWForm formData = new WWWForm();
+		WWWForm formData = PlayerDefaults.toFormData();
 		formData.AddField("player[name]", playerName);
 		Post ("/players", formData, networkPlayer, RegisterPlayerSuccess);
 	}
@@ -36,8 +36,8 @@ public class PlayerSpawner : PersistenceRequest {
 									                        serverPrefab, 
 									                        startPosition, rotation, 0, initialData);
 		serverPlayer.transform.eulerAngles = angles;
-		Player player = serverPlayer.GetComponent<Player>();
-		player.SetStats(serverAttr);
+		PlayerProcessor playerProcessor = serverPlayer.GetComponent<PlayerProcessor>();
+		playerProcessor.SetStats(serverAttr);
 	}
 
 }

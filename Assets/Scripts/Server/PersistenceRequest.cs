@@ -102,7 +102,7 @@ public class PersistenceRequest : LGMonoBehaviour {
 			Hashtable response = new Hashtable();
 			if (request.text.Length > 0) {
 				response = Json.Hashtable(request.text);
-				response["raw"] = request.text;
+//				response["raw"] = request.text;
 			} 
 
 			onSuccess(response, receiver);
