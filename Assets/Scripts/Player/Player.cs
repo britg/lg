@@ -88,6 +88,10 @@ public class Player : LGMonoBehaviour {
 		NotificationCenter.PostNotification(this, LG.n_playerLoaded, notificationData);
 	}
 
+	public void SetStats (Hashtable serverStats) {
+		stats.Set (serverStats);
+	}
+
 	public void SyncAttributes (string rawAttributes) {
 		Debug.Log ("Syncing attribtues from server to client");
 //		networkView.RPC ("AssignAttributes", uLink.RPCMode.All, rawAttributes);

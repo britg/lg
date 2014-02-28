@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using Vectrosity;
 
@@ -12,8 +12,8 @@ public class TopdownLook : LGMonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		AssignPlayerAttributes();
-		if (playerAttributes.isOwner) {
+		AssignPlayer();
+		if (player.isOwner) {
 			AssignPlayerPos();
 			CreatePointer();
 			lastMousePos = Vector2.zero;
@@ -22,7 +22,7 @@ public class TopdownLook : LGMonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (playerAttributes.isOwner) {
+		if (player.isOwner) {
 			FollowMouse();
 			FollowThumbstick();
 		}

@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class ExtractorController : LGMonoBehaviour {
@@ -12,7 +12,7 @@ public class ExtractorController : LGMonoBehaviour {
 	float extractRPCRate = 0.1f;
 
 	void Start () {
-		AssignPlayerAttributes();
+		AssignPlayer();
 		topdownLook = GetComponent<TopdownLook>();
 	}
 

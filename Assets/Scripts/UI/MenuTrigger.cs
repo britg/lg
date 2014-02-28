@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class MenuTrigger : LGMonoBehaviour {
@@ -23,8 +23,8 @@ public class MenuTrigger : LGMonoBehaviour {
 
 	public void OnRespawnButtonPress () {
 		menuGUI.SetActive(false);
-		AssignPlayerAttributes();
-		playerAttributes.RequestRespawn();
+		AssignPlayer();
+		player.RequestRespawn();
 	}
 
 	public void OnQuitButtonPress () {

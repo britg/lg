@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class ExtractorProcessor : LGMonoBehaviour {
@@ -7,7 +7,7 @@ public class ExtractorProcessor : LGMonoBehaviour {
 	Vector3 direction = Vector3.zero;
 
 	void Start () {
-		AssignPlayerAttributes();
+		AssignPlayer();
 	}
 
 	[RPC]
@@ -20,7 +20,7 @@ public class ExtractorProcessor : LGMonoBehaviour {
 
 	void StartExtracting () {
 		isExtracting = true;
-		float rate = playerAttributes.shipAttributes.extractorRate;
+		float rate = player.shipAttributes.extractorRate;
 		InvokeRepeating("Extract", rate, rate);
 	}
 
@@ -35,7 +35,7 @@ public class ExtractorProcessor : LGMonoBehaviour {
 	}
 
 	void DetectHit () {
-		float extendLength = playerAttributes.shipAttributes.extractorLength;
+		float extendLength = player.shipAttributes.extractorLength;
 		RaycastHit hit;
 		if (Physics.Raycast(transform.position, direction, out hit, extendLength)) {
 //			Debug.Log ("Extractor hit something " + hit.collider.gameObject);

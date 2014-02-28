@@ -5,7 +5,7 @@ public class LGMonoBehaviour : uLink.MonoBehaviour {
 
 	protected GameObject projectileGrouping;
 	protected GameObject projectile;
-	protected Player playerAttributes;
+	protected Player player;
 	protected FloatingTextController notifier;
 
 
@@ -26,8 +26,8 @@ public class LGMonoBehaviour : uLink.MonoBehaviour {
 		return test;
 	}
 
-	protected void AssignPlayerAttributes () {
-		playerAttributes = thePlayer().GetComponent<Player>();
+	protected void AssignPlayer () {
+		player = thePlayer().GetComponent<Player>();
 	}
 
 	protected float AngleDiff (Vector3 v1, Vector3 v2) {

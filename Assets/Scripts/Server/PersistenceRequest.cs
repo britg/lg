@@ -19,14 +19,23 @@ public class PersistenceRequest : LGMonoBehaviour {
 	}
 
 	public void Post (string endpoint, WWWForm formData) {
-		Post(endpoint, formData, LogResponse, LogResponse);
+		Post(endpoint, formData, null, LogResponse, LogResponse);
 	}
 	
 	public void Post (string endpoint, WWWForm formData, SuccessHandler successHandler) {
-		Post(endpoint, formData, successHandler, LogResponse);
+		Post(endpoint, formData, null, successHandler, LogResponse);
+	}
+
+	public void Post (string endpoint, WWWForm formData, object receiver, SuccessHandler successHandler) {
+		Post(endpoint, formData, receiver, successHandler, LogResponse);
+	}
+
+	public void Post (string endpoint, WWWForm formData,
+	                  SuccessHandler successHandler, ErrorHandler errorHandler) {
+		Post (endpoint, formData, null, successHandler, errorHandler);
 	}
 	
-	public void Post (string endpoint, WWWForm formData,
+	public void Post (string endpoint, WWWForm formData, object receiver,
 	                  SuccessHandler successHandler, ErrorHandler errorHandler) {
 
 		formData.AddField("authenticity_token", PersistenceRequest.authenticityToken);
@@ -34,7 +43,7 @@ public class PersistenceRequest : LGMonoBehaviour {
 		WWW request = new WWW(Endpoint(endpoint), formData);
 		onSuccess = successHandler;
 		onError = errorHandler;
-		StartCoroutine(Request(request));
+		StartCoroutine(Request(request, receiver));
 	}
 
 	public void Put (string endpoint, WWWForm formData) {

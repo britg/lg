@@ -1,4 +1,4 @@
-﻿using UnityEngine; 
+using UnityEngine; 
 using System.Collections;
 
 public class TopdownController : LGMonoBehaviour {
@@ -9,12 +9,12 @@ public class TopdownController : LGMonoBehaviour {
 	private CharacterController controller;
 
 	void Start () {
-		AssignPlayerAttributes();
+		AssignPlayer();
 		controller = GetComponent<CharacterController>();
 	}
 
 	void Update() {
-		if (playerAttributes.isOwner) {
+		if (player.isOwner) {
 			DetectInput();
 			RotatePlayer();
 		}
@@ -22,7 +22,7 @@ public class TopdownController : LGMonoBehaviour {
 
 	void DetectInput () {
 		moveDirection = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0);
-		if (moveDirection.sqrMagnitude > 0f && playerAttributes.shipAttributes.hasEnoughFuel(Time.deltaTime)) {
+		if (moveDirection.sqrMagnitude > 0f && player.shipAttributes.hasEnoughFuel(Time.deltaTime)) {
 			Move(moveDirection);
 			movedThisFrame = true;
 		} else {
@@ -31,10 +31,10 @@ public class TopdownController : LGMonoBehaviour {
 	}
 
 	void Move (Vector3 dir) {
-		float speed = playerAttributes.shipAttributes.speed;
+		float speed = player.shipAttributes.speed;
 		Vector3 moveV = dir * speed * Time.deltaTime;
 		controller.Move(moveV);
-		playerAttributes.shipAttributes.UseFuel(Time.deltaTime);
+		player.shipAttributes.UseFuel(Time.deltaTime);
 	}
 
 	void RotatePlayer () {

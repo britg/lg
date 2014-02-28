@@ -8,12 +8,12 @@ public class WeaponController : LGMonoBehaviour {
 
 	void Start () {
 		InitProjectiles();
-		AssignPlayerAttributes();
+		AssignPlayer();
 	}
 
 	// Update is called once per frame
 	void Update () {
-		if (playerAttributes.isOwner) {
+		if (player.isOwner) {
 //			DetectFireInput();
 		}
 	}
@@ -42,7 +42,7 @@ public class WeaponController : LGMonoBehaviour {
 	}
 
 	void RepeatFiring () {
-		InvokeRepeating("Fire", 0.01f, playerAttributes.weaponAttributes.cooldown);
+		InvokeRepeating("Fire", 0.01f, player.weaponAttributes.cooldown);
 	}
 	
 	void StopFiring () {
@@ -52,7 +52,7 @@ public class WeaponController : LGMonoBehaviour {
 	
 	void Fire () {
 		GetWorldLookPoint();
-		if (playerAttributes.weaponAttributes.hasEnoughAmmo()) {
+		if (player.weaponAttributes.hasEnoughAmmo()) {
 			FireAmmo (worldLookPoint);
 			networkView.UnreliableRPC("FireAmmo", uLink.RPCMode.Server, worldLookPoint);
 		}
@@ -61,14 +61,14 @@ public class WeaponController : LGMonoBehaviour {
 	[RPC]
 	void FireAmmo (Vector3 _direction) {
 		// server check
-		if (!playerAttributes.weaponAttributes.hasEnoughAmmo()) {
+		if (!player.weaponAttributes.hasEnoughAmmo()) {
 			return;
 		}
 
-		playerAttributes.weaponAttributes.UseAmmo();
+		player.weaponAttributes.UseAmmo();
 		SpawnProjectile(_direction);
 		if (uLink.Network.isServer) {
-			networkView.UnreliableRPC("SyncAmmo", uLink.RPCMode.Others, playerAttributes.weaponAttributes.ammo);
+			networkView.UnreliableRPC("SyncAmmo", uLink.RPCMode.Others, player.weaponAttributes.ammo);
 			networkView.UnreliableRPC("SpawnProjectile", uLink.RPCMode.AllExceptOwner, _direction);
 		}
 	}
@@ -80,8 +80,8 @@ public class WeaponController : LGMonoBehaviour {
 
 		// Set the projectile attributes from player attributes
 		Projectile projectileAttributes = _projectile.GetComponent<Projectile>();
-		projectileAttributes.velocity = playerAttributes.weaponAttributes.velocity;
-		projectileAttributes.life = playerAttributes.weaponAttributes.life;
+		projectileAttributes.velocity = player.weaponAttributes.velocity;
+		projectileAttributes.life = player.weaponAttributes.life;
 		projectileAttributes.firedBy = transform;
 
 		// Set the correct angle on the projectile

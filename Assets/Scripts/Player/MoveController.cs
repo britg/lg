@@ -1,4 +1,4 @@
-﻿// (c)2011 MuchDifferent. All Rights Reserved.
+// (c)2011 MuchDifferent. All Rights Reserved.
 
 using System;
 using System.Collections.Generic;
@@ -78,7 +78,7 @@ public class MoveController : LGMonoBehaviour
 	}
 	
 	void Start () {
-		AssignPlayerAttributes();
+		AssignPlayer();
 		topdownController = GetComponent<TopdownController>();
 	}
 	
@@ -238,7 +238,7 @@ public class MoveController : LGMonoBehaviour
 		
 		character.Move(deltaPos);
 
-		float currentFuel = playerAttributes.shipAttributes.UseFuel(deltaTime);
+		float currentFuel = player.shipAttributes.UseFuel(deltaTime);
 		networkView.UnreliableRPC("SyncFuel", uLink.RPCMode.Others, currentFuel);
 
 		serverLastTimestamp = info.timestamp;

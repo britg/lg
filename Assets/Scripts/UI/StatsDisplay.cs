@@ -10,8 +10,6 @@ public class StatsDisplay : LGMonoBehaviour {
 	public UILabel fuel;
 	public UILabel elements;
 
-	private GameObject player;
-
 	void Awake () {
 		NotificationCenter.AddObserver(this, LG.n_playerLoaded);
 	}
@@ -25,10 +23,8 @@ public class StatsDisplay : LGMonoBehaviour {
 	void Update () {
 	}
 
-	void OnPlayerLoaded (Notification note) {
-		Hashtable data = note.data;
-		player = (GameObject)data[LG.n_playerKey];
-		playerAttributes = player.GetComponent<Player>();
+	void OnPlayerLoaded () {
+		AssignPlayer();
 		InvokeRepeating("UpdateDisplay", 0.1f, 0.1f);
 	}
 
@@ -50,19 +46,19 @@ public class StatsDisplay : LGMonoBehaviour {
 	}
 
 	void UpdateAmmo () {
-		ammo.text = "Ammo: " + playerAttributes.weaponAttributes.ammo;
+		ammo.text = "Ammo: " + player.weaponAttributes.ammo;
 	}
 
 	void UpdateShields () {
-		shields.text = "Shields: " + playerAttributes.shipAttributes.shields;
+		shields.text = "Shields: " + player.shipAttributes.shields;
 	}
 
 	void UpdateHull () {
-		hull.text = "Hull: " + playerAttributes.shipAttributes.hull;
+		hull.text = "Hull: " + player.shipAttributes.hull;
 	}
 
 	void UpdateFuel () {
-		fuel.text = "Fuel: " + playerAttributes.shipAttributes.fuel.ToString("F2");
+		fuel.text = "Fuel: " + player.shipAttributes.fuel.ToString("F2");
 	}
 
 	void UpdateElements () {
