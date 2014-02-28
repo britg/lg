@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class ServerDamageReceiver : LGMonoBehaviour {
@@ -25,7 +25,7 @@ public class ServerDamageReceiver : LGMonoBehaviour {
 		if (hit == gameObject) {
 
 			GameObject shooter = (GameObject)nData["shooter"];
-			PlayerAttributes shooterAttributes = shooter.GetComponent<PlayerAttributes>();
+			Player shooterAttributes = shooter.GetComponent<Player>();
 			float damage = shooterAttributes.weaponAttributes.damage;
 
 			Debug.Log ("Player hit me:" + hit + " with damage " + damage);

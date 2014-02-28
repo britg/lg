@@ -3,11 +3,12 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 
-public class PlayerAttributes : LGMonoBehaviour {
+public class Player : LGMonoBehaviour {
 
 	public bool isOwner = false;
 	public string playerName = "Player";
 	public int playerId;
+	public StatCollection stats;
 
 	[Serializable]
 	public class ShipAttributes {

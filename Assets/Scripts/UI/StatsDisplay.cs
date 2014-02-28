@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class StatsDisplay : LGMonoBehaviour {
@@ -28,7 +28,7 @@ public class StatsDisplay : LGMonoBehaviour {
 	void OnPlayerLoaded (Notification note) {
 		Hashtable data = note.data;
 		player = (GameObject)data[LG.n_playerKey];
-		playerAttributes = player.GetComponent<PlayerAttributes>();
+		playerAttributes = player.GetComponent<Player>();
 		InvokeRepeating("UpdateDisplay", 0.1f, 0.1f);
 	}
 

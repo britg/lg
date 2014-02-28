@@ -46,7 +46,7 @@ public class PlayerSpawner : PersistenceRequest {
 									                        startPosition, rotation, 0, initialData);
 		serverPlayer.transform.eulerAngles = angles;
 		Debug.Log ("Server player is " + serverPlayer);
-		PlayerAttributes playerAttributes = serverPlayer.GetComponent<PlayerAttributes>();
+		Player playerAttributes = serverPlayer.GetComponent<Player>();
 		playerAttributes.SyncAttributes((string)serverAttr["raw"]);
 	}
 

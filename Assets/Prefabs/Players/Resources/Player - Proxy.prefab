@@ -571,6 +571,8 @@ MonoBehaviour:
   isOwner: 0
   playerName: Player
   playerId: 0
+  stats:
+    stats: []
   shipAttributes:
     name: Starter Ship
     shields: 0
@@ -578,6 +580,10 @@ MonoBehaviour:
     fuel: 100
     fuelBurn: 2
     speed: 75
+    extractorRate: 1
+    extractorLength: 100
+    extractorAngle: 15
+    extractorRadius: 22.5
   weaponAttributes:
     ammo: 100
     ammoBurn: 1

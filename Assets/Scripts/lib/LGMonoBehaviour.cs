@@ -1,11 +1,11 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class LGMonoBehaviour : uLink.MonoBehaviour {
 
 	protected GameObject projectileGrouping;
 	protected GameObject projectile;
-	protected PlayerAttributes playerAttributes;
+	protected Player playerAttributes;
 	protected FloatingTextController notifier;
 
 
@@ -27,7 +27,7 @@ public class LGMonoBehaviour : uLink.MonoBehaviour {
 	}
 
 	protected void AssignPlayerAttributes () {
-		playerAttributes = thePlayer().GetComponent<PlayerAttributes>();
+		playerAttributes = thePlayer().GetComponent<Player>();
 	}
 
 	protected float AngleDiff (Vector3 v1, Vector3 v2) {
