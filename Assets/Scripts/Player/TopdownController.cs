@@ -11,6 +11,12 @@ public class TopdownController : LGMonoBehaviour {
 	void Start () {
 		AssignPlayer();
 		controller = GetComponent<CharacterController>();
+		StartCameraFollow();
+	}
+
+	void StartCameraFollow () {
+		TopFollow topFollow = Camera.main.GetComponent<TopFollow>();
+		topFollow.player = gameObject;
 	}
 
 	void Update() {

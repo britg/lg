@@ -13,6 +13,7 @@ public static class LG  {
 	public const string n_playerSpawned = "OnPlayerSpawn";
 	public const string n_playerKey = "player";
 	public const string n_playerLoaded = "OnPlayerLoaded";
+	public const string n_playerStatsLoaded = "OnPlayerStatsLoaded";
 	public const string n_playerHit = "OnPlayerHit";
 
 	/* End Player Messages */

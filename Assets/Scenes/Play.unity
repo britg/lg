@@ -375,7 +375,7 @@ Transform:
   m_GameObject: {fileID: 56369044}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1000, y: 1000, z: 1000}
-  m_LocalScale: {x: .00416666688, y: .00416666688, z: .00416666688}
+  m_LocalScale: {x: .00288600288, y: .00288600288, z: .00288600288}
   m_Children:
   - {fileID: 634103623}
   - {fileID: 50592340}
@@ -1642,15 +1642,15 @@ Prefab:
       objectReference: {fileID: 1881685117}
     - target: {fileID: 400000, guid: 4f7d1bcc74db2484d81190ab1caed182, type: 2}
       propertyPath: m_LocalScale.x
-      value: .00416666688
+      value: .00288600288
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 4f7d1bcc74db2484d81190ab1caed182, type: 2}
       propertyPath: m_LocalScale.y
-      value: .00416666688
+      value: .00288600288
       objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 4f7d1bcc74db2484d81190ab1caed182, type: 2}
       propertyPath: m_LocalScale.z
-      value: .00416666688
+      value: .00288600288
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_ParentPrefab: {fileID: 100100000, guid: 4f7d1bcc74db2484d81190ab1caed182, type: 2}
@@ -5349,6 +5349,8 @@ MonoBehaviour:
   showCursorWhenActive: 1
   onlyAcceptAliases: 0
   aliasList: []
+  showing: 0
+  displayAmount: 0
 --- !u!4 &1057143363
 Transform:
   m_ObjectHideFlags: 0

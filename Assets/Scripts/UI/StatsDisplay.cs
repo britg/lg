@@ -11,7 +11,7 @@ public class StatsDisplay : LGMonoBehaviour {
 	public UILabel elements;
 
 	void Awake () {
-		NotificationCenter.AddObserver(this, LG.n_playerLoaded);
+		NotificationCenter.AddObserver(this, LG.n_playerStatsLoaded);
 	}
 
 	// Use this for initialization
@@ -23,7 +23,7 @@ public class StatsDisplay : LGMonoBehaviour {
 	void Update () {
 	}
 
-	void OnPlayerLoaded () {
+	void OnPlayerStatsLoaded () {
 		AssignPlayer();
 		InvokeRepeating("UpdateDisplay", 0.1f, 0.1f);
 	}
@@ -33,7 +33,7 @@ public class StatsDisplay : LGMonoBehaviour {
 	}
 
 	void UpdateDisplay () {
-//		UpdatePos ();
+		UpdatePos ();
 //		UpdateAmmo ();
 //		UpdateShields();
 //		UpdateHull ();
@@ -41,9 +41,9 @@ public class StatsDisplay : LGMonoBehaviour {
 //		UpdateElements();
 	}
 //
-//	void UpdatePos () {
-//		pos.text = "Pos: " + player.transform.position.ToString();
-//	}
+	void UpdatePos () {
+		pos.text = "Pos: " + player.transform.position.ToString();
+	}
 //
 //	void UpdateAmmo () {
 //		ammo.text = "Ammo: " + player.weaponAttributes.ammo;

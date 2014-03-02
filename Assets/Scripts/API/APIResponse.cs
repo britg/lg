@@ -6,15 +6,26 @@ public class APIResponse {
 	public string raw;
 	public object receiver;
 
-	Hashtable hashtableCache;
+	Hashtable hashtable;
 
 	public APIResponse (string _raw) {
 		raw = _raw;
 	}
 
+	public string Get (string key) {
+		toHashtable();
+		return (string) hashtable[key];
+	}
+
+	public APIObject GetObject () {
+		return new APIObject(raw);
+	}
+
 	public Hashtable toHashtable () {
-		hashtableCache = MiniJSON.Json.Hashtable(raw);
-		return hashtableCache;
+		if (hashtable == null) {
+			hashtable = MiniJSON.Json.Hashtable(raw);
+		}
+		return hashtable;
 	}
 
 	public override string ToString () {
@@ -23,10 +34,8 @@ public class APIResponse {
 
 	public object this[string key] {
 		get {
-			if (hashtableCache == null) {
-				toHashtable();
-			}
-			return hashtableCache[key];
+			toHashtable();
+			return hashtable[key];
 		}
 	}
 

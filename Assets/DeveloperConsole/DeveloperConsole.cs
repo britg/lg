@@ -93,7 +93,7 @@ public class DeveloperConsole : MonoBehaviour
     /// <summary>
     /// Whether or not the console is showing or in the process of showing (ie. sliding in)
     /// </summary>
-    private             bool                                    showing = false;
+    public             bool                                    showing = false;
 
     /// <summary>
     /// THe current scroll position of the console log
@@ -131,7 +131,7 @@ public class DeveloperConsole : MonoBehaviour
     /// <summary>
     /// Progress of the console window's slide in animation
     /// </summary>
-    private             float                                   displayAmount = 0f;
+    public             float                                   displayAmount = 0f;
 
     /// <summary>
     /// The strings displaying in the autocomplete list

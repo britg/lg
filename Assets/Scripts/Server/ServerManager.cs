@@ -24,6 +24,14 @@ public class ServerManager : uLink.MonoBehaviour
 		if (dontDestroyOnLoad) DontDestroyOnLoad(this);
 		
 		uLink.Network.InitializeServer(maxConnections, port);
+
+		Invoke ("OpenConsole", 1f);
+	}
+
+	void OpenConsole () {
+		DeveloperConsole c = GameObject.Find ("Console").GetComponent<DeveloperConsole>();
+		c.showing = true;
+//		c.displayAmount = 1f;
 	}
 	
 	void uLink_OnServerInitialized()

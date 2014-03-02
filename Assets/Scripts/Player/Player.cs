@@ -2,6 +2,7 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
+using uLink;
 
 public class Player : LGMonoBehaviour {
 
@@ -10,6 +11,7 @@ public class Player : LGMonoBehaviour {
 	public int playerId;
 
 	public StatCollection stats;
+	public ResourceCollection resources;
 
 	void Start () {
 		if (isOwner) {
@@ -21,6 +23,7 @@ public class Player : LGMonoBehaviour {
 		info.networkView.initialData.TryRead<string>(out playerName);
 		info.networkView.initialData.TryRead<int>(out playerId);
 		SetLabel();
+		networkView.RPC ("SyncToClient", uLink.RPCMode.Server);
 	}
 
 	void SetLabel () {
@@ -34,20 +37,13 @@ public class Player : LGMonoBehaviour {
 		NotificationCenter.PostNotification(this, LG.n_playerLoaded, notificationData);
 	}
 
-	[RPC]
-	public void SendStats () {
-		Debug.Log ("stats serialization is " + stats.toRPCSerialization());
-//		networkView.RPC("ReceiveStats", uLink.RPCMode.Owner, stats.toRPCSerialization());
-	}
-
 	[RPC] 
-	void ReceiveStats (string[] statsArr) {
-		Debug.Log ("Syncing stats serverStats " + statsArr);
-	}
-
-	[RPC]
-	void AddResources (Resource[] resources) {
-//		notifier.Notify (gameObject, toAdd.ToFloatingText());
+	void SyncFromServer (string rawAPIObject) {
+		Debug.Log ("Syncing raw API Object " + rawAPIObject);
+		APIObject apiPlayer = new APIObject(rawAPIObject);
+		stats = apiPlayer.stats;
+		resources = apiPlayer.resources;
+		NotificationCenter.PostNotification(this, LG.n_playerStatsLoaded);
 	}
 
 	public void RequestRespawn () {

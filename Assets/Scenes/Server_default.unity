@@ -249,6 +249,8 @@ MonoBehaviour:
   showCursorWhenActive: 1
   onlyAcceptAliases: 0
   aliasList: []
+  showing: 0
+  displayAmount: 0
 --- !u!4 &690529597
 Transform:
   m_ObjectHideFlags: 0

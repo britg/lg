@@ -18,26 +18,21 @@ public class PlayerSpawner : APIBehaviour {
 
 	void RegisterPlayerSuccess (APIResponse response) {
 		object[] initialData = new object[2];
+		APIObject apiPlayer = response.GetObject();
 
-		initialData[0] = response["name"];
-		initialData[1] = System.Convert.ToInt32(response["id"]);
+		Debug.Log ("API response is " + response);
+		Debug.Log ("API player is " + apiPlayer.id);
 
-		Vector3 startPosition = Vector3.zero;
-		Quaternion rotation = new Quaternion();
-		Vector3 angles = rotation.eulerAngles;
-		float.TryParse(response["x"].ToString(), out startPosition.x);
-		float.TryParse(response["y"].ToString(), out startPosition.y);
-		float.TryParse(response["z"].ToString(), out angles.z);
-		rotation.eulerAngles = angles;
+		initialData[0] = apiPlayer.name;
+		initialData[1] = apiPlayer.id;
 
 		GameObject serverPlayer = uLink.Network.Instantiate((uLink.NetworkPlayer)response.receiver, 
 									                        proxyPrefab, 
 									                        ownerPrefab, 
 									                        serverPrefab, 
-									                        startPosition, rotation, 0, initialData);
-		serverPlayer.transform.eulerAngles = angles;
+									                        apiPlayer.position, apiPlayer.quaternion, 0, initialData);
 		PlayerProcessor playerProcessor = serverPlayer.GetComponent<PlayerProcessor>();
-		playerProcessor.SetStats(response.toHashtable());
+		playerProcessor.ParseAPIObject(apiPlayer);
 	}
 
 }

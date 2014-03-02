@@ -11,6 +11,11 @@ public class Stat {
 		value = _value;
 	}
 
+	public Stat (string _name, string _vStr) {
+		name = _name;
+		float.TryParse(_vStr, out value);
+	}
+
 	public Stat (DictionaryEntry keyPair) {
 		name = (string)keyPair.Key;
 		float.TryParse(keyPair.Value.ToString(), out value);
