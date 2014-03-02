@@ -2,14 +2,14 @@
 using System.Collections;
 using MiniJSON;
 
-public class PersistenceRequest : LGMonoBehaviour {
+public class APIBehaviour : LGMonoBehaviour {
 
 	public static string authenticityToken = "";
 
 	public string urlBase;
 
-	public delegate void SuccessHandler(Hashtable response, object receiver);
-	public delegate void ErrorHandler(string response, object receiver);
+	public delegate void SuccessHandler(APIResponse response);
+	public delegate void ErrorHandler(APIResponse response);
 	
 	protected SuccessHandler onSuccess;
 	protected ErrorHandler onError;
@@ -38,7 +38,7 @@ public class PersistenceRequest : LGMonoBehaviour {
 	public void Post (string endpoint, WWWForm formData, object receiver,
 	                  SuccessHandler successHandler, ErrorHandler errorHandler) {
 
-		formData.AddField("authenticity_token", PersistenceRequest.authenticityToken);
+		formData.AddField("authenticity_token", APIBehaviour.authenticityToken);
 		formData.headers["Content-Type"] = "application/json";
 		WWW request = new WWW(Endpoint(endpoint), formData);
 		onSuccess = successHandler;
@@ -56,7 +56,7 @@ public class PersistenceRequest : LGMonoBehaviour {
 	
 	public void Put (string endpoint, WWWForm formData,
 	                  SuccessHandler successHandler, ErrorHandler errorHandler) {
-		formData.AddField("authenticity_token", PersistenceRequest.authenticityToken);
+		formData.AddField("authenticity_token", APIBehaviour.authenticityToken);
 		formData.AddField("_method", "PUT");
 		formData.headers["Content-Type"] = "application/json";
 		WWW request = new WWW(Endpoint(endpoint), formData);
@@ -97,24 +97,22 @@ public class PersistenceRequest : LGMonoBehaviour {
 	protected IEnumerator Request (WWW request, object receiver) {
 		yield return request;
 		if (request.error != null) {
-			onError(request.error, receiver);
+			APIResponse response = new APIResponse(request.error);
+			response.receiver = receiver;
+			onError(response);
 		} else {
-			Hashtable response = new Hashtable();
-			if (request.text.Length > 0) {
-				response = Json.Hashtable(request.text);
-//				response["raw"] = request.text;
-			} 
-
-			onSuccess(response, receiver);
-			request.Dispose();
+			APIResponse response = new APIResponse(request.text);
+			response.receiver = receiver;
+			onSuccess(response);
 		}
+		request.Dispose();
 	}
 
-	protected void LogResponse (Hashtable response, object receiver) {
+	protected void LogResponse (APIResponse response) {
 		Debug.Log("DB: Request response unhandled: " + response);
 	}
 
-	protected void LogResponse (string response, object receiver) {
+	protected void LogResponse (string response) {
 		Debug.Log("DB: Request response unhandled: " + response);
 	}
 

@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.IO;
 using System.Diagnostics;
 using System.Collections;
@@ -27,9 +27,9 @@ public static class GalaxyBuilder {
 		go = GameObject.Find ("GalaxyBuilder");
 		if (go == null) {
 			go = new GameObject("GalaxyBuilder");
-			go.AddComponent<PersistenceRequest>();
+			go.AddComponent<APIBehaviour>();
 		}
-		PersistenceRequest api = go.GetComponent<PersistenceRequest>();
+		APIBehaviour api = go.GetComponent<APIBehaviour>();
 		WWWForm postData = new WWWForm();
 
 		int i = 0;
@@ -55,12 +55,12 @@ public static class GalaxyBuilder {
 		return goName.Split(new string[]{" - "}, StringSplitOptions.RemoveEmptyEntries)[0];
 	}
 
-	static void OnPersistSuccess (Hashtable response, object receiver) {
+	static void OnPersistSuccess (APIResponse response) {
 		UnityEngine.Debug.Log("Success");
 		Reset();
 	}
 
-	static void OnPersistError (string response, object receiver) {
+	static void OnPersistError (APIResponse response) {
 		UnityEngine.Debug.Log("Error: " + response);
 		Reset();
 	}

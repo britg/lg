@@ -1,8 +1,8 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using uLink;
 
-public class InitializeAPI : PersistenceRequest {
+public class InitializeAPI : APIBehaviour {
 
 	public GameObject galaxyServer;
 	public GameObject galaxyProxy;
@@ -17,9 +17,9 @@ public class InitializeAPI : PersistenceRequest {
 		Get("/servers", "v=" + LG.version, GetAuthTokenSuccess);
 	}
 
-	void GetAuthTokenSuccess (IDictionary response, object receiver) {
-		PersistenceRequest.authenticityToken = (string) response["authenticity_token"];
-		Debug.Log(System.DateTime.Now.ToString("MM/dd/yyyy h:mm:ss ") + " Heartbeat " + PersistenceRequest.authenticityToken);
+	void GetAuthTokenSuccess (APIResponse response) {
+		APIBehaviour.authenticityToken = (string) response["authenticity_token"];
+		Debug.Log(System.DateTime.Now.ToString("MM/dd/yyyy h:mm:ss ") + " Heartbeat " + APIBehaviour.authenticityToken);
 	}
 
 	void BuildGalaxy () {

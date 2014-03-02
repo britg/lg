@@ -1,8 +1,8 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 using uLink;
 
-public class MobSpawner : PersistenceRequest {
+public class MobSpawner : APIBehaviour {
 
 	Transform mobBucket;
 
@@ -50,12 +50,12 @@ public class MobSpawner : PersistenceRequest {
 		Post("/spawns", postData, SpawnRequestSuccess, SpawnRequestError);
 	}
 
-	void SpawnRequestSuccess (Hashtable response, object receiver) {
+	void SpawnRequestSuccess (APIResponse response) {
 		Debug.Log ("Spawn request success");
 
 	}
 
-	void SpawnRequestError (string response, object receiver) {
+	void SpawnRequestError (APIResponse response) {
 		Debug.Log ("Spawn request error");
 	}
 

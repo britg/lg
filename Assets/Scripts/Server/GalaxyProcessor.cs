@@ -3,7 +3,7 @@ using System.Collections;
 using System.Collections.Generic;
 using uLink;
 
-public class GalaxyProcessor : PersistenceRequest {
+public class GalaxyProcessor : APIBehaviour {
 
 	void Start () {
 		WorldObject.galaxy = gameObject;
@@ -20,7 +20,7 @@ public class GalaxyProcessor : PersistenceRequest {
 		Get("/spawns", GetSpawnsSuccess);
 	}
 
-	void GetSpawnsSuccess (Hashtable response, object receiver) {
+	void GetSpawnsSuccess (APIResponse response) {
 		List<object> objects = (List<object>)response["objects"];
 		WorldObject.PlaceObjects(objects);
 		NotificationCenter.PostNotification(this, LG.n_worldObjectsSpawned);
@@ -33,9 +33,9 @@ public class GalaxyProcessor : PersistenceRequest {
 		Get ("/spawns", query, info.sender, GetNearbyObjectsSuccess);
 	}
 
-	void GetNearbyObjectsSuccess(Hashtable response, object receiver) {
-		uLink.NetworkPlayer sender = (uLink.NetworkPlayer)receiver;
-		networkView.RPC("LoadNearbyObjects", sender, response["raw"]);
+	void GetNearbyObjectsSuccess(APIResponse response) {
+		uLink.NetworkPlayer sender = (uLink.NetworkPlayer)response.receiver;
+		networkView.RPC("LoadNearbyObjects", sender, response.raw);
 	}
 
 }
