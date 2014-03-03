@@ -71,5 +71,10 @@ public class ResourceCollection {
 		}
 		return s;
 	}
+
+	public IDictionaryEnumerator GetEnumerator () {
+		return resourcesTable.GetEnumerator();
+	}
+
 	
 }

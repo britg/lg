@@ -12,7 +12,6 @@ public class TopdownLook : LGMonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		AssignPlayer();
 		if (player.isOwner) {
 			AssignPlayerPos();
 			CreatePointer();

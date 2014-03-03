@@ -555,8 +555,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interpolationBackTime: .20000000000000001
   extrapolationLimit: .5
-  sqrMaxServerError: 625
-  sqrMaxServerSpeed: 100000
 --- !u!114 &11400006
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -571,6 +569,7 @@ MonoBehaviour:
   isOwner: 0
   playerName: Player
   playerId: 0
+  fuelController: {fileID: 0}
 --- !u!114 &11400008
 MonoBehaviour:
   m_ObjectHideFlags: 1

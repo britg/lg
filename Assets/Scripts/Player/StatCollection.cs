@@ -72,4 +72,8 @@ public class StatCollection {
 		return s;
 	}
 
+	public IDictionaryEnumerator GetEnumerator () {
+		return statsTable.GetEnumerator();
+	}
+
 }

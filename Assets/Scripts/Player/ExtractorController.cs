@@ -12,7 +12,6 @@ public class ExtractorController : LGMonoBehaviour {
 	float extractRPCRate = 0.1f;
 
 	void Start () {
-		AssignPlayer();
 		topdownLook = GetComponent<TopdownLook>();
 	}
 

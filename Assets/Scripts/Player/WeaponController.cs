@@ -8,7 +8,6 @@ public class WeaponController : LGMonoBehaviour {
 //
 //	void Start () {
 //		InitProjectiles();
-//		AssignPlayer();
 //	}
 //
 //	// Update is called once per frame

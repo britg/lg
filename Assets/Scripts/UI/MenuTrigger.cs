@@ -23,7 +23,6 @@ public class MenuTrigger : LGMonoBehaviour {
 
 	public void OnRespawnButtonPress () {
 		menuGUI.SetActive(false);
-		AssignPlayer();
 		player.RequestRespawn();
 	}
 

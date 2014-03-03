@@ -66,10 +66,11 @@ GameObject:
   - 114: {fileID: 11400008}
   - 143: {fileID: 14300000}
   - 114: {fileID: 11400000}
+  - 114: {fileID: 11400002}
   - 114: {fileID: 11400004}
+  - 114: {fileID: 11400006}
   - 114: {fileID: 11400014}
   - 114: {fileID: 11400010}
-  - 114: {fileID: 11400002}
   - 114: {fileID: 11400020}
   m_Layer: 0
   m_Name: Player - Owner
@@ -578,8 +579,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   interpolationBackTime: .20000000000000001
   extrapolationLimit: .5
-  sqrMaxServerError: 625
-  sqrMaxServerSpeed: 100000
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -594,6 +593,7 @@ MonoBehaviour:
   isOwner: 1
   playerName: Player
   playerId: 0
+  fuelController: {fileID: 0}
 --- !u!114 &11400004
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -606,6 +606,17 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   worldLookPoint: {x: 0, y: 0, z: 0}
+--- !u!114 &11400006
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de535a8a5f02246118ab92c91633e6d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11400008
 MonoBehaviour:
   m_ObjectHideFlags: 1

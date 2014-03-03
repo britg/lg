@@ -24,7 +24,6 @@ public class StatsDisplay : LGMonoBehaviour {
 	}
 
 	void OnPlayerStatsLoaded () {
-		AssignPlayer();
 		InvokeRepeating("UpdateDisplay", 0.1f, 0.1f);
 	}
 

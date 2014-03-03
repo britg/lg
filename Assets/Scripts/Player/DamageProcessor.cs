@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class ServerDamageReceiver : LGMonoBehaviour {
+public class DamageProcessor : LGMonoBehaviour {
 
 	void Awake () {
 		NotificationCenter.AddObserver(this, LG.n_playerHit);

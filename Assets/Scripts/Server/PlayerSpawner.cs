@@ -20,8 +20,8 @@ public class PlayerSpawner : APIBehaviour {
 		object[] initialData = new object[2];
 		APIObject apiPlayer = response.GetObject();
 
-		Debug.Log ("API response is " + response);
-		Debug.Log ("API player is " + apiPlayer.id);
+//		Debug.Log ("API response is " + response);
+//		Debug.Log ("API player is " + apiPlayer.id);
 
 		initialData[0] = apiPlayer.name;
 		initialData[1] = apiPlayer.id;

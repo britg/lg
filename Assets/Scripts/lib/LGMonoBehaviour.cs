@@ -5,9 +5,27 @@ public class LGMonoBehaviour : uLink.MonoBehaviour {
 
 	protected GameObject projectileGrouping;
 	protected GameObject projectile;
-	protected Player player;
 	protected FloatingTextController notifier;
 
+	Player _player;
+	protected Player player {
+		get {
+			if (_player == null) {
+				_player = thePlayer().GetComponent<Player>();
+			} 
+			return _player;
+		}
+	}
+
+	PlayerProcessor _playerProcessor;
+	protected PlayerProcessor playerProcessor {
+		get {
+			if (_playerProcessor == null) {
+				_playerProcessor = thePlayer ().GetComponent<PlayerProcessor>();
+			}
+			return _playerProcessor;
+		}
+	}
 
 	protected void InitProjectiles () {
 		projectileGrouping = GameObject.Find("Projectiles");
@@ -19,15 +37,13 @@ public class LGMonoBehaviour : uLink.MonoBehaviour {
 	}
 
 	protected GameObject thePlayer () {
-		GameObject test = GameObject.Find ("Player - Owner(Clone)");
-		if (test == null) {
+		string clientPlayerName = "Player - Owner(Clone)";
+		string clientServerName = "Player - Server(Clone)";
+		if (gameObject.name == clientPlayerName || gameObject.name == clientServerName) {
 			return gameObject;
+		} else {
+			return GameObject.Find (clientPlayerName);
 		}
-		return test;
-	}
-
-	protected void AssignPlayer () {
-		player = thePlayer().GetComponent<Player>();
 	}
 
 	protected float AngleDiff (Vector3 v1, Vector3 v2) {

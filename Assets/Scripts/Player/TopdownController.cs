@@ -9,7 +9,6 @@ public class TopdownController : LGMonoBehaviour {
 	private CharacterController controller;
 
 	void Start () {
-		AssignPlayer();
 		controller = GetComponent<CharacterController>();
 		StartCameraFollow();
 	}
@@ -28,7 +27,7 @@ public class TopdownController : LGMonoBehaviour {
 
 	void DetectInput () {
 		moveDirection = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0);
-		if (moveDirection.sqrMagnitude > 0f && player.hasEnoughFuel(Time.deltaTime)) {
+		if (moveDirection.sqrMagnitude > 0f && player.fuelController.hasEnoughFuel(Time.deltaTime)) {
 			Move(moveDirection);
 			movedThisFrame = true;
 		} else {
@@ -38,10 +37,8 @@ public class TopdownController : LGMonoBehaviour {
 
 	void Move (Vector3 dir) {
 		float speed = player.stat(LG.s_speed);
-		Debug.Log ("Speed is " + speed);
 		Vector3 moveV = dir * speed * Time.deltaTime;
 		controller.Move(moveV);
-//		player.UseFuel(Time.deltaTime);
 	}
 
 	void RotatePlayer () {

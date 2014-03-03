@@ -13,10 +13,14 @@ public class Player : LGMonoBehaviour {
 	public StatCollection stats;
 	public ResourceCollection resources;
 
+	public FuelController fuelController;
+
 	void Start () {
 		if (isOwner) {
 			AssignNotifier();
 		}
+
+		fuelController = GetComponent<FuelController>();
 	}
 
 	void uLink_OnNetworkInstantiate (uLink.NetworkMessageInfo info) {
@@ -48,10 +52,6 @@ public class Player : LGMonoBehaviour {
 
 	public void RequestRespawn () {
 		networkView.RPC ("Respawn", uLink.RPCMode.Server);
-	}
-
-	public bool hasEnoughFuel (float time) {
-		return true;
 	}
 
 	public float stat (string name) {

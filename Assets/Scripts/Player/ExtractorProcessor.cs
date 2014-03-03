@@ -7,7 +7,6 @@ public class ExtractorProcessor : LGMonoBehaviour {
 	Vector3 direction = Vector3.zero;
 
 	void Start () {
-		AssignPlayer();
 	}
 
 	[RPC]
