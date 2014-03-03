@@ -1,19 +1,27 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class APIResponse {
 
 	public string raw;
 	public object receiver;
 
-	Hashtable hashtable;
+	Hashtable _hashtable;
+	Hashtable hashtable {
+		get {
+			if (_hashtable == null) {
+				_hashtable = MiniJSON.Json.Hashtable(raw);
+			}
+			return _hashtable;
+		}
+	}
 
 	public APIResponse (string _raw) {
 		raw = _raw;
 	}
 
 	public string Get (string key) {
-		toHashtable();
 		return (string) hashtable[key];
 	}
 
@@ -21,11 +29,14 @@ public class APIResponse {
 		return new APIObject(raw);
 	}
 
-	public Hashtable toHashtable () {
-		if (hashtable == null) {
-			hashtable = MiniJSON.Json.Hashtable(raw);
+	public List<APIObject> GetObjects () {
+		List<object> objects = (List<object>)hashtable["objects"];
+		List<APIObject> apiObjects = new List<APIObject>();
+		foreach (object o in objects) {
+			apiObjects.Add(new APIObject((IDictionary)o));
 		}
-		return hashtable;
+
+		return apiObjects;
 	}
 
 	public override string ToString () {
@@ -34,7 +45,6 @@ public class APIResponse {
 
 	public object this[string key] {
 		get {
-			toHashtable();
 			return hashtable[key];
 		}
 	}

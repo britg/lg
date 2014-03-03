@@ -1,115 +1,64 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 public class WorldObject : LGMonoBehaviour {
-
-	public int worldObjectId;
-	public Hashtable attributes;
-	public IDictionary properties;
 
 	static Hashtable prefabCache = new Hashtable();
 	public static GameObject galaxy;
 
-	public static void PlaceObjects (IList objects) {
-		foreach (var obj in objects) {
-			
-			Hashtable attributes = new Hashtable((IDictionary)obj);
-			bool networked = (bool)attributes["networked"];
-			
-			if (networked) {
+	public int worldObjectId;
+	public string worldObjectName;
+	public StatCollection stats = new StatCollection();
+	public ResourceCollection resources = new ResourceCollection();
+
+	public static void PlaceObjects (List<APIObject> objects) {
+		foreach (APIObject o in objects) {
+			if (o.networked) {
 				if (uLink.Network.isServer) {
-					PlaceNetworkedObject(attributes);
+					PlaceNetworkedObject(o);
 				}
 			} else {
-				PlaceStaticObject(attributes);
+				PlaceStaticObject(o);
 			}
-		}	
+		}
 	}
 
-	static void PlaceStaticObject (Hashtable attributes) {
-		string name 			= (string)attributes["name"];
-		Vector3 pos 		  	= WorldObject.ExtractPosition(attributes);
-		
-		GameObject cached = (GameObject)prefabCache[name];
-		if (cached == null) {
-			prefabCache[name] = (GameObject)Resources.Load (name);
-			cached = (GameObject)prefabCache[name];
-		}
-		
-		GameObject serverObj = (GameObject)Instantiate(cached, pos, Quaternion.identity);
-		serverObj.transform.parent = galaxy.transform;
-		serverObj.SendMessage("AssignAttributes", attributes, SendMessageOptions.DontRequireReceiver);
-	}
-	
-	static void PlaceNetworkedObject (Hashtable attributes) {
-		string name 			= (string)attributes["name"];
-		string serverName 		= name + " - Server";
-		string proxyName 		= name + " - Proxy";
-		Vector3 pos 		  	= WorldObject.ExtractPosition(attributes);
-		
-		GameObject serverPrefab = (GameObject)prefabCache[serverName];
-		GameObject proxyPrefab = (GameObject)prefabCache[proxyName];
+	public static void PlaceNetworkedObject (APIObject o) {
+		GameObject serverPrefab = (GameObject)prefabCache[o.serverName];
+		GameObject proxyPrefab = (GameObject)prefabCache[o.proxyName];
 		if (serverPrefab == null) {
-			prefabCache[serverName] = (GameObject)Resources.Load (serverName);
-			serverPrefab = (GameObject)prefabCache[serverName];
+			prefabCache[o.serverName] = (GameObject)Resources.Load (o.serverName);
+			serverPrefab = (GameObject)prefabCache[o.serverName];
 		}
 		if (proxyPrefab == null) {
-			prefabCache[proxyName] = (GameObject)Resources.Load (proxyName);
-			proxyPrefab = (GameObject)prefabCache[proxyName];
+			prefabCache[o.proxyName] = (GameObject)Resources.Load (o.proxyName);
+			proxyPrefab = (GameObject)prefabCache[o.proxyName];
 		}
 		
-		GameObject serverObj = uLink.Network.Instantiate(proxyPrefab, serverPrefab, pos, Quaternion.identity, 0);
+		GameObject serverObj = uLink.Network.Instantiate(proxyPrefab, serverPrefab, o.position, o.quaternion, 0);
 		serverObj.transform.parent = galaxy.transform;
-		serverObj.SendMessage("AssignAttributes", attributes, SendMessageOptions.DontRequireReceiver);
+		serverObj.SendMessage("ParseAPIObject", o, SendMessageOptions.RequireReceiver);
 	}
 
-	public static Vector3 ExtractPosition (Hashtable attributes) {
-		string xStr = (string)attributes["x"];
-		string yStr = (string)attributes["y"];
-		string zStr = (string)attributes["z"];
-		Vector3 pos = Vector3.zero;
-		float.TryParse(xStr, out pos.x);
-		float.TryParse(yStr, out pos.y);
-		float.TryParse(zStr, out pos.z);
+	public static void PlaceStaticObject (APIObject o) {
+		GameObject cached = (GameObject)prefabCache[o.name];
+		if (cached == null) {
+			prefabCache[o.name] = (GameObject)Resources.Load (o.name);
+			cached = (GameObject)prefabCache[o.name];
+		}
 		
-		return pos;
+		GameObject serverObj = (GameObject)Instantiate(cached, o.position, o.quaternion);
+		serverObj.transform.parent = galaxy.transform;
+		serverObj.SendMessage("ParseAPIObject", o, SendMessageOptions.RequireReceiver);
+	}
+
+	void ParseAPIObject (APIObject o) {
+		worldObjectId = o.id;
+		worldObjectName = o.name;
+		stats = o.stats;
+		resources = o.resources;
+		transform.localScale = o.scale;
 	}
 	
-	public static Vector3 ExtractScale (Hashtable attributes) {
-		string xStr = (string)attributes["scale_x"];
-		string yStr = (string)attributes["scale_y"];
-		string zStr = (string)attributes["scale_z"];
-		Vector3 scale = Vector3.zero;
-		float.TryParse(xStr, out scale.x);
-		float.TryParse(yStr, out scale.y);
-		float.TryParse(zStr, out scale.z);
-		
-		return scale;
-	}
-	
-	public static Vector3 ExtractRotation (Hashtable attributes) {
-		string xStr = (string)attributes["rotation_x"];
-		string yStr = (string)attributes["rotation_y"];
-		string zStr = (string)attributes["rotation_z"];
-		Vector3 rot = Vector3.zero;
-		float.TryParse(xStr, out rot.x);
-		float.TryParse(yStr, out rot.y);
-		float.TryParse(zStr, out rot.z);
-		
-		return rot;
-	}
-
-	public static int ExtractInt (Hashtable attributes, string name) {
-		int local;
-		int.TryParse(attributes[name].ToString (), out local);
-		return local;
-	}
-
-	public void AssignAttributes (Hashtable attributes) {
-		worldObjectId = WorldObject.ExtractInt(attributes, "id");
-		transform.position = WorldObject.ExtractPosition(attributes);
-		transform.localScale = WorldObject.ExtractScale(attributes);
-		transform.eulerAngles = WorldObject.ExtractRotation(attributes);
-	}
-
 }

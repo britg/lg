@@ -8,7 +8,7 @@ public class GalaxyProxy : LGMonoBehaviour {
 	// Use this for initialization
 	void Start () {
 		WorldObject.galaxy = gameObject;
-		NotificationCenter.AddObserver(this, LG.n_playerLoaded);
+		NotificationCenter.AddObserver(this, LG.n_playerStatsLoaded);
 	}
 	
 	// Update is called once per frame
@@ -16,24 +16,21 @@ public class GalaxyProxy : LGMonoBehaviour {
 	
 	}
 
-	void OnPlayerLoaded () {
+	void OnPlayerStatsLoaded () {
 		Debug.Log ("On player loaded");
 		GetNearbyObjects();
 	}
 
-	void uLink_OnNetworkInstantiate () {
-		GetNearbyObjects();
-	}
-
 	void GetNearbyObjects () {
-		networkView.UnreliableRPC("GetNearbyObjects", uLink.RPCMode.Server, thePlayer().transform.position);
+		networkView.UnreliableRPC("GetNearbyObjects", uLink.RPCMode.Server, player.transform.position);
 	}
 
 	[RPC]
 	void LoadNearbyObjects (string raw) {
-		Hashtable response = MiniJSON.Json.Hashtable(raw);
-		List<object> objects = (List<object>)response["objects"];
-		WorldObject.PlaceObjects(objects);
+		APIResponse response = new APIResponse(raw);
+		List<APIObject> apiObjects = response.GetObjects();
+		WorldObject.PlaceObjects(apiObjects);
+		NotificationCenter.PostNotification(this, LG.n_worldObjectsSpawned);
 	}
 
 }

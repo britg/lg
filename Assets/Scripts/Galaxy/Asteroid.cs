@@ -10,10 +10,6 @@ public class Asteroid : WorldObject {
 		InvokeRepeating ("Refill", refillInterval, refillInterval);
 	}
 
-	new void AssignAttributes (Hashtable attributes) {
-		base.AssignAttributes(attributes);
-	}
-
 	void Extract (ExtractorProcessor processor) {
 
 	}

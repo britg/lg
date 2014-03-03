@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using uLink;
 
-public class NetworkManager : uLink.MonoBehaviour {
+public class ClientNetworkManager : uLink.MonoBehaviour {
 
 	private string playerNameKey = "player.name";
 

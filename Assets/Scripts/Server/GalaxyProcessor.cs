@@ -21,8 +21,8 @@ public class GalaxyProcessor : APIBehaviour {
 	}
 
 	void GetSpawnsSuccess (APIResponse response) {
-		List<object> objects = (List<object>)response["objects"];
-		WorldObject.PlaceObjects(objects);
+		List<APIObject> apiObjects = response.GetObjects();
+		WorldObject.PlaceObjects(apiObjects);
 		NotificationCenter.PostNotification(this, LG.n_worldObjectsSpawned);
 	}
 

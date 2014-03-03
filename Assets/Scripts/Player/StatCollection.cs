@@ -6,6 +6,10 @@ public class StatCollection {
 
 	public Hashtable statsTable = new Hashtable();
 
+	public StatCollection () {
+
+	}
+
 	public StatCollection (Hashtable _stats) {
 		Set (_stats);
 	}

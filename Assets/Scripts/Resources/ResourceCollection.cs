@@ -6,6 +6,10 @@ public class ResourceCollection {
 	
 	public Hashtable resourcesTable = new Hashtable();
 
+	public ResourceCollection () {
+
+	}
+
 	public ResourceCollection (Hashtable r) {
 		Set (r);
 	}

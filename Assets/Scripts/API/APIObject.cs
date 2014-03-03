@@ -7,6 +7,17 @@ public class APIObject {
 
 	public int id;
 	public string name;
+	public string serverName {
+		get {
+			return name + " - Server";
+		}
+	}
+	public string proxyName {
+		get {
+			return name + " - Proxy";
+		}
+	}
+
 	public bool networked;
 
 	public Vector3 position;
@@ -17,16 +28,19 @@ public class APIObject {
 	public StatCollection stats;
 	public ResourceCollection resources;
 
+	public APIObject (IDictionary dict) {
+		fromHashtable(new Hashtable(dict));
+	}
 
-	public APIObject (string _raw) {
-		raw = _raw;
-		fromHashtable(MiniJSON.Json.Hashtable(_raw));
+	public APIObject (string input) {
+		raw = input;
+		fromHashtable(MiniJSON.Json.Hashtable(raw));
 	}
 
 	public void fromHashtable (Hashtable hash) {
-//		Hashtable attributes = new Hashtable((IDictionary)hash);
 		int.TryParse(hash["id"].ToString(), out id);
 		name = hash["name"].ToString();
+		networked = (bool)hash["networked"];
 		ParsePosition (new Hashtable((IDictionary)hash["position"]));
 		ParseRotation (new Hashtable((IDictionary)hash["rotation"]));
 		ParseScale (new Hashtable((IDictionary)hash["scale"]));
