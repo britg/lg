@@ -278,9 +278,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7bf39bda9640f4658879b08d81ae045e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  multiplier: 2
+  multiplier: 8
   max: -300
-  min: -800
+  min: -1800
 --- !u!124 &12400000
 Behaviour:
   m_ObjectHideFlags: 1

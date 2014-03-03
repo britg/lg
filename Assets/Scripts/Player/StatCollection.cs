@@ -1,10 +1,26 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 [System.Serializable]
 public class StatCollection {
 
 	public Hashtable statsTable = new Hashtable();
+
+	List<string> statsToSync = new List<string>();
+
+	// Common stats
+	public float Fuel {
+		get {
+			return Get (LG.s_fuel).value;
+		}
+	}
+
+	public float FuelBurn {
+		get {
+			return Get (LG.s_fuelBurn).value;
+		}
+	}
 
 	public StatCollection () {
 
@@ -23,14 +39,8 @@ public class StatCollection {
 
 	public void Set (string statName, float value) {
 		statsTable[statName] = new Stat(statName, value);
-	}
-
-	public void Set (string[] rpcSerialization) {
-		int i = 0;
-		for (i = 0; i < rpcSerialization.Length/2; i++) {
-			string key = rpcSerialization[i];
-			string vStr = rpcSerialization[i+1];
-			statsTable[key] = new Stat(key, vStr);
+		if (!statsToSync.Contains(statName)) {
+			statsToSync.Add (statName);
 		}
 	}
 
@@ -42,6 +52,16 @@ public class StatCollection {
 		get {
 			return Get (statName);
 		}
+	}
+
+	public float Add (string name, float amount) {
+		float v = Get (name).value + amount;
+		Set (name, v);
+		return v;
+	}
+
+	public float Remove (string name, float amount) {
+		return Add (name, -amount);
 	}
 
 	public WWWForm toFormData () {
@@ -78,6 +98,27 @@ public class StatCollection {
 
 	public IDictionaryEnumerator GetEnumerator () {
 		return statsTable.GetEnumerator();
+	}
+
+	public bool ShouldSync () {
+		return statsToSync.Count > 0;
+	}
+
+	public string[] StatsToSync () {
+		string[] arr = new string[statsToSync.Count*2];
+		int i = 0;
+		foreach (string statName in statsToSync) {
+			arr[i] = statName;
+			i++;
+			arr[i] = Get(statName).value.ToString();
+			i++;
+		}
+
+		return arr;
+	}
+
+	public void FlushStatsToSync () {
+		statsToSync = new List<string>();
 	}
 
 }

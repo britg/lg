@@ -5,12 +5,13 @@ public class PlayerDefaults {
 
 	public static Vector3 position = Vector3.zero;
 	public static Vector3 rotation = Vector3.zero;
+	public static Quaternion quaternion = Quaternion.identity;
 	public static Vector3 scale = new Vector3(1f, 1f, 1f);
 
 	public static Hashtable stats  = new Hashtable {
 		{ LG.s_shields, 0.0f },
 		{ LG.s_hull, 100f },
-		{ LG.s_speed, 25f },
+		{ LG.s_speed, 100f },
 		{ LG.s_fuel, 100f },
 		{ LG.s_fuelBurn, 1f }
 	};

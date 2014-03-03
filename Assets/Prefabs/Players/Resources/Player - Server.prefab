@@ -558,6 +558,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   urlBase: 
+  saveInterval: 1
 --- !u!114 &11400006
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -570,6 +571,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   urlBase: 
+  playerId: 0
+  playerName: 
   fuelProcessor: {fileID: 0}
 --- !u!114 &11400008
 MonoBehaviour:

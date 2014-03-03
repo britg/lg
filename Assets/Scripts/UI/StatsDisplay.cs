@@ -36,7 +36,7 @@ public class StatsDisplay : LGMonoBehaviour {
 //		UpdateAmmo ();
 //		UpdateShields();
 //		UpdateHull ();
-//		UpdateFuel();
+		UpdateFuel();
 //		UpdateElements();
 	}
 //
@@ -56,9 +56,9 @@ public class StatsDisplay : LGMonoBehaviour {
 //		hull.text = "Hull: " + player.shipAttributes.hull;
 //	}
 //
-//	void UpdateFuel () {
-//		fuel.text = "Fuel: " + player.shipAttributes.fuel.ToString("F2");
-//	}
+	void UpdateFuel () {
+		fuel.text = "Fuel: " + player.stat(LG.s_fuel).ToString("F2");
+	}
 //
 //	void UpdateElements () {
 //	}

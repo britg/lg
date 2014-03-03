@@ -20,26 +20,27 @@ public class MoveProcessor : LGMonoBehaviour {
 	}
 	
 	[RPC] // Called on Server
-	void ServerMove(Vector3 ownerPos, Vector3 vel, Quaternion rot, uLink.NetworkMessageInfo info)
-	{
-		if (info.timestamp <= serverLastTimestamp)
-		{
+	void ServerMove(Vector3 ownerPos, Vector3 vel, Quaternion rot, uLink.NetworkMessageInfo info) {
+
+		if (info.timestamp <= serverLastTimestamp) {
 			return;
 		}
 		
 		transform.rotation = rot;
 		
-		if (vel.sqrMagnitude > sqrMaxServerSpeed)
-		{
+		if (vel.sqrMagnitude > sqrMaxServerSpeed) {
 			vel.x = vel.y = Mathf.Sqrt(sqrMaxServerSpeed) / 3.0f;
 		}
 		
 		float deltaTime = (float)(info.timestamp - serverLastTimestamp);
 		Vector3 deltaPos = vel * deltaTime;
 		deltaPos.z = 0;
-		
-		character.Move(deltaPos);
-		
+
+		if (playerProcessor.fuelProcessor.HasEnoughFuel(deltaTime)) {
+			character.Move(deltaPos);
+			playerProcessor.fuelProcessor.UseFuel(deltaTime);
+		}
+
 		serverLastTimestamp = info.timestamp;
 		
 		Vector3 serverPos = transform.position;

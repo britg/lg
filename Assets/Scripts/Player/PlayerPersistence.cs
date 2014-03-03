@@ -50,7 +50,6 @@ public class PlayerPersistence : APIBehaviour {
 	}
 
 	public void SaveAllSuccess (APIResponse response) {
-		Debug.Log ("Save all response " + response);
 	}
 
 }

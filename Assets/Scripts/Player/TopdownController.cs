@@ -26,8 +26,9 @@ public class TopdownController : LGMonoBehaviour {
 	}
 
 	void DetectInput () {
-		moveDirection = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0);
-		if (moveDirection.sqrMagnitude > 0f && player.fuelController.hasEnoughFuel(Time.deltaTime)) {
+		Vector3 raw = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0);
+		moveDirection = Vector3.ClampMagnitude(raw, 1f);
+		if (moveDirection.sqrMagnitude > 0f && player.fuelController.HasEnoughFuel(Time.deltaTime)) {
 			Move(moveDirection);
 			movedThisFrame = true;
 		} else {

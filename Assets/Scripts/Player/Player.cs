@@ -2,7 +2,6 @@
 using System;
 using System.Collections;
 using System.Collections.Generic;
-using uLink;
 
 public class Player : LGMonoBehaviour {
 
@@ -10,9 +9,11 @@ public class Player : LGMonoBehaviour {
 	public string playerName = "Player";
 	public int playerId;
 
+	[HideInInspector]
 	public StatCollection stats;
+	[HideInInspector]
 	public ResourceCollection resources;
-
+	[HideInInspector]
 	public FuelController fuelController;
 
 	void Start () {
@@ -43,11 +44,21 @@ public class Player : LGMonoBehaviour {
 
 	[RPC] 
 	void SyncFromServer (string rawAPIObject) {
-		Debug.Log ("Syncing raw API Object " + rawAPIObject);
 		APIObject apiPlayer = new APIObject(rawAPIObject);
 		stats = apiPlayer.stats;
 		resources = apiPlayer.resources;
 		NotificationCenter.PostNotification(this, LG.n_playerStatsLoaded);
+	}
+
+	[RPC]
+	void SyncUpdateFromServer (string[] statArr) {
+		Debug.Log ("Syncing stat array from server ");
+		for (int i = 0; i < statArr.Length; i+=2) {
+			string statName = statArr[i];
+			float statValue;
+			float.TryParse(statArr[i+1], out statValue);
+			stats.Set (statName, statValue);
+		}
 	}
 
 	public void RequestRespawn () {

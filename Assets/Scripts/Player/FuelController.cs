@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class FuelController : MonoBehaviour {
+public class FuelController : LGMonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
@@ -13,7 +13,8 @@ public class FuelController : MonoBehaviour {
 	
 	}
 
-	public bool hasEnoughFuel(float time) {
+	public bool HasEnoughFuel(float time) {
 		return true;
 	}
+
 }

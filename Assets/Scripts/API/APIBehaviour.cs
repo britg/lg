@@ -37,8 +37,6 @@ public class APIBehaviour : LGMonoBehaviour {
 	
 	public void Post (string endpoint, WWWForm formData, object receiver,
 	                  SuccessHandler successHandler, ErrorHandler errorHandler) {
-
-		formData.AddField("authenticity_token", APIBehaviour.authenticityToken);
 		formData.headers["Content-Type"] = "application/json";
 		WWW request = new WWW(Endpoint(endpoint), formData);
 		onSuccess = successHandler;
