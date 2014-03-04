@@ -45,19 +45,31 @@ public class Player : LGMonoBehaviour {
 	[RPC] 
 	void SyncFromServer (string rawAPIObject) {
 		APIObject apiPlayer = new APIObject(rawAPIObject);
+		transform.position = apiPlayer.position;
+		transform.rotation = apiPlayer.quaternion;
+		transform.localScale = apiPlayer.scale;
 		stats = apiPlayer.stats;
 		resources = apiPlayer.resources;
 		NotificationCenter.PostNotification(this, LG.n_playerStatsLoaded);
 	}
 
 	[RPC]
-	void SyncUpdateFromServer (string[] statArr) {
-		Debug.Log ("Syncing stat array from server ");
+	void SyncStatsUpdateFromServer (string[] statArr) {
 		for (int i = 0; i < statArr.Length; i+=2) {
 			string statName = statArr[i];
 			float statValue;
 			float.TryParse(statArr[i+1], out statValue);
 			stats.Set (statName, statValue);
+		}
+	}
+
+	[RPC]
+	void SyncResourcesUpdateFromServer (string[] resourceArr) {
+		for (int i = 0; i < resourceArr.Length; i+=2) {
+			string resourceName = resourceArr[i];
+			int resourceValue;
+			int.TryParse(resourceArr[i+1], out resourceValue);
+			resources.Set (resourceName, resourceValue);
 		}
 	}
 
@@ -67,6 +79,10 @@ public class Player : LGMonoBehaviour {
 
 	public float stat (string name) {
 		return (float)stats.Get(name).value;
+	}
+
+	public int resource (string name) {
+		return (int)resources.Get(name).value;
 	}
 
 }

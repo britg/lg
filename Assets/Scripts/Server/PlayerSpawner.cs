@@ -11,7 +11,7 @@ public class PlayerSpawner : APIBehaviour {
 	public void StartPlayer (uLink.NetworkPlayer networkPlayer) {
 		string playerName;
 		networkPlayer.loginData.TryRead(out playerName);
-		WWWForm formData = PlayerDefaults.toFormData();
+		WWWForm formData = new WWWForm();
 		formData.AddField("player[name]", playerName);
 		Post ("/players", formData, networkPlayer, RegisterPlayerSuccess);
 	}

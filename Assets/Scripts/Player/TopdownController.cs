@@ -37,7 +37,7 @@ public class TopdownController : LGMonoBehaviour {
 	}
 
 	void Move (Vector3 dir) {
-		float speed = player.stat(LG.s_speed);
+		float speed = player.stat(Stat.speed);
 		Vector3 moveV = dir * speed * Time.deltaTime;
 		controller.Move(moveV);
 	}

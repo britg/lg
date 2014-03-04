@@ -6,19 +6,22 @@ public class ExtractorController : LGMonoBehaviour {
 	public Transform extractorTurnPoint;
 	public ParticleSystem extractor;
 
-	TopdownLook topdownLook;
+	LookController topdownLook;
 
 	bool isExtracting = false;
 	float extractRPCRate = 0.1f;
 
 	void Start () {
-		topdownLook = GetComponent<TopdownLook>();
+		topdownLook = GetComponent<LookController>();
 	}
 
 	// Update is called once per frame
 	void Update () {
 		DetectInput();
 		TurnExtractor();
+		if(isExtracting) {
+//			DebugExtractor();
+		}
 	}
 
 	void DetectInput () {
@@ -36,10 +39,11 @@ public class ExtractorController : LGMonoBehaviour {
 		isExtracting = true;
 		extractor.Play();
 		InvokeRepeating("RemoteExtract", extractRPCRate, extractRPCRate);
+
 	}
 
 	void RemoteExtract () {
-		networkView.UnreliableRPC("SignalExtract", uLink.RPCMode.Server, topdownLook.worldLookPoint.normalized);
+		networkView.UnreliableRPC("SignalExtract", uLink.RPCMode.Server, topdownLook.worldLookPoint);
 	}
 
 	void StopExtracting () {
@@ -57,5 +61,14 @@ public class ExtractorController : LGMonoBehaviour {
 			angles.z = -lookAngle;
 		}
 		extractorTurnPoint.eulerAngles = angles;
+	}
+
+	void DebugExtractor () {
+		float extendLength = player.stat(Stat.extractorLength);
+		Vector3 from = transform.position;
+		Vector3 to = topdownLook.worldLookPoint;
+		Vector3 dir = (to - from).normalized*extendLength;
+		Debug.Log ("Drawing ray from " + from + " to " + (from + dir));
+		Debug.DrawRay(from, dir, Color.red);
 	}
 }

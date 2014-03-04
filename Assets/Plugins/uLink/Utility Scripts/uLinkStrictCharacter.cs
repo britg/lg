@@ -229,7 +229,7 @@ public class uLinkStrictCharacter : uLink.MonoBehaviour
 	[RPC]
 	void ServerMove(Vector3 ownerPos, Vector3 vel, Quaternion rot, uLink.NetworkMessageInfo info)
 	{
-		if (info.timestamp <= serverLastTimestamp)
+		if (info.timestamp <= serverLastTimestamp || !character.isGrounded)
 		{
 			return;
 		}
@@ -238,14 +238,14 @@ public class uLinkStrictCharacter : uLink.MonoBehaviour
 
 		if (vel.sqrMagnitude > sqrMaxServerSpeed)
 		{
-			vel.x = vel.y = Mathf.Sqrt(sqrMaxServerSpeed) / 3.0f;
+			vel.x = vel.y = vel.z = Mathf.Sqrt(sqrMaxServerSpeed) / 3.0f;
 		}
 
 		float deltaTime = (float)(info.timestamp - serverLastTimestamp);
 		Vector3 deltaPos = vel * deltaTime;
-		deltaPos.z = 0;
 
 		character.Move(deltaPos);
+
 		serverLastTimestamp = info.timestamp;
 
 		Vector3 serverPos = transform.position;

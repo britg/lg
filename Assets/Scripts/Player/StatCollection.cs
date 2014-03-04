@@ -12,13 +12,13 @@ public class StatCollection {
 	// Common stats
 	public float Fuel {
 		get {
-			return Get (LG.s_fuel).value;
+			return Get (Stat.fuel).value;
 		}
 	}
 
 	public float FuelBurn {
 		get {
-			return Get (LG.s_fuelBurn).value;
+			return Get (Stat.fuelBurn).value;
 		}
 	}
 

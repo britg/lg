@@ -11,7 +11,9 @@ public class Asteroid : WorldObject {
 	}
 
 	void Extract (ExtractorProcessor processor) {
-
+		Resource[] extraction = new Resource[1];
+		extraction[0] = new Resource(Resource.tier1, 1);
+		processor.YieldResources(extraction);
 	}
 
 	void Refill () {

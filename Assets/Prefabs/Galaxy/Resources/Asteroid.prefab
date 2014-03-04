@@ -67,7 +67,7 @@ Rigidbody:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 10000
   m_Drag: 0
   m_AngularDrag: .0500000007
   m_UseGravity: 0
@@ -104,8 +104,8 @@ MonoBehaviour:
   meshLowPoly: {fileID: 400000, guid: b27b5d116dd538e42bf6866db49d7e14, type: 3}
   meshMediumPoly: {fileID: 400000, guid: 2f51652ba34c20f4a8e8fa346a336e62, type: 3}
   meshHighPoly: {fileID: 400000, guid: 0fb465f747765ab459c534ddb9212636, type: 3}
-  rotationSpeed: 0
-  rotationalAxis: {x: 0, y: 0, z: 0}
+  rotationSpeed: 10
+  rotationalAxis: {x: 1, y: 0, z: 0}
   driftSpeed: 0
   driftAxis: {x: 0, y: 0, z: 0}
 --- !u!114 &11400002
@@ -120,12 +120,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   worldObjectId: 0
-  elementStore:
-    oxygen: 0
-    hydrogen: 0
-    nitrogen: 0
-    carbon: 0
-    trace: 1
+  worldObjectName: 
+  refillInterval: 300
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

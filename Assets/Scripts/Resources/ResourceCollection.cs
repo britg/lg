@@ -1,10 +1,12 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System.Collections.Generic;
 
 [System.Serializable]
 public class ResourceCollection {
 	
 	public Hashtable resourcesTable = new Hashtable();
+	List<string> resourcesToSync = new List<string>();
 
 	public ResourceCollection () {
 
@@ -21,27 +23,35 @@ public class ResourceCollection {
 		}
 	}
 	
-	public void Set (string statName, int value) {
-		resourcesTable[statName] = new Resource(statName, value);
-	}
-	
-	public void Set (string[] rpcSerialization) {
-		int i = 0;
-		for (i = 0; i < rpcSerialization.Length/2; i++) {
-			string key = rpcSerialization[i];
-			string vStr = rpcSerialization[i+1];
-			resourcesTable[key] = new Resource(key, vStr);
+	public void Set (string resourceName, int value) {
+		resourcesTable[resourceName] = new Resource(resourceName, value);
+		if (!resourcesToSync.Contains(resourceName)) {
+			resourcesToSync.Add (resourceName);
 		}
 	}
 	
-	public Stat Get (string name) {
-		return (Stat)resourcesTable[name];
+	public Resource Get (string name) {
+		return (Resource)resourcesTable[name];
 	}
 	
-	public Stat this[string statName] {
+	public Resource this[string resourceName] {
 		get {
-			return Get (statName);
+			return Get (resourceName);
 		}
+	}
+
+	public int Add (string name, int amount) {
+		int v = Get (name).value + amount;
+		Set (name, v);
+		return v;
+	}
+
+	public int Add (Resource res) {
+		return Add (res.name, res.value);
+	}
+	
+	public int Remove (string name, int amount) {
+		return Add (name, -amount);
 	}
 	
 	public WWWForm toFormData () {
@@ -79,6 +89,26 @@ public class ResourceCollection {
 	public IDictionaryEnumerator GetEnumerator () {
 		return resourcesTable.GetEnumerator();
 	}
-
+	
+	public bool ShouldSync () {
+		return resourcesToSync.Count > 0;
+	}
+	
+	public string[] ResourcesToSync () {
+		string[] arr = new string[resourcesToSync.Count*2];
+		int i = 0;
+		foreach (string resourceName in resourcesToSync) {
+			arr[i] = resourceName;
+			i++;
+			arr[i] = Get(resourceName).value.ToString();
+			i++;
+		}
+		
+		return arr;
+	}
+	
+	public void FlushResourcesToSync () {
+		resourcesToSync = new List<string>();
+	}
 	
 }

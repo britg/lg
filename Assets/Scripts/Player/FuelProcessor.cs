@@ -14,7 +14,7 @@ public class FuelProcessor : LGMonoBehaviour {
 
 	public void UseFuel (float time) {
 		float amount = AmountForTime(time);
-		playerProcessor.stats.Remove(LG.s_fuel, amount);
+		playerProcessor.stats.Remove(Stat.fuel, amount);
 	}
 
 	public float AmountForTime (float time) {

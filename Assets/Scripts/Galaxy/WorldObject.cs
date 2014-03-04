@@ -4,8 +4,9 @@ using System.Collections.Generic;
 
 public class WorldObject : LGMonoBehaviour {
 
-	static Hashtable prefabCache = new Hashtable();
 	public static GameObject galaxy;
+	static Hashtable prefabCache = new Hashtable();
+	static List<int> idCache = new List<int>();
 
 	public int worldObjectId;
 	public string worldObjectName;
@@ -42,6 +43,10 @@ public class WorldObject : LGMonoBehaviour {
 	}
 
 	public static void PlaceStaticObject (APIObject o) {
+		if (idCache.Contains(o.id)) {
+			return;
+		}
+
 		GameObject cached = (GameObject)prefabCache[o.name];
 		if (cached == null) {
 			prefabCache[o.name] = (GameObject)Resources.Load (o.name);
@@ -49,6 +54,7 @@ public class WorldObject : LGMonoBehaviour {
 		}
 		
 		GameObject serverObj = (GameObject)Instantiate(cached, o.position, o.quaternion);
+		idCache.Add(o.id);
 		serverObj.transform.parent = galaxy.transform;
 		serverObj.SendMessage("ParseAPIObject", o, SendMessageOptions.RequireReceiver);
 	}

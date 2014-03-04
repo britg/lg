@@ -10,8 +10,8 @@ public class ExtractorProcessor : LGMonoBehaviour {
 	}
 
 	[RPC]
-	void SignalExtract (Vector3 _dir) {
-		direction = _dir;
+	void SignalExtract (Vector3 worldLookPoint) {
+		direction = (worldLookPoint - transform.position).normalized;
 		if (!isExtracting) {
 			StartExtracting();
 		}
@@ -19,7 +19,7 @@ public class ExtractorProcessor : LGMonoBehaviour {
 
 	void StartExtracting () {
 		isExtracting = true;
-		float rate = player.stats.Get("extractor_rate").value;
+		float rate = playerProcessor.stat(Stat.extractorRate);
 		InvokeRepeating("Extract", rate, rate);
 	}
 
@@ -30,11 +30,12 @@ public class ExtractorProcessor : LGMonoBehaviour {
 	}
 
 	void Extract () {
+		Debug.Log ("Extracting " + direction);
 		DetectHit();
 	}
 
 	void DetectHit () {
-		float extendLength = player.stats.Get("extractor_length").value;
+		float extendLength = playerProcessor.stat(Stat.extractorLength);
 		RaycastHit hit;
 		if (Physics.Raycast(transform.position, direction, out hit, extendLength)) {
 //			Debug.Log ("Extractor hit something " + hit.collider.gameObject);
@@ -43,6 +44,9 @@ public class ExtractorProcessor : LGMonoBehaviour {
 	}
 
 	public void YieldResources (Resource[] resources) {
-		networkView.UnreliableRPC("AddElementStores", uLink.RPCMode.Owner, resources);
+		Debug.Log ("Yielded resources " + resources[0]);
+		foreach (Resource r in resources) {
+			playerProcessor.resources.Add (r);
+		}
 	}
 }
