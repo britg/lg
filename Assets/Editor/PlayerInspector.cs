@@ -6,6 +6,7 @@ using System.Collections;
 public class PlayerInspector : Editor {
 
 	GameObject go;
+	APIBehaviour api;
 	PlayerEditor playerEditor;
 
 	public override void OnInspectorGUI () {
@@ -13,16 +14,11 @@ public class PlayerInspector : Editor {
 
 		DrawDefaultInspector();
 
-//		EditorGUILayout.BeginHorizontal();
-//		EditorGUILayout.PrefixLabel("Speed");
-//		playerEditor.speed = EditorGUILayout.Slider(playerEditor.speed, 0f, 200f); 
-//		EditorGUILayout.EndHorizontal();
-
 		Rect r = EditorGUILayout.BeginHorizontal("Button");
 		if(GUI.Button(r, "Save")) {
 			PersistEdits();
 		}
-		EditorGUILayout.PrefixLabel("Save");
+		EditorGUILayout.PrefixLabel("");
 		EditorGUILayout.EndHorizontal();
 
 	}
@@ -33,9 +29,11 @@ public class PlayerInspector : Editor {
 			go = new GameObject("GalaxyBuilder");
 			go.AddComponent<APIBehaviour>();
 		}
-		APIBehaviour api = go.GetComponent<APIBehaviour>();
+		api = go.GetComponent<APIBehaviour>();
 		api.urlBase = LG.dbHost + "/api";
 		api.Post("/players/template", playerEditor.toFormData(), PersistEditsReturn, PersistEditsReturn);
+		EditorUtility.DisplayCancelableProgressBar("Saving...", "Saving...", 0);
+		EditorUtility.ClearProgressBar();
 	}
 
 	void PersistEditsReturn (APIResponse response) {

@@ -5,6 +5,11 @@ using Vectrosity;
 public class LookController : LGMonoBehaviour {
 
 	public Vector3 worldLookPoint;
+	public Vector3 lookDirection {
+		get {
+			return (worldLookPoint - transform.position).normalized;
+		}
+	}
 
 	private Vector2 playerScreenPos;
 	private VectorLine pointer;

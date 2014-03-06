@@ -10,8 +10,8 @@ public class ExtractorProcessor : LGMonoBehaviour {
 	}
 
 	[RPC]
-	void SignalExtract (Vector3 worldLookPoint) {
-		direction = (worldLookPoint - transform.position).normalized;
+	void SignalExtract (Vector3 _dir) {
+		direction = _dir;
 		if (!isExtracting) {
 			StartExtracting();
 		}

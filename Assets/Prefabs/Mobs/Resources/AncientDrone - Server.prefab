@@ -67,6 +67,7 @@ GameObject:
   - 143: {fileID: 14300000}
   - 114: {fileID: 11400002}
   - 114: {fileID: 11400000}
+  - 114: {fileID: 11400004}
   m_Layer: 0
   m_Name: AncientDrone - Server
   m_TagString: Untagged
@@ -532,17 +533,37 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   worldObjectId: 0
-  shipAttributes:
-    name: Starter Mob Ship
-    shields: 0
-    hull: 100
-    speed: 6
-  weaponAttributes:
-    cooldown: .200000003
-    aim: {x: 0, y: 0, z: 0}
-    velocity: 500
-    life: 2
-    damage: 10
+  worldObjectName: 
+  alive: 1
+--- !u!114 &11400004
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5bd054295e55415aa55ece0ae6ba2d9, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  worldObjectId: -1
+  worldObjectName: AncientDrone
+  startPosition: {x: 0, y: 0, z: 0}
+  startRotation: {x: 0, y: 0, z: 0}
+  startScale: {x: 0, y: 0, z: 0}
+  shields: 20
+  hull: 20
+  speed: 90
+  ammo: 150
+  fuel: 150
+  fuelBurn: 1
+  tier1: 1
+  tier2: 2
+  tier3: 0
+  tier4: 0
+  tier5: 0
+  tier6: 0
+  tier7: 0
 --- !u!114 &11400008
 MonoBehaviour:
   m_ObjectHideFlags: 1

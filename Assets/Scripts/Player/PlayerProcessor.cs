@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
+[RequireComponent(typeof(WeaponLockTarget))]
 public class PlayerProcessor : APIBehaviour {
 
 	public int playerId;

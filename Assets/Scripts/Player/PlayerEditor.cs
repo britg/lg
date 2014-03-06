@@ -12,9 +12,15 @@ public class PlayerEditor : MonoBehaviour {
 	public float shields;
 	public float hull;
 	public float speed;
+
 	public float ammo;
+	public float weaponRange;
+	public float weaponTargetTime;
+	public float weaponLoseTargetTime;
+
 	public float fuel;
 	public float fuelBurn;
+
 	public float extractorRate;
 	public float extractorStrength;
 	public float extractorLength;
@@ -45,9 +51,15 @@ public class PlayerEditor : MonoBehaviour {
 		formData.AddField("player[stats][" + Stat.shields + "]", shields.ToString());
 		formData.AddField("player[stats][" + Stat.hull + "]", hull.ToString());
 		formData.AddField("player[stats][" + Stat.speed + "]", speed.ToString());
+
 		formData.AddField("player[stats][" + Stat.ammo + "]", ammo.ToString());
+		formData.AddField("player[stats][" + Stat.weaponRange + "]", weaponRange.ToString());
+		formData.AddField("player[stats][" + Stat.weaponTargetTime + "]", weaponTargetTime.ToString());
+		formData.AddField("player[stats][" + Stat.weaponLoseTargetTime + "]", weaponLoseTargetTime.ToString());
+
 		formData.AddField("player[stats][" + Stat.fuel + "]", fuel.ToString());
 		formData.AddField("player[stats][" + Stat.fuelBurn + "]", fuelBurn.ToString());
+
 		formData.AddField("player[stats][" + Stat.extractorRate + "]", extractorRate.ToString());
 		formData.AddField("player[stats][" + Stat.extractorStrength + "]", extractorStrength.ToString());
 		formData.AddField("player[stats][" + Stat.extractorLength + "]", extractorLength.ToString());
