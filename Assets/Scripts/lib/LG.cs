@@ -26,6 +26,7 @@ public static class LG  {
 
 	public const string n_showServerConnectionUI = "OnShowServerConnectionUI";
 	public const string n_hideServerConnectionUI = "OnHideServerConnectionUI";
+	public const string n_AddLabel = "OnAddLabel";
 
 	/* End GUI Messages */
 

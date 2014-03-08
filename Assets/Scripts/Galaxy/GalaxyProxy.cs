@@ -17,7 +17,7 @@ public class GalaxyProxy : LGMonoBehaviour {
 	}
 
 	void OnPlayerStatsLoaded () {
-		Debug.Log ("On player loaded");
+		Debug.Log ("On player loaded " + player);
 		GetNearbyObjects();
 	}
 

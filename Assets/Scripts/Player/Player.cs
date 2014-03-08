@@ -16,6 +16,9 @@ public class Player : LGMonoBehaviour {
 	[HideInInspector]
 	public FuelController fuelController;
 
+	public GameObject nameLabel;
+
+
 	void Start () {
 		if (isOwner) {
 			AssignNotifier();
@@ -27,13 +30,12 @@ public class Player : LGMonoBehaviour {
 	void uLink_OnNetworkInstantiate (uLink.NetworkMessageInfo info) {
 		info.networkView.initialData.TryRead<string>(out playerName);
 		info.networkView.initialData.TryRead<int>(out playerId);
-		SetLabel();
 		networkView.RPC ("SyncToClient", uLink.RPCMode.Server);
 	}
 
 	void SetLabel () {
-		TextMesh nameLabel = transform.Find("Nametag").GetComponent<TextMesh>();
-		nameLabel.text = playerName;
+		HasLabel label = GetComponent<HasLabel>();
+		label.label.text = playerName;
 	}
 	
 	void AnnounceLoaded() {
@@ -51,6 +53,7 @@ public class Player : LGMonoBehaviour {
 		stats = apiPlayer.stats;
 		resources = apiPlayer.resources;
 		NotificationCenter.PostNotification(this, LG.n_playerStatsLoaded);
+		SetLabel();
 	}
 
 	[RPC]
