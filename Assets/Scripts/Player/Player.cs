@@ -34,7 +34,7 @@ public class Player : LGMonoBehaviour {
 	}
 
 	void SetLabel () {
-		HasLabel label = GetComponent<HasLabel>();
+		LabelDisplay label = GetComponent<LabelDisplay>();
 		label.label.text = playerName;
 	}
 	

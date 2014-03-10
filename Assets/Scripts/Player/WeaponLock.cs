@@ -31,6 +31,10 @@ public class WeaponLock {
 		}
 	}
 
+	public bool ValidTarget (GameObject target) {
+		return target != null && target.GetComponent<WeaponTarget>() != null;
+	}
+
 	public void StartLocking (GameObject target) {
 		currentTarget = target;
 		currentLockState = State.Locking;

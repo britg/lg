@@ -10,7 +10,6 @@ GameObject:
   - 4: {fileID: 400010}
   - 33: {fileID: 3300000}
   - 23: {fileID: 2300002}
-  - 65: {fileID: 6500000}
   m_Layer: 0
   m_Name: MeshSpaceship
   m_TagString: Untagged
@@ -50,6 +49,9 @@ GameObject:
   - 143: {fileID: 14300000}
   - 114: {fileID: 11400000}
   - 114: {fileID: 11400002}
+  - 114: {fileID: 11400004}
+  - 65: {fileID: 6500000}
+  - 114: {fileID: 11400006}
   m_Layer: 0
   m_Name: AncientDrone - Proxy
   m_TagString: Untagged
@@ -241,13 +243,13 @@ BoxCollider:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 100002}
+  m_GameObject: {fileID: 100006}
   m_Material: {fileID: 0}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2
-  m_Size: {x: 32.2225914, y: 24.0859966, z: 5.28008747}
-  m_Center: {x: 1.00000048, y: -6.66733122, z: 1.91716599}
+  m_Size: {x: 32.2000008, y: 24.4099998, z: 1}
+  m_Center: {x: 0, y: 5.61000013, z: 0}
 --- !u!82 &8200000
 AudioSource:
   m_ObjectHideFlags: 1
@@ -457,16 +459,35 @@ MonoBehaviour:
   m_GameObject: {fileID: 100006}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c93ce407b489f4fe38a18bfa01cd6269, type: 3}
+  m_Script: {fileID: 11500000, guid: 835696cf3077c48fdb2399440f8cf4f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  labelText: Enemy
-  offset: 16
+  labelText: Ancient Drone
   color: {r: 1, g: 0, b: 0, a: 1}
-  ui: {fileID: 0}
-  objectLabel: {fileID: 100000, guid: aba00c7980edc4405b8d3b7423144f6d, type: 2}
   label: {fileID: 0}
   followTarget: {fileID: 0}
+--- !u!114 &11400004
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ab700fa618f94ef08ae810bf577d67b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &11400006
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_PrefabParentObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 100006}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 87502b98786ce4bcca8923aa1ebf71b8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &11400008
 MonoBehaviour:
   m_ObjectHideFlags: 1

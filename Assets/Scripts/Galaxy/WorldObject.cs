@@ -66,5 +66,7 @@ public class WorldObject : LGMonoBehaviour {
 		resources = o.resources;
 		transform.localScale = o.scale;
 	}
-	
+
+	public static string Server_TakeDamage = "TakeDamage";
+	public virtual void TakeDamage (float amount) {}
 }

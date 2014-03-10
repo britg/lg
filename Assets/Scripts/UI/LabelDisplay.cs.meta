@@ -1,10 +1,9 @@
 fileFormatVersion: 2
-guid: c93ce407b489f4fe38a18bfa01cd6269
+guid: 835696cf3077c48fdb2399440f8cf4f8
 MonoImporter:
   serializedVersion: 2
   defaultReferences:
-  - ui: {instanceID: 0}
-  - objectLabel: {fileID: 100000, guid: aba00c7980edc4405b8d3b7423144f6d, type: 2}
+  - _objectLabel: {fileID: 100000, guid: aba00c7980edc4405b8d3b7423144f6d, type: 2}
   - label: {instanceID: 0}
   - followTarget: {instanceID: 0}
   executionOrder: 0

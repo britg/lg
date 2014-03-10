@@ -6,21 +6,20 @@ public class WeaponController : ControllerBehaviour {
 	public static string Client_BreakLock = "BreakLock";
 	public static string Client_CompleteLock = "CompleteLock";
 
-	bool weaponsActive = false;
 	public float lockCheckInterval = 0.1f;
-	WeaponLock weaponLock = new WeaponLock();
 
-	GameObject weaponLockLabelObj;
-	UILabel weaponLockLabel;
-	UIFollowTarget weaponLockLabelFollow;
+	bool weaponsActive = false;
+	WeaponLock weaponLock = new WeaponLock();
+	WeaponLockDisplay weaponLockDisplay;
 
 	public int lockPercentage {
 		get {
-			return Mathf.RoundToInt((weaponLock.currentLockingTime / player.stat (Stat.weaponTargetTime))*100);
+			return Mathf.Clamp(Mathf.RoundToInt((weaponLock.currentLockingTime / player.stat (Stat.weaponTargetTime))*100), 0, 100);
 		}
 	}
 
 	void Start () {
+		weaponLockDisplay = gameObject.AddComponent<WeaponLockDisplay>();
 		NotificationCenter.AddObserver(this, LG.n_playerStatsLoaded);
 	}
 
@@ -44,34 +43,35 @@ public class WeaponController : ControllerBehaviour {
 
 	void DetectInput () {
 
-		if (Input.GetMouseButtonUp(0) && (weaponLock.isLocking || weaponLock.isLocked)) {
+		if (Input.GetMouseButtonUp(0) && (weaponLock.isLocking)) {
 			BreakLock();
+		}
+
+		if (Input.GetMouseButtonUp(0) && weaponLock.isLocked) {
+			TriggerWeapon();
 		}
 
 		if (Input.GetMouseButton(0) && weaponLock.isNotLocked) {
 			StartLockAttempt();
 		}
 
-		if (Input.GetMouseButton(0) && (weaponLock.isLocking || weaponLock.isLocked)) {
-
-		}
 	}
 
 	void StartLockAttempt () {
 		GameObject currentTarget = AimTarget(player.stat(Stat.weaponRange));
-		if (currentTarget != null) {
+		if (weaponLock.ValidTarget(currentTarget)) {
 			Debug.Log ("Starting lock attempt");
 			networkView.UnreliableRPC(WeaponProcessor.Server_StartTargetLock, uLink.RPCMode.Server, currentLookDirection);
 			weaponLock.StartLocking(currentTarget);
 			InvokeRepeating("ContinueLockAttempt", lockCheckInterval, lockCheckInterval);
-			StartLockDisplay();
+			weaponLockDisplay.StartDisplay(weaponLock.currentTarget);
 		}
 	}
 
 	void ContinueLockAttempt () {
 //		Debug.Log ("Continuing lock attempt");
 		networkView.UnreliableRPC(WeaponProcessor.Server_CheckTargetLock, uLink.RPCMode.Server, currentLookDirection);
-		UpdateLockDisplay();
+		weaponLockDisplay.UpdateDisplay(lockPercentage);
 	}
 
 	[RPC]
@@ -79,7 +79,7 @@ public class WeaponController : ControllerBehaviour {
 		Debug.Log ("Breaking lock");
 		weaponLock.Break();
 		CancelInvoke();
-		BreakLockDisplay();
+		weaponLockDisplay.BreakDisplay();
 	}
 
 	[RPC]
@@ -87,35 +87,18 @@ public class WeaponController : ControllerBehaviour {
 		Debug.Log ("Lock completed");
 		weaponLock.Locked();
 		CancelInvoke();
-		CompleteLockDisplay();
+		weaponLockDisplay.CompleteDisplay();
 	}
 
-	void ConnectLockDisplay () {
-		weaponLockLabelObj = GameObject.Find("Labels").GetComponent<Labeler>().weaponLockLabel;
-		weaponLockLabel = weaponLockLabelObj.transform.Find("Label").GetComponent<UILabel>();
-		weaponLockLabelFollow = weaponLockLabelObj.GetComponent<UIFollowTarget>();
+	void TriggerWeapon () {
+		networkView.UnreliableRPC(WeaponProcessor.Server_TriggerWeapon, uLink.RPCMode.Server, currentLookDirection);
 	}
 
-	void StartLockDisplay () {
-		if (weaponLockLabelObj == null) {
-			ConnectLockDisplay();
-		}
-		weaponLockLabelFollow.target = weaponLock.currentTarget.transform;
-		UpdateLockDisplay();
-		weaponLockLabelObj.SetActive(true);
-	}
+	public static string Client_TriggerWeaponDisplay = "TriggerWeaponDisplay";
+	[RPC]
+	void TriggerWeaponDisplay () {
+		Debug.Log ("Triggering weapon display");
 
-	void UpdateLockDisplay () {
-		weaponLockLabel.text = "Locking " + lockPercentage + "%";
 	}
-
-	void BreakLockDisplay () {
-//		weaponLockLabel.text = "Broken!";
-		weaponLockLabelObj.SetActive(false);
-	}
-
-	void CompleteLockDisplay () {
-		weaponLockLabel.text = "Locked!";
-	}
-
+	
 }

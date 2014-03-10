@@ -14,6 +14,7 @@ public class PlayerEditor : MonoBehaviour {
 	public float speed;
 
 	public float ammo;
+	public float weaponDamage;
 	public float weaponRange;
 	public float weaponTargetTime;
 	public float weaponLoseTargetTime;
@@ -53,6 +54,7 @@ public class PlayerEditor : MonoBehaviour {
 		formData.AddField("player[stats][" + Stat.speed + "]", speed.ToString());
 
 		formData.AddField("player[stats][" + Stat.ammo + "]", ammo.ToString());
+		formData.AddField("player[stats][" + Stat.weaponDamage + "]", weaponDamage.ToString());
 		formData.AddField("player[stats][" + Stat.weaponRange + "]", weaponRange.ToString());
 		formData.AddField("player[stats][" + Stat.weaponTargetTime + "]", weaponTargetTime.ToString());
 		formData.AddField("player[stats][" + Stat.weaponLoseTargetTime + "]", weaponLoseTargetTime.ToString());

@@ -10,6 +10,7 @@ public class Stat {
 	public static string speed = "speed";
 
 	public static string ammo = "ammo";
+	public static string weaponDamage = "weapon_damage";
 	public static string weaponRange = "weapon_range";
 	public static string weaponTargetTime = "weapon_target_time";
 	public static string weaponLoseTargetTime = "weapon_lose_target_time";

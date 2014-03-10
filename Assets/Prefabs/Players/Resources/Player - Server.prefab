@@ -666,6 +666,7 @@ MonoBehaviour:
   hull: 100
   speed: 110.099998
   ammo: 100
+  weaponDamage: 10
   weaponRange: 1000
   weaponTargetTime: 1
   weaponLoseTargetTime: 1
@@ -692,6 +693,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e91e1ebd3acc4916aaa56345e8c6832, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  timeToHit: .200000003
 --- !u!143 &14300000
 CharacterController:
   m_ObjectHideFlags: 1

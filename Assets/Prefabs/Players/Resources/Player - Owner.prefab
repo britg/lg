@@ -592,14 +592,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 100006}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c93ce407b489f4fe38a18bfa01cd6269, type: 3}
+  m_Script: {fileID: 11500000, guid: 835696cf3077c48fdb2399440f8cf4f8, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   labelText: Player
-  offset: 16
   color: {r: 1, g: 1, b: 1, a: 1}
-  ui: {fileID: 0}
-  objectLabel: {fileID: 100000, guid: aba00c7980edc4405b8d3b7423144f6d, type: 2}
+  objectLabel: {fileID: 0}
   label: {fileID: 0}
   followTarget: {fileID: 0}
 --- !u!114 &11400014
