@@ -54,6 +54,7 @@ public class Player : LGMonoBehaviour {
 		resources = apiPlayer.resources;
 		NotificationCenter.PostNotification(this, LG.n_playerStatsLoaded);
 		SetLabel();
+		LoadModules();
 	}
 
 	[RPC]
@@ -86,6 +87,19 @@ public class Player : LGMonoBehaviour {
 
 	public int resource (string name) {
 		return (int)resources.Get(name).value;
+	}
+
+	void LoadModules () {
+		LoadWeapon ();
+	}
+
+	void LoadWeapon () {
+		// TEMP
+		GameObject weaponPrefab = (GameObject) Resources.Load ("RailGun");
+		GameObject weapon = (GameObject) Instantiate(weaponPrefab);
+		weapon.transform.parent = transform;
+		weapon.transform.localPosition = Vector3.zero;
+		NotificationCenter.PostNotification(this, LG.n_registerWeapon, iTween.Hash("weapon", weapon));
 	}
 
 }

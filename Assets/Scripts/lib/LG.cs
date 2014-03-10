@@ -15,6 +15,7 @@ public static class LG  {
 	public const string n_playerLoaded = "OnPlayerLoaded";
 	public const string n_playerStatsLoaded = "OnPlayerStatsLoaded";
 	public const string n_playerHit = "OnPlayerHit";
+	public const string n_registerWeapon = "OnRegisterWeapon";
 
 	/* End Player Messages */
 

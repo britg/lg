@@ -11,6 +11,7 @@ public class WeaponController : ControllerBehaviour {
 	bool weaponsActive = false;
 	WeaponLock weaponLock = new WeaponLock();
 	WeaponLockDisplay weaponLockDisplay;
+	GameObject weapon;
 
 	public int lockPercentage {
 		get {
@@ -21,10 +22,15 @@ public class WeaponController : ControllerBehaviour {
 	void Start () {
 		weaponLockDisplay = gameObject.AddComponent<WeaponLockDisplay>();
 		NotificationCenter.AddObserver(this, LG.n_playerStatsLoaded);
+		NotificationCenter.AddObserver(this, LG.n_registerWeapon);
 	}
 
 	void OnPlayerStatsLoaded () {
 		Activate();
+	}
+
+	void OnRegisterWeapon (Notification n) {
+		weapon = n.data["weapon"] as GameObject;
 	}
 
 	void Activate () {
@@ -98,7 +104,7 @@ public class WeaponController : ControllerBehaviour {
 	[RPC]
 	void TriggerWeaponDisplay () {
 		Debug.Log ("Triggering weapon display");
-
+		weapon.SendMessage("Fire", weaponLock.currentTarget.transform);
 	}
 	
 }

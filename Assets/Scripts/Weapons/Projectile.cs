@@ -3,6 +3,8 @@ using System.Collections;
 
 public class Projectile : MonoBehaviour {
 
+	public Transform target;
+
 	// Default life of laser beam
 	public float life = 2.0f;
 	// Default velocity of laser beam
@@ -18,7 +20,7 @@ public class Projectile : MonoBehaviour {
 	private Vector3 _velocity;
 	private Vector3 _newPos;
 	private Vector3 _oldPos;	
-	
+
 	void Start () {
 		// Set the new position to the current position of the transform
 		_newPos = transform.position;
@@ -29,11 +31,14 @@ public class Projectile : MonoBehaviour {
 		// Set the gameobject to destroy after period "life"
 		Destroy(gameObject, life);
 	}
+
+	void SetTarget (Transform _target) {
+		target = _target;
+	}
 	
 	void Update () {
-		// Change new position by the velocity magnitude (in the direction of transform.forward) and since
-		// we are in the update function we need to multiply by deltatime.
-		_newPos += transform.up * _velocity.magnitude * Time.deltaTime;
+		Vector3 dir = (target.position - transform.position).normalized;
+		_newPos += dir * _velocity.magnitude * Time.deltaTime;
 		// SDet direction to the difference between new position and old position
 		Vector3 _direction = _newPos - _oldPos;
 		// Get the distance which is the magnitude of the direction vector
@@ -45,8 +50,8 @@ public class Projectile : MonoBehaviour {
 			RaycastHit _hit;
 			// If the raycast from previous position in the specified direction at (or before) the distance...
 			if (Physics.Raycast(_oldPos, _direction, out _hit, _distance)) {
-				// and if the transform we hit isn't a the ship that fired the weapon and the collider isn't just a trigger...
-				if (_hit.transform != firedBy && !_hit.collider.isTrigger) {
+
+				if (_hit.transform == target) {
 //					 Set the rotation of the impact effect to the normal of the impact surface (we wan't the impact effect to
 //					 throw particles out from the object we just hit...
 					Quaternion _rotation = Quaternion.FromToRotation(Vector3.up, _hit.normal);
@@ -57,13 +62,6 @@ public class Projectile : MonoBehaviour {
 
 					Destroy(gameObject);
 
-					if (uLink.Network.isServer) {
-						GameObject hitObject = _hit.transform.gameObject;
-						Hashtable nData = new Hashtable();
-						nData["shooter"] = firedBy.gameObject;
-						nData["hit"] = hitObject;
-						NotificationCenter.PostNotification(this, LG.n_playerHit, nData);
-					}
 				}
 			}
 		}

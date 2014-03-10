@@ -62,6 +62,8 @@ public class WeaponProcessor : ProcessorBehaviour {
 		if (weaponLock.ValidTarget(currentTarget)) {
 			networkView.UnreliableRPC(WeaponController.Client_TriggerWeaponDisplay, uLink.RPCMode.Owner);
 			Invoke ("DoDamage", timeToHit);
+		} else {
+			BreakLock();
 		}
 	}
 
