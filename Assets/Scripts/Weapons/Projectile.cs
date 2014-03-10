@@ -5,17 +5,12 @@ public class Projectile : MonoBehaviour {
 
 	public Transform target;
 
-	// Default life of laser beam
 	public float life = 2.0f;
-	// Default velocity of laser beam
 	public float velocity = 1000.0f;
-	// Reference to impact effect prefab to spawn upon impact
 	public Transform impactEffect;
-	// Reference to explosion effect prefab to spawn if object is destroyed
 	public Transform explosionEffect;
-	// "Fired By" Reference to ignore collision detection for the ship that fired the laser
 	public Transform firedBy {get; set;}
-	
+
 	// Private variables
 	private Vector3 _velocity;
 	private Vector3 _newPos;

@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class StatsDisplay : LGMonoBehaviour {
+public class StatsDisplay : DisplayBehaviour {
 
 	public float refreshRate = 0.2f;
 

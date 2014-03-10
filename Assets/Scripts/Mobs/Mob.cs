@@ -11,7 +11,7 @@ public class Mob : WorldObject {
 	}
 
 	public override void TakeDamage (float amount) {
-//		Debug.Log ("Mob take damage " + amount);
+		Debug.Log ("Mob take damage " + amount);
 		float currentShields = stats.Get(Stat.shields).value;
 		float currentHull = stats.Get(Stat.hull).value;
 		float diff = 0f;

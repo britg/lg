@@ -136,7 +136,7 @@ MonoBehaviour:
   target: {fileID: 0}
   gameCamera: {fileID: 0}
   uiCamera: {fileID: 0}
-  disableIfInvisible: 1
+  disableIfInvisible: 0
 --- !u!114 &11400004
 MonoBehaviour:
   m_ObjectHideFlags: 1
