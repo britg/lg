@@ -4,6 +4,7 @@ using Vectrosity;
 
 public class LookController : LGMonoBehaviour {
 
+	public Color cursorColor = Color.gray;
 	public Vector3 worldLookPoint;
 	public Vector3 lookDirection {
 		get {
@@ -39,7 +40,7 @@ public class LookController : LGMonoBehaviour {
 	}
 
 	void CreatePointer () {
-		pointer = VectorLine.SetLine(Color.green, playerScreenPos, playerScreenPos);
+		pointer = VectorLine.SetLine(cursorColor, playerScreenPos, playerScreenPos);
 	}
 
 	void FollowMouse () {
@@ -49,14 +50,14 @@ public class LookController : LGMonoBehaviour {
 			return;
 		}
 
-		Vector2 screenLookPoint = playerScreenPos + (mousePos - playerScreenPos) * 100;
+		Vector2 screenLookPoint = playerScreenPos + (mousePos - playerScreenPos) * 1;
 		UpdateLook (screenLookPoint);
 
 		lastMousePos = mousePos;
 	}
 
 	void FollowThumbstick () {
-		Vector2 lookDirection = new Vector2(Input.GetAxis("Look X"), -Input.GetAxis("Look Y")).normalized * 1000;
+		Vector2 lookDirection = new Vector2(Input.GetAxis("Look X"), -Input.GetAxis("Look Y")).normalized * 1;
 		if (lookDirection.sqrMagnitude > 0f) {
 			Vector2 screenLookPoint = playerScreenPos + lookDirection;
 			UpdateLook (screenLookPoint);

@@ -656,7 +656,7 @@ MonoBehaviour:
   ammo: 100
   weaponDamage: 10
   weaponRange: 1000
-  weaponTargetTime: 1
+  weaponTargetTime: .300000012
   weaponLoseTargetTime: 1
   fuel: 100
   fuelBurn: 1

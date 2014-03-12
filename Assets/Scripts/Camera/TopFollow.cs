@@ -14,16 +14,17 @@ public class TopFollow : MonoBehaviour {
 	}
 
 	void LateUpdate () {
-		if (player != null) {
-			FollowPlayer();
-		}
+//		if (player != null) {
+//			FollowPlayer();
+//		}
 	}
 
 	void FollowPlayer () {
-		Vector3 pos = transform.position;
-		pos.x = player.transform.position.x;
-		pos.y = player.transform.position.y;
-
-		transform.position = pos;
+//		Vector3 pos = transform.position;
+//		pos.x = player.transform.position.x + offset.x;
+//		pos.y = player.transform.position.y + offset.y;
+//		transform.position = pos;
+//
+//		transform.eulerAngles = angles;
 	}
 }

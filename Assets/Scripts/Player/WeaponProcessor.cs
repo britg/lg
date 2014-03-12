@@ -10,6 +10,8 @@ public class WeaponProcessor : ProcessorBehaviour {
 
 	WeaponLock weaponLock = new WeaponLock();
 
+	GameObject thisTarget;
+
 	void Update () {
 		if (weaponLock.isLocking) {
 			weaponLock.ContinueLocking(Time.deltaTime);
@@ -58,8 +60,8 @@ public class WeaponProcessor : ProcessorBehaviour {
 	public const string Server_TriggerWeapon = "TriggerWeapon";
 	[RPC]
 	void TriggerWeapon (Vector3 direction) {
-		GameObject currentTarget = AimTarget(direction, playerProcessor.stat (Stat.weaponRange));
-		if (weaponLock.ValidTarget(currentTarget)) {
+		thisTarget = AimTarget(direction, playerProcessor.stat (Stat.weaponRange));
+		if (weaponLock.ValidTarget(thisTarget)) {
 			networkView.UnreliableRPC(WeaponController.Client_TriggerWeaponDisplay, uLink.RPCMode.Owner);
 			Invoke ("DoDamage", timeToHit);
 		} else {
@@ -69,7 +71,7 @@ public class WeaponProcessor : ProcessorBehaviour {
 
 	void DoDamage () {
 		float amount = playerProcessor.stat(Stat.weaponDamage);
-		weaponLock.currentTarget.SendMessage(WorldObject.Server_TakeDamage, amount);
+		thisTarget.SendMessage(WorldObject.Server_TakeDamage, amount);
 		BreakLock();
 	}
 }

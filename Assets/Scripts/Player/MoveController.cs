@@ -28,8 +28,13 @@ public class MoveController : LGMonoBehaviour
 	}
 
 	void StartCameraFollow () {
-		TopFollow topFollow = Camera.main.GetComponent<TopFollow>();
-		topFollow.player = gameObject;
+//		TopFollow topFollow = Camera.main.GetComponent<TopFollow>();
+//		topFollow.player = gameObject;
+//		GameObject follower = new GameObject("PlayerFollower");
+//		follower.transform.parent = transform;
+//		follower.transform.localPosition = Vector3.zero;
+
+//		Camera.main.transform.parent = ;
 	}
 	
 	void Update() {

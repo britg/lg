@@ -18,19 +18,17 @@ public class Player : LGMonoBehaviour {
 
 	public GameObject nameLabel;
 
+	bool shouldAnnounceLoaded = false;
+
 
 	void Start () {
-		if (isOwner) {
-			AssignNotifier();
-		}
-
 		fuelController = GetComponent<FuelController>();
+		networkView.RPC ("SyncToClient", uLink.RPCMode.Server);
 	}
 
 	void uLink_OnNetworkInstantiate (uLink.NetworkMessageInfo info) {
 		info.networkView.initialData.TryRead<string>(out playerName);
 		info.networkView.initialData.TryRead<int>(out playerId);
-		networkView.RPC ("SyncToClient", uLink.RPCMode.Server);
 	}
 
 	void SetLabel () {
@@ -52,9 +50,9 @@ public class Player : LGMonoBehaviour {
 		transform.localScale = apiPlayer.scale;
 		stats = apiPlayer.stats;
 		resources = apiPlayer.resources;
-		NotificationCenter.PostNotification(this, LG.n_playerStatsLoaded);
 		SetLabel();
 		LoadModules();
+		AnnounceLoadComplete();
 	}
 
 	[RPC]
@@ -74,6 +72,19 @@ public class Player : LGMonoBehaviour {
 			int resourceValue;
 			int.TryParse(resourceArr[i+1], out resourceValue);
 			resources.Set (resourceName, resourceValue);
+		}
+	}
+
+	void AnnounceLoadComplete () {
+		if (player != null) {
+			NotificationCenter.PostNotification(this, LG.n_playerStatsLoaded);
+		} else {
+			Invoke ("AnnounceLoadComplete", 0f);
+		}
+	}
+
+	void LateUpdate () {
+		if (shouldAnnounceLoaded) {
 		}
 	}
 

@@ -6,7 +6,6 @@ public class DamageDisplay : DisplayBehaviour {
 	public static string Client_Display = "DisplayDamage";
 	[RPC]
 	void DisplayDamage (float amount) {
-		Debug.Log ("Displaying damage " + amount);
 		GameObject damageDisplay = NGUITools.AddChild(labels, damageLabelPrefab);
 		UIFollowTarget follow = GetFollow(damageDisplay);
 		follow.target = transform;

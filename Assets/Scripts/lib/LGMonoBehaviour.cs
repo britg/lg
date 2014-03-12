@@ -10,10 +10,10 @@ public class LGMonoBehaviour : uLink.MonoBehaviour {
 	Player _player;
 	protected Player player {
 		get {
-			if (_player == null) {
-				_player = thePlayer().GetComponent<Player>();
+			if (LG.player == null) {
+				LG.player = thePlayer().GetComponent<Player>();
 			} 
-			return _player;
+			return LG.player;
 		}
 	}
 
@@ -50,10 +50,6 @@ public class LGMonoBehaviour : uLink.MonoBehaviour {
 	    float angle = Vector3.Angle(v1, v2);
 	    float sign = Mathf.Sign(Vector3.Dot(-Vector3.forward, Vector3.Cross(v1, v2)));
 	    return angle*sign;
-	}
-
-	protected void AssignNotifier () {
-		notifier = GameObject.Find ("Notifications").GetComponent<FloatingTextController>();
 	}
 
 }

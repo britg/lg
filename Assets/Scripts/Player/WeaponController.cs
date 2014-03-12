@@ -1,4 +1,4 @@
-using UnityEngine;
+﻿using UnityEngine;
 using System.Collections;
 
 public class WeaponController : ControllerBehaviour {
@@ -94,6 +94,7 @@ public class WeaponController : ControllerBehaviour {
 		weaponLock.Locked();
 		CancelInvoke();
 		weaponLockDisplay.CompleteDisplay();
+		TriggerWeapon();
 	}
 
 	void TriggerWeapon () {
@@ -104,7 +105,9 @@ public class WeaponController : ControllerBehaviour {
 	[RPC]
 	void TriggerWeaponDisplay () {
 		Debug.Log ("Triggering weapon display");
-		weapon.SendMessage("Fire", weaponLock.currentTarget.transform);
+		if (weaponLock.isLocked) {
+			weapon.SendMessage("Fire", weaponLock.currentTarget.transform);
+		}
 	}
 	
 }

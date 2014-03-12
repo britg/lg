@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System;
 using System.Collections;
+using uLink;
 
 public class Mob : WorldObject {
 
@@ -34,7 +35,7 @@ public class Mob : WorldObject {
 	}
 
 	public void Die () {
-
+		uLink.Network.Destroy (networkView);
 	}
 
 }
