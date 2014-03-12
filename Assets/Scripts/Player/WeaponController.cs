@@ -105,7 +105,7 @@ public class WeaponController : ControllerBehaviour {
 	[RPC]
 	void TriggerWeaponDisplay () {
 		Debug.Log ("Triggering weapon display");
-		if (weaponLock.isLocked) {
+		if (weaponLock.currentTarget != null) {
 			weapon.SendMessage("Fire", weaponLock.currentTarget.transform);
 		}
 	}

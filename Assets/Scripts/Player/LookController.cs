@@ -5,69 +5,63 @@ using Vectrosity;
 public class LookController : LGMonoBehaviour {
 
 	public Color cursorColor = Color.gray;
-	public Vector3 worldLookPoint;
+	public Vector3 worldLookPoint = Vector3.zero;
 	public Vector3 lookDirection {
 		get {
 			return (worldLookPoint - transform.position).normalized;
 		}
 	}
 
-	private Vector2 playerScreenPos;
-	private VectorLine pointer;
-	private Vector2 lastMousePos;
+	Transform lookAnchor;
+	VectorLine pointer;
+	GameObject pointerObj;
+	Vector2 lastMousePos;
 
 	// Use this for initialization
 	void Start () {
-		if (player.isOwner) {
-			AssignPlayerPos();
-			CreatePointer();
-			lastMousePos = Vector2.zero;
-		}
+		lookAnchor = GameObject.Find("LookAnchor").transform;
+		lastMousePos = Vector2.zero;
+		CreatePointer();
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		if (player.isOwner) {
-			FollowMouse();
-			FollowThumbstick();
-		}
-	}
-
-	void AssignPlayerPos () {
-		float x = Screen.width / 2f;
-		float y = Screen.height / 2f;
-		playerScreenPos = new Vector2(x, y);
+		FollowMouse();
+		FollowThumbstick();
 	}
 
 	void CreatePointer () {
-		pointer = VectorLine.SetLine(cursorColor, playerScreenPos, playerScreenPos);
+		pointer = VectorLine.SetLine3D(cursorColor, lookAnchor.position, Vector3.up*1000);
+		pointer.Draw();
+		pointerObj = GameObject.Find("Vector SetLine3D");
+		pointerObj.transform.parent = lookAnchor;
 	}
 
 	void FollowMouse () {
 		Vector2 mousePos = Input.mousePosition;
-
 		if (lastMousePos.Equals(mousePos)) {
 			return;
 		}
-
-		Vector2 screenLookPoint = playerScreenPos + (mousePos - playerScreenPos) * 1;
-		UpdateLook (screenLookPoint);
-
 		lastMousePos = mousePos;
+		Ray ray = Camera.main.ScreenPointToRay(mousePos);
+		float dist;
+		LG.plane.Raycast(ray, out dist);
+		Vector3 approx = Camera.main.ScreenToWorldPoint(new Vector3(mousePos.x, mousePos.y, dist));
+		approx.z = 0;
+		worldLookPoint = approx;
+		UpdateLook();
 	}
 
 	void FollowThumbstick () {
-		Vector2 lookDirection = new Vector2(Input.GetAxis("Look X"), -Input.GetAxis("Look Y")).normalized * 1;
-		if (lookDirection.sqrMagnitude > 0f) {
-			Vector2 screenLookPoint = playerScreenPos + lookDirection;
-			UpdateLook (screenLookPoint);
-		}
+//		Vector2 lookDirection = new Vector2(Input.GetAxis("Look X"), -Input.GetAxis("Look Y")).normalized * 1;
+//		if (lookDirection.sqrMagnitude > 0f) {
+//			Vector2 screenLookPoint = playerScreenPos + lookDirection;
+//			UpdateLook (screenLookPoint);
+//		}
 	}
 
-	void UpdateLook (Vector2 screenLookPoint) {
-		worldLookPoint = transform.position + Camera.main.ScreenToWorldPoint(new Vector3(screenLookPoint.x, screenLookPoint.y, -Camera.main.transform.position.z));
-		pointer.points2[1] = screenLookPoint;
-		pointer.Draw();
+	void UpdateLook () {
+		pointer.points3[1] = lookDirection * 1000000;
 	}
 
 	void uLink_OnDisconnectedFromServer (uLink.NetworkDisconnection mode) {

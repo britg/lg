@@ -534,7 +534,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3681a8a1fecde4accbd58d0f0f602c56, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  cursorColor: {r: .16911763, g: .16911763, b: .16911763, a: 1}
+  cursorColor: {r: .168627456, g: 1, b: .168627456, a: 1}
   worldLookPoint: {x: 0, y: 0, z: 0}
 --- !u!114 &11400006
 MonoBehaviour:

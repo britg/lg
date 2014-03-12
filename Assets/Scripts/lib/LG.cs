@@ -5,6 +5,7 @@ public static class LG  {
 
 	public static Player player;
 	public static PlayerProcessor playerProcessor;
+	public static Plane plane = new Plane(Vector3.up, Vector3.right, Vector3.down);
 
 	public static string version = "0.0.21";
 	public static string patchHost = "http://lg.foolishaggro.com/system/_output";

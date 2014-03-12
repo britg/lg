@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class Follower : LGMonoBehaviour {
+public class CameraAnchor : LGMonoBehaviour {
 
 	Transform target;
 
