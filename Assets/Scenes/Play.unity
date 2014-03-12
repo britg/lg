@@ -2156,9 +2156,11 @@ MonoBehaviour:
   angles: {x: 323.549988, y: 0, z: 0}
   offset: {x: 0, y: -370, z: -500}
   multiplier: 8
-  max: -300
-  min: -1800
-  zoom: 1
+  min: 100
+  max: 1800
+  bounceTime: 1
+  bounceAmount: 100
+  target: {fileID: 0}
 --- !u!1 &564690648
 GameObject:
   m_ObjectHideFlags: 0

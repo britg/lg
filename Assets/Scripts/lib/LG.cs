@@ -35,6 +35,7 @@ public static class LG  {
 	/* End GUI Messages */
 
 	/* Server Startup Messages */
+	public const string n_cameraAnchored = "OnCameraAnchored";
 	public const string n_worldObjectsSpawned = "OnWorldObjectsSpawned";
 
 }

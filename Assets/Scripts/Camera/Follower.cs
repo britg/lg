@@ -18,10 +18,13 @@ public class Follower : LGMonoBehaviour {
 	}
 
 	void OnPlayerStatsLoaded () {
+		AnchorCamera();
+	}
+
+	void AnchorCamera () {
 		target = player.transform;
-		ZoomController zoom = Camera.main.GetComponent<ZoomController>();
 		Camera.main.transform.parent = transform;
-		Camera.main.transform.localPosition = zoom.offset;
+		NotificationCenter.PostNotification(this, LG.n_cameraAnchored);
 	}
 
 }
