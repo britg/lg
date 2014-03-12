@@ -6,16 +6,14 @@ using UnityEngine;
 using uLink;
 
 [RequireComponent(typeof(uLinkNetworkView))]
-public class MoveController : LGMonoBehaviour
-{
+public class MoveController : LGMonoBehaviour {
 
 
-	private CharacterController character;
-	private MoveSerializer moveSerializer;
-
+	CharacterController character;
+	MoveSerializer moveSerializer;
 	bool movedThisFrame = false;
-	
-	private Vector3 moveDirection = Vector3.zero;
+	Vector3 moveDirection = Vector3.zero;
+	Transform referenceFrame;
 
 
 	void Awake() {
@@ -24,19 +22,9 @@ public class MoveController : LGMonoBehaviour
 	
 	void Start () {
 		moveSerializer = GetComponent<MoveSerializer>();
-		StartCameraFollow();
+		referenceFrame = GameObject.Find ("CameraAnchor").transform;
 	}
 
-	void StartCameraFollow () {
-//		TopFollow topFollow = Camera.main.GetComponent<TopFollow>();
-//		topFollow.player = gameObject;
-//		GameObject follower = new GameObject("PlayerFollower");
-//		follower.transform.parent = transform;
-//		follower.transform.localPosition = Vector3.zero;
-
-//		Camera.main.transform.parent = ;
-	}
-	
 	void Update() {
 		if (player.isOwner) {
 			DetectInput();
@@ -46,7 +34,8 @@ public class MoveController : LGMonoBehaviour
 	
 	void DetectInput () {
 		Vector3 raw = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0);
-		moveDirection = Vector3.ClampMagnitude(raw, 1f);
+		Quaternion offset = Quaternion.Euler(referenceFrame.eulerAngles);
+		moveDirection = offset * Vector3.ClampMagnitude(raw, 1f);
 		if (moveDirection.sqrMagnitude > 0f && player.fuelController.HasEnoughFuel(Time.deltaTime)) {
 			Move(moveDirection);
 			movedThisFrame = true;
