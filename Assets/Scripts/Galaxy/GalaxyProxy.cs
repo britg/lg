@@ -5,6 +5,8 @@ using uLink;
 
 public class GalaxyProxy : LGMonoBehaviour {
 
+	Hashtable loadedSectorCache = new Hashtable();
+
 	// Use this for initialization
 	void Start () {
 		WorldObject.galaxy = gameObject;
@@ -18,11 +20,23 @@ public class GalaxyProxy : LGMonoBehaviour {
 
 	void OnPlayerStatsLoaded () {
 		Debug.Log ("On player loaded " + player);
-		GetNearbyObjects();
+		GetCurrentSector();
+	}
+
+	void GetCurrentSector () {
+		networkView.UnreliableRPC(GalaxyProcessor.Server_GetSector, uLink.RPCMode.Server, player.transform.position);
 	}
 
 	void GetNearbyObjects () {
 		networkView.UnreliableRPC("GetNearbyObjects", uLink.RPCMode.Server, player.transform.position);
+	}
+
+	[RPC]
+	void LoadSector (string sectorName) {
+		if (loadedSectorCache[sectorName] == null) {
+			GameObject sector = (GameObject)Resources.Load (sectorName);
+			loadedSectorCache[sectorName] = (GameObject)Instantiate(sector);
+		}
 	}
 
 	[RPC]

@@ -17,7 +17,7 @@ public class PanController : LGMonoBehaviour {
 	}
 
 	void OnPlayerStatsLoaded () {
-		lookTarget = player.transform;
+		lookTarget = thePlayer().transform;
 	}
 	
 	void Update () {

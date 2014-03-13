@@ -5,6 +5,8 @@ using uLink;
 
 public class GalaxyProcessor : APIBehaviour {
 
+	Hashtable sectorCache = new Hashtable();
+
 	void Start () {
 		WorldObject.galaxy = gameObject;
 	}
@@ -17,7 +19,7 @@ public class GalaxyProcessor : APIBehaviour {
 	}
 
 	void GetWorldObjects () {
-		Get("/spawns", GetSpawnsSuccess);
+//		Get("/spawns", GetSpawnsSuccess);
 	}
 
 	void GetSpawnsSuccess (APIResponse response) {
@@ -26,8 +28,22 @@ public class GalaxyProcessor : APIBehaviour {
 		NotificationCenter.PostNotification(this, LG.n_worldObjectsSpawned);
 	}
 
+	public static string Server_GetSector = "GetSector";
 	[RPC]
-	void GetNearbyObjects (Vector3 pos, uLink.NetworkMessageInfo info) {
+	void GetSector (Vector3 pos, uLink.NetworkMessageInfo info) {
+		print ("Getting sector for " + pos);
+		// Instantiate on server side for stuff
+		string chosenSector = "SectorA";
+		if (sectorCache[chosenSector] == null) {
+			GameObject sector = (GameObject) Resources.Load (chosenSector);
+			sectorCache[chosenSector] = sector;
+			Instantiate (sector);
+		}
+		networkView.RPC ("LoadSector", info.sender, chosenSector);
+	}
+
+	[RPC]
+	void GetServerNearbyObjects (Vector3 pos, uLink.NetworkMessageInfo info) {
 		Debug.Log ("Getting nearby objects for " + pos);
 		string query = "&type=static&x=" + pos.x.ToString() + "&y=" + pos.y.ToString() + "&z=" + pos.z.ToString();
 		Get ("/spawns", query, info.sender, GetNearbyObjectsSuccess);

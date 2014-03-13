@@ -39,10 +39,16 @@ public class LGMonoBehaviour : uLink.MonoBehaviour {
 	protected GameObject thePlayer () {
 		string clientPlayerName = "Player - Owner(Clone)";
 		string clientServerName = "Player - Server(Clone)";
-		if (gameObject.name == clientPlayerName || gameObject.name == clientServerName) {
+		string explorerName = "ExploreAnchor";
+		if (gameObject.name == clientPlayerName || gameObject.name == clientServerName || gameObject.name == explorerName) {
 			return gameObject;
 		} else {
-			return GameObject.Find (clientPlayerName);
+			GameObject go = GameObject.Find (clientPlayerName);
+			if (go != null) {
+				return go;
+			}
+			print ("Falling back to explorer " + GameObject.Find (explorerName));
+			return GameObject.Find (explorerName);
 		}
 	}
 

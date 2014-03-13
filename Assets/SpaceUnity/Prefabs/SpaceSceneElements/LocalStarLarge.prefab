@@ -106,7 +106,7 @@ GameObject:
   m_Component:
   - 4: {fileID: 400012}
   - 108: {fileID: 10800002}
-  m_Layer: 0
+  m_Layer: 20
   m_Name: Directional light
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -120,7 +120,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1.17148047e-05, y: -7.12720248e-06, z: 800}
+  m_LocalPosition: {x: -1.17148047e-05, y: -7.12720248e-06, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 400012}
@@ -168,7 +168,7 @@ Transform:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100008}
-  m_LocalRotation: {x: .0160408411, y: .108904809, z: .979449749, w: .16899927}
+  m_LocalRotation: {x: .0396847688, y: .595241666, z: .775157928, w: .2079487}
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -3425,7 +3425,7 @@ ParticleSystemRenderer:
   m_LightmapIndex: 255
   m_LightmapTilingOffset: {x: 1, y: 1, z: 0, w: 0}
   m_Materials:
-  - {fileID: 2100000, guid: f38e4967e0829944c934939ac0a5a072, type: 2}
+  - {fileID: 2100000, guid: 9809d826a4020904098bd09d99eafb6b, type: 2}
   m_SubsetIndices: 
   m_StaticBatchRoot: {fileID: 0}
   m_UseLightProbes: 0
