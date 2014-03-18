@@ -8,7 +8,6 @@ public class LockOnWeaponController : WeaponController {
 	bool weaponsActive = false;
 	WeaponLock weaponLock = new WeaponLock();
 	WeaponLockDisplay weaponLockDisplay;
-	GameObject weapon;
 
 	public int lockPercentage {
 		get {
@@ -24,10 +23,6 @@ public class LockOnWeaponController : WeaponController {
 
 	void OnPlayerStatsLoaded () {
 		Activate();
-	}
-
-	void OnRegisterWeapon (Notification n) {
-		weapon = n.data["weapon"] as GameObject;
 	}
 
 	void Activate () {
@@ -105,7 +100,7 @@ public class LockOnWeaponController : WeaponController {
 	void TriggerWeaponDisplay () {
 		Debug.Log ("Triggering weapon display");
 		if (weaponLock.currentTarget != null) {
-			weapon.SendMessage("Fire", weaponLock.currentTarget.transform);
+			weapon.Fire(weaponLock.currentTarget.transform);
 		}
 	}
 	
