@@ -31,6 +31,12 @@ public class WeaponLock {
 		}
 	}
 
+	public bool isActive {
+		get {
+			return isLocking || isLocked;
+		}
+	}
+
 	public bool ValidTarget (GameObject target) {
 		return target != null && target.GetComponent<WeaponTarget>() != null;
 	}

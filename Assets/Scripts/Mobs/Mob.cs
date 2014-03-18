@@ -45,8 +45,10 @@ public class Mob : WorldObject {
 
 	public void Die () {
 		alive = false;
-		BoxCollider box = GetComponent<BoxCollider>();
-		Destroy(box);
+
+		WeaponTarget weaponTarget = GetComponent<WeaponTarget>();
+		Destroy (weaponTarget);
+
 		networkView.UnreliableRPC(MobClient.Client_Die, uLink.RPCMode.Others);
 		Invoke (Server_Remove, removeTime);
 	}

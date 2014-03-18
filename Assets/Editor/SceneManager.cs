@@ -52,8 +52,10 @@ public static class SceneManager
 
 	[MenuItem("Lonely Galaxy/Server Mac %&s")]
 	public static void ServerMac () {
+		KillRunning();
 		string[] server = new string[] { "Assets/Scenes/Server_default.unity" };
 		BuildPipeline.BuildPlayer(server, "Build/mac/lg_server.app", BuildTarget.StandaloneOSXIntel, BuildOptions.AutoRunPlayer);
+		EditorApplication.isPlaying = true;
 	}
 
 	[MenuItem("Lonely Galaxy/Server Linux")]
@@ -61,5 +63,24 @@ public static class SceneManager
 		string[] server = new string[] { "Assets/Scenes/Server_default.unity" };
 		BuildTarget target = BuildTarget.StandaloneLinux64;
 		BuildPipeline.BuildPlayer(server, "../lg_server/lg_server.x86_64", target, BuildOptions.None);
+	}
+
+	public static void KillRunning () {
+		Process[] processes = Process.GetProcesses();
+		foreach(Process p in processes) {
+			string name;
+			try {
+				name = p.ProcessName;
+				if (name == "Lonely Galaxy") {
+					UnityEngine.Debug.Log(name);
+					UnityEngine.Debug.Log ("Killing LG " + p.Id.ToString());
+					p.Kill();
+					p.WaitForExit(1000);
+				}
+//				UnityEngine.Debug.Log(name);
+			} catch (InvalidOperationException) {
+
+			}
+		}
 	}
 }

@@ -37,10 +37,19 @@ public class LockOnWeaponProcessor : WeaponProcessor {
 		}
 
 		GameObject currentTarget = AimTarget(direction, playerProcessor.stat(Stat.weaponRange));
-		if (currentTarget != weaponLock.currentTarget) {
-			// TEMP: We really want to have a buffer here.
-			BreakLock ();
+		if (currentTarget != null) {
+			if (currentTarget != weaponLock.currentTarget) {
+				BreakLock();
+			}
+
+			Mob mob = currentTarget.GetComponent<Mob>();
+			if (mob != null && !mob.alive) {
+				BreakLock();
+			}
+		} else {
+			BreakLock();
 		}
+
 	}
 
 	void LockSuccess () {
@@ -50,9 +59,11 @@ public class LockOnWeaponProcessor : WeaponProcessor {
 	}
 
 	void BreakLock () {
-		Debug.Log ("Breaking server lock");
-		weaponLock.Break();
-		networkView.UnreliableRPC(LockOnWeaponController.Client_BreakLock, uLink.RPCMode.Owner);
+		if (weaponLock.isActive) {
+			Debug.Log ("Breaking server lock");
+			weaponLock.Break();
+			networkView.UnreliableRPC(LockOnWeaponController.Client_BreakLock, uLink.RPCMode.Owner);
+		}
 	}
 
 	public const string Server_TriggerWeapon = "TriggerWeapon";

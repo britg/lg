@@ -43,6 +43,9 @@ public class MobClient : LGMonoBehaviour {
 	[RPC] void Die () {
 		currentState = State.Dead;
 		damageDisplay.DisplayDeath();
+
+		WeaponTarget weaponTarget = GetComponent<WeaponTarget>();
+		Destroy (weaponTarget);
 	}
 
 	void OnDestroy () {
