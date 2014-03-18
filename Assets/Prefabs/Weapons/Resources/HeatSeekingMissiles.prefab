@@ -45,7 +45,7 @@ MonoBehaviour:
   projectileLife: 1
   projectileVelocity: 5000
   destroyOnImpact: 0
-  shotDelay: .5
+  shotDelay: .100000001
   target: {fileID: 0}
   direction: {x: 0, y: 0, z: 0}
 --- !u!1001 &100100000
