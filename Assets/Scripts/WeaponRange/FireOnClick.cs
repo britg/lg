@@ -3,6 +3,8 @@ using System.Collections;
 
 public class FireOnClick : MonoBehaviour {
 
+	public Transform target;
+
 	// Use this for initialization
 	void Start () {
 	
@@ -21,7 +23,10 @@ public class FireOnClick : MonoBehaviour {
 
 	void SendFire () {
 		foreach (Transform child in transform) {
-			child.gameObject.SendMessage("Fire");
+			Weapon weapon = child.gameObject.GetComponent<Weapon>();
+			if (weapon != null) {
+				weapon.Fire(target);
+			}
 		}
 	}
 }

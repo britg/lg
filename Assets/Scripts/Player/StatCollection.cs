@@ -22,6 +22,12 @@ public class StatCollection {
 		}
 	}
 
+	public float Hull {
+		get {
+			return Get(Stat.hull).value;
+		}
+	}
+
 	public StatCollection () {
 
 	}
@@ -39,6 +45,7 @@ public class StatCollection {
 
 	public void Set (string statName, float value) {
 		statsTable[statName] = new Stat(statName, value);
+//		Debug.Log ("Setting stat " + statName + " to value " + value);
 		if (!statsToSync.Contains(statName)) {
 			statsToSync.Add (statName);
 		}

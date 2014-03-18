@@ -5,7 +5,6 @@ using System.Collections.Generic;
 
 public class Player : LGMonoBehaviour {
 
-	public bool isOwner = false;
 	public string playerName = "Player";
 	public int playerId;
 
@@ -17,9 +16,6 @@ public class Player : LGMonoBehaviour {
 	public FuelController fuelController;
 
 	public GameObject nameLabel;
-
-	bool shouldAnnounceLoaded = false;
-
 
 	void Start () {
 		fuelController = GetComponent<FuelController>();
@@ -51,7 +47,6 @@ public class Player : LGMonoBehaviour {
 		stats = apiPlayer.stats;
 		resources = apiPlayer.resources;
 		SetLabel();
-		LoadModules();
 		AnnounceLoadComplete();
 	}
 
@@ -83,11 +78,6 @@ public class Player : LGMonoBehaviour {
 		}
 	}
 
-	void LateUpdate () {
-		if (shouldAnnounceLoaded) {
-		}
-	}
-
 	public void RequestRespawn () {
 		networkView.RPC ("Respawn", uLink.RPCMode.Server);
 	}
@@ -100,17 +90,16 @@ public class Player : LGMonoBehaviour {
 		return (int)resources.Get(name).value;
 	}
 
-	void LoadModules () {
-		LoadWeapon ();
-	}
-
-	void LoadWeapon () {
-		// TEMP
-		GameObject weaponPrefab = (GameObject) Resources.Load ("RailGun");
-		GameObject weapon = (GameObject) Instantiate(weaponPrefab);
+	public static string Client_LoadWeapon = "LoadWeapon";
+	[RPC]
+	void LoadWeapon (string weaponName) {
+		GameObject weaponPrefab = (GameObject) Resources.Load (weaponName);
+		Weapon weapon = ((GameObject)Instantiate(weaponPrefab)).GetComponent<Weapon>();
 		weapon.transform.parent = transform;
 		weapon.transform.localPosition = Vector3.zero;
-		NotificationCenter.PostNotification(this, LG.n_registerWeapon, iTween.Hash("weapon", weapon));
+		string controlScriptName = weapon.controlType.ToString() + "WeaponController";
+		WeaponController weaponController = gameObject.AddComponent(controlScriptName) as WeaponController;
+		weaponController.weapon = weapon;
+		NotificationCenter.PostNotification(this, LG.n_registerWeapon, LG.Hash("weapon", weapon));
 	}
-
 }

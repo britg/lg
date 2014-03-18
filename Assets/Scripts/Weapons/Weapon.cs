@@ -3,17 +3,53 @@ using System.Collections;
 
 public class Weapon : LGMonoBehaviour {
 
-	GameObject _projectileLauncher;
-	GameObject projectileLauncher {
+	public WeaponControlType controlType;
+	public ProjectileType projectileType;
+	public int ammoPerShot;
+
+
+	public GameObject projectilePrefab;
+	public float projectileLife;
+	public float projectileVelocity;
+	public bool destroyOnImpact;
+
+	public float shotDelay = 0.1f;
+
+	[HideInInspector]
+	public Transform target;
+	[HideInInspector]
+	public Vector3 direction;
+
+	public float Range {
 		get {
-			if (_projectileLauncher == null) {
-				_projectileLauncher = transform.Find("ProjectileLauncher").gameObject;
-			}
-			return _projectileLauncher;
+			return projectileLife * projectileVelocity;
 		}
 	}
 
-	void Fire (Transform target) {
-		projectileLauncher.SendMessage("Fire", target);
+	public void Fire (Transform _target) {
+		target = _target;
+		FireVolley();
+	}
+
+	public void FireTowards (Vector3 _direction) {
+		direction = _direction;
+		FireVolley();
+	}
+	
+	public void FireVolley () {
+		for (int i = 0; i < ammoPerShot; i++) {
+			Invoke("FireProjectile", shotDelay * i);
+		}
+	}
+	
+	public void FireProjectile () {
+		GameObject p = (GameObject) Instantiate(projectilePrefab, transform.position, Quaternion.identity);
+		Projectile projectile = p.GetComponent<Projectile>();
+		projectile.life = projectileLife;
+		projectile.velocity = projectileVelocity;
+		projectile.destroyOnImpact = destroyOnImpact;
+		projectile.type = projectileType;
+		projectile.target = target;
+		projectile.direction = direction;
 	}
 }

@@ -6,18 +6,23 @@ using uLink;
 public class Mob : WorldObject {
 
 	public bool alive = true;
+	public float removeTime = 30f;
 
 	void Start () {
-
+		MobEditor mobEditor = GetComponent<MobEditor>();
+		stats = new StatCollection(mobEditor.statHash());
+		resources = new ResourceCollection(mobEditor.resourceHash());
 	}
 
 	public override void TakeDamage (float amount) {
-		Debug.Log ("Mob take damage " + amount);
+		if (!alive) {
+			return;
+		}
+
 		float currentShields = stats.Get(Stat.shields).value;
-		float currentHull = stats.Get(Stat.hull).value;
 		float diff = 0f;
 
-		if (currentShields > amount) {
+		if (currentShields >= amount) {
 			stats.Remove(Stat.shields, amount);
 		}
 
@@ -25,17 +30,30 @@ public class Mob : WorldObject {
 			diff = amount - currentShields;
 			stats.Set(Stat.shields, 0f);
 			stats.Remove(Stat.hull, diff);
-
-			if (currentHull < diff) {
-				Die();
-			}
 		}
 
-		networkView.UnreliableRPC(DamageDisplay.Client_Display, uLink.RPCMode.Others, amount);
+		networkView.UnreliableRPC(MobClient.Client_TakeDamage, uLink.RPCMode.Others, amount);
+
+		CheckCurrentState();
+	}
+
+	void CheckCurrentState () {
+		if (stats.Hull <= 0f) {
+			Die();
+		}
 	}
 
 	public void Die () {
-		uLink.Network.Destroy (networkView);
+		alive = false;
+		BoxCollider box = GetComponent<BoxCollider>();
+		Destroy(box);
+		networkView.UnreliableRPC(MobClient.Client_Die, uLink.RPCMode.Others);
+		Invoke (Server_Remove, removeTime);
+	}
+
+	public static string Server_Remove = "Remove";
+	public void Remove () {
+		uLink.Network.Destroy(gameObject);
 	}
 
 }

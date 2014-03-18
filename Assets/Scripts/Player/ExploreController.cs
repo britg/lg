@@ -9,7 +9,6 @@ public class ExploreController : LGMonoBehaviour {
 	public float speed = 100f;
 	
 	CharacterController character;
-	bool movedThisFrame = false;
 	Vector3 moveDirection = Vector3.zero;
 	Transform referenceFrame;
 
@@ -25,7 +24,6 @@ public class ExploreController : LGMonoBehaviour {
 	
 	void Update() {
 		DetectInput();
-//		RotatePlayer();
 	}
 	
 	void DetectInput () {
@@ -34,10 +32,7 @@ public class ExploreController : LGMonoBehaviour {
 		moveDirection = offset * Vector3.ClampMagnitude(raw, 1f);
 		if (moveDirection.sqrMagnitude > 0) {
 			Move(moveDirection);
-			movedThisFrame = true;
-		} else {
-			movedThisFrame = false;
-		}
+		} 
 	}
 	
 	void Move (Vector3 dir) {

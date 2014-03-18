@@ -8,12 +8,15 @@ using uLink;
 [RequireComponent(typeof(uLinkNetworkView))]
 public class MoveController : LGMonoBehaviour {
 
+	public float thrustNotificationDelay = 20f;
 
 	CharacterController character;
 	MoveSerializer moveSerializer;
 	bool movedThisFrame = false;
 	Vector3 moveDirection = Vector3.zero;
 	Transform referenceFrame;
+
+	bool fuelNotified = false;
 
 
 	void Awake() {
@@ -26,26 +29,41 @@ public class MoveController : LGMonoBehaviour {
 	}
 
 	void Update() {
-		if (player.isOwner) {
-			DetectInput();
-			RotatePlayer();
-		}
+		DetectInput();
+		RotatePlayer();
 	}
 	
 	void DetectInput () {
 		Vector3 raw = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0);
 		Quaternion offset = Quaternion.Euler(referenceFrame.eulerAngles);
 		moveDirection = offset * Vector3.ClampMagnitude(raw, 1f);
-		if (moveDirection.sqrMagnitude > 0f && player.fuelController.HasEnoughFuel(Time.deltaTime)) {
-			Move(moveDirection);
+		if (moveDirection.sqrMagnitude > 0f) {
+			bool enoughFuel = player.fuelController.HasEnoughFuel(Time.deltaTime);
+			if (!enoughFuel) {
+				if (!fuelNotified) {
+					HUDMessager.Queue(LG.m_outOfFuel);
+					fuelNotified = true;
+				}
+				Invoke ("ReleaseFuelNotificationHold", thrustNotificationDelay);
+			}
+
+			Move(moveDirection, enoughFuel);
 			movedThisFrame = true;
+
 		} else {
 			movedThisFrame = false;
 		}
 	}
+
+	void ReleaseFuelNotificationHold () {
+		fuelNotified = false;
+	}
 	
-	void Move (Vector3 dir) {
+	void Move (Vector3 dir, bool enoughFuel) {
 		float speed = player.stat(Stat.speed);
+		if (!enoughFuel) {
+			speed *= LG.thrustFactor;
+		}
 		Vector3 moveV = dir * speed * Time.deltaTime;
 		character.Move(moveV);
 	}

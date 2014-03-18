@@ -46,7 +46,6 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 400006}
-  - 143: {fileID: 0}
   - 114: {fileID: 11400000}
   - 114: {fileID: 11400002}
   - 114: {fileID: 11400004}
@@ -501,6 +500,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a45766357354443d6b798bda930735ee, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  speed: 100
 --- !u!114 &11400002
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -512,7 +512,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 316d61420de4d45f395d136a94484faa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isOwner: 1
   playerName: Player
   playerId: 0
   fuelController: {fileID: 0}

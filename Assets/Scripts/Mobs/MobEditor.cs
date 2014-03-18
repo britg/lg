@@ -21,6 +21,29 @@ public class MobEditor : MonoBehaviour {
 	public int tier5;
 	public int tier6;
 	public int tier7;
+
+	public Hashtable statHash () {
+		return iTween.Hash(
+			Stat.shields, shields,
+			Stat.hull, hull,
+			Stat.speed, speed,
+			Stat.ammo, ammo,
+			Stat.fuel, fuel,
+			Stat.fuelBurn, fuelBurn
+			);
+	}
+
+	public Hashtable resourceHash () {
+		return iTween.Hash (
+			Resource.tier1, tier1,
+			Resource.tier2, tier2,
+			Resource.tier3, tier3,
+			Resource.tier4, tier4,
+			Resource.tier5, tier5,
+			Resource.tier6, tier6,
+			Resource.tier7, tier7
+			);
+	}
 	
 	public WWWForm toFormData (string apiResource) {
 		WWWForm formData = new WWWForm();

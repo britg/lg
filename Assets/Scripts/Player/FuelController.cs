@@ -13,8 +13,13 @@ public class FuelController : LGMonoBehaviour {
 	
 	}
 
-	public bool HasEnoughFuel(float time) {
-		return true;
+	public bool HasEnoughFuel (float time) {
+		float currentFuel = player.stats.Fuel;
+		return (currentFuel - AmountForTime(time) > 0);
+	}
+
+	public float AmountForTime (float time) {
+		return (time * player.stats.FuelBurn);
 	}
 
 }

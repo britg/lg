@@ -3,6 +3,12 @@ using System.Collections;
 
 public class DisplayBehaviour : LGMonoBehaviour {
 
+	public GameObject uiRoot {
+		get {
+			return GameObject.Find ("UI Root");
+		}
+	}
+
 	GameObject _objectLabelPrefab;
 	public GameObject objectLabelPrefab {
 		get {

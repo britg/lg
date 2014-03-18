@@ -4,7 +4,7 @@ using System.Diagnostics;
 using UnityEngine;
 using UnityEditor;
 
-public static class AutoBuild
+public static class SceneManager
 {
 	[MenuItem("Lonely Galaxy/Patch")]
 	public static void Both () {
@@ -28,6 +28,12 @@ public static class AutoBuild
 	public static void SwitchToBuilder () {
 		EditorApplication.SaveScene(EditorApplication.currentScene);
 		EditorApplication.OpenScene("Assets/Scenes/GalaxyBuilder.unity");
+	}
+
+	[MenuItem("Lonely Galaxy/Switch to WeaponRange %&#w")]
+	public static void SwitchToWeaponRange () {
+		EditorApplication.SaveScene(EditorApplication.currentScene);
+		EditorApplication.OpenScene("Assets/Scenes/WeaponRange.unity");
 	}
 
 	[MenuItem("Lonely Galaxy/Client Mac %&c")]

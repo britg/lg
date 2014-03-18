@@ -32,6 +32,7 @@ public class PlayerProcessor : APIBehaviour {
 		transform.localScale = lastAPIObject.scale;
 		stats = o.stats;
 		resources = o.resources;
+		LoadModules();
 	}
 
 	[RPC]
@@ -66,6 +67,26 @@ public class PlayerProcessor : APIBehaviour {
 
 	public float stat (string name) {
 		return (float)stats.Get(name).value;
+	}
+
+	void LoadModules () {
+		LoadWeapon ();
+	}
+
+
+	void LoadWeapon () {
+		// TEMP
+		string weaponName = "HeatSeekingMissiles";
+		GameObject weaponPrefab = (GameObject) Resources.Load (weaponName);
+
+		Weapon weapon = ((GameObject)Instantiate(weaponPrefab)).GetComponent<Weapon>();
+		weapon.transform.parent = transform;
+		weapon.transform.localPosition = Vector3.zero;
+		string controlScriptName = weapon.controlType.ToString() + "WeaponProcessor";
+		WeaponProcessor proc = gameObject.AddComponent(controlScriptName) as WeaponProcessor;
+		proc.weapon = weapon;
+
+		networkView.UnreliableRPC(Player.Client_LoadWeapon, uLink.RPCMode.Owner, weaponName);
 	}
 
 }

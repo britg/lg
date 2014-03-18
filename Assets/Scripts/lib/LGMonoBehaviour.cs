@@ -5,7 +5,6 @@ public class LGMonoBehaviour : uLink.MonoBehaviour {
 
 	protected GameObject projectileGrouping;
 	protected GameObject projectile;
-	protected FloatingTextController notifier;
 
 	Player _player;
 	protected Player player {

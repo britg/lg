@@ -19,6 +19,10 @@ public class ClientNetworkManager : uLink.MonoBehaviour {
 		playerNameInput.value = playerName;
 	}
 
+	void Start () {
+		OnConnectDevButtonPress();
+	}
+
 	public void OnConnectDevButtonPress () {
 		host = "127.0.0.1";
 		port = 7100;

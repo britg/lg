@@ -8,9 +8,9 @@ GameObject:
   serializedVersion: 4
   m_Component:
   - 4: {fileID: 400000}
-  - 114: {fileID: 11400002}
+  - 114: {fileID: 11400000}
   m_Layer: 0
-  m_Name: RailGun
+  m_Name: HeatSeekingMissiles
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -27,7 +27,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
---- !u!114 &11400002
+--- !u!114 &11400000
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_PrefabParentObject: {fileID: 0}
@@ -38,12 +38,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 41286aff817fa467dbb1210cb4c2935e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  controlType: 1
-  projectileType: 0
-  ammoPerShot: 1
-  projectilePrefab: {fileID: 100000, guid: cdfe90511422f4626b960413b1ff467e, type: 2}
-  projectileLife: 1
-  projectileVelocity: 5000
+  controlType: 0
+  ammoType: 0
+  ammoPerShot: 3
+  projectilePrefab: {fileID: 0}
+  projectileLife: 0
+  projectileVelocity: 0
   destroyOnImpact: 0
   shotDelay: .100000001
   target: {fileID: 0}

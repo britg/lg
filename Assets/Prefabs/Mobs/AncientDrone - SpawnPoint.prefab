@@ -10,7 +10,7 @@ GameObject:
   - 4: {fileID: 400000}
   - 114: {fileID: 11400000}
   m_Layer: 0
-  m_Name: EnemySpawner
+  m_Name: AncientDrone - SpawnPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -23,7 +23,7 @@ Transform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 100000}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: .000732421875, y: 0, z: .818725586}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
@@ -35,11 +35,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 100000}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd6f60208bf9c4a679d7d2b9a33a4564, type: 3}
+  m_Script: {fileID: 11500000, guid: f41f5e59260bc4ea49c95aa55846dcd7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  enemyProxy: {fileID: 100006, guid: e37bdcab21383466681843c8ab7ca598, type: 2}
-  enemyServer: {fileID: 100006, guid: e1e950bb07a7f4b128b118d9ede3d3f5, type: 2}
+  radius: 100
+  serverPrefab: {fileID: 100006, guid: e1e950bb07a7f4b128b118d9ede3d3f5, type: 2}
+  clientPrefab: {fileID: 100006, guid: e37bdcab21383466681843c8ab7ca598, type: 2}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1

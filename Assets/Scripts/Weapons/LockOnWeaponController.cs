@@ -1,10 +1,7 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
-public class WeaponController : ControllerBehaviour {
-
-	public static string Client_BreakLock = "BreakLock";
-	public static string Client_CompleteLock = "CompleteLock";
+public class LockOnWeaponController : ControllerBehaviour {
 
 	public float lockCheckInterval = 0.1f;
 
@@ -67,7 +64,7 @@ public class WeaponController : ControllerBehaviour {
 		GameObject currentTarget = AimTarget(player.stat(Stat.weaponRange));
 		if (weaponLock.ValidTarget(currentTarget)) {
 			Debug.Log ("Starting lock attempt");
-			networkView.UnreliableRPC(WeaponProcessor.Server_StartTargetLock, uLink.RPCMode.Server, currentLookDirection);
+			networkView.UnreliableRPC(LockOnWeaponProcessor.Server_StartTargetLock, uLink.RPCMode.Server, currentLookDirection);
 			weaponLock.StartLocking(currentTarget);
 			InvokeRepeating("ContinueLockAttempt", lockCheckInterval, lockCheckInterval);
 			weaponLockDisplay.StartDisplay(weaponLock.currentTarget);
@@ -76,10 +73,11 @@ public class WeaponController : ControllerBehaviour {
 
 	void ContinueLockAttempt () {
 //		Debug.Log ("Continuing lock attempt");
-		networkView.UnreliableRPC(WeaponProcessor.Server_CheckTargetLock, uLink.RPCMode.Server, currentLookDirection);
+		networkView.UnreliableRPC(LockOnWeaponProcessor.Server_CheckTargetLock, uLink.RPCMode.Server, currentLookDirection);
 		weaponLockDisplay.UpdateDisplay(lockPercentage);
 	}
 
+	public static string Client_BreakLock = "BreakLock";
 	[RPC]
 	void BreakLock () {
 		Debug.Log ("Breaking lock");
@@ -88,6 +86,7 @@ public class WeaponController : ControllerBehaviour {
 		weaponLockDisplay.BreakDisplay();
 	}
 
+	public static string Client_CompleteLock = "CompleteLock";
 	[RPC]
 	void CompleteLock () {
 		Debug.Log ("Lock completed");
@@ -98,7 +97,7 @@ public class WeaponController : ControllerBehaviour {
 	}
 
 	void TriggerWeapon () {
-		networkView.UnreliableRPC(WeaponProcessor.Server_TriggerWeapon, uLink.RPCMode.Server, currentLookDirection);
+		networkView.UnreliableRPC(LockOnWeaponProcessor.Server_TriggerWeapon, uLink.RPCMode.Server, currentLookDirection);
 	}
 
 	public static string Client_TriggerWeaponDisplay = "TriggerWeaponDisplay";

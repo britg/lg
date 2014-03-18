@@ -85,7 +85,6 @@ GameObject:
   - 114: {fileID: 56097699}
   - 114: {fileID: 56097697}
   - 114: {fileID: 56097700}
-  - 114: {fileID: 56097701}
   m_Layer: 0
   m_Name: Server
   m_TagString: Untagged
@@ -154,19 +153,6 @@ MonoBehaviour:
   urlBase: lg.foolishaggro.dev/api
   galaxyServer: {fileID: 100000, guid: 9b2c71b6f72d04ca9b69d407420b28e9, type: 2}
   galaxyProxy: {fileID: 100000, guid: bde99142898234f3d970e73c6bcdfa0e, type: 2}
---- !u!114 &56097701
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_PrefabParentObject: {fileID: 11400006, guid: 2c5acc98891f44f028fed99f52447e2a,
-    type: 2}
-  m_PrefabInternal: {fileID: 653192843}
-  m_GameObject: {fileID: 56097696}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: bd6f60208bf9c4a679d7d2b9a33a4564, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  urlBase: 
 --- !u!1001 &653192843
 Prefab:
   m_ObjectHideFlags: 0
@@ -202,7 +188,8 @@ Prefab:
       propertyPath: m_LocalRotation.w
       value: 1
       objectReference: {fileID: 0}
-    m_RemovedComponents: []
+    m_RemovedComponents:
+    - {fileID: 11400006, guid: 2c5acc98891f44f028fed99f52447e2a, type: 2}
   m_ParentPrefab: {fileID: 100100000, guid: 2c5acc98891f44f028fed99f52447e2a, type: 2}
   m_RootGameObject: {fileID: 56097696}
   m_IsPrefabParent: 0

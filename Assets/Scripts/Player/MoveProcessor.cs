@@ -37,9 +37,9 @@ public class MoveProcessor : LGMonoBehaviour {
 		deltaPos.z = 0;
 
 		if (playerProcessor.fuelProcessor.HasEnoughFuel(deltaTime)) {
-			character.Move(deltaPos);
 			playerProcessor.fuelProcessor.UseFuel(deltaTime);
 		}
+		character.Move(deltaPos);
 
 		serverLastTimestamp = info.timestamp;
 		
@@ -47,16 +47,9 @@ public class MoveProcessor : LGMonoBehaviour {
 		Vector3 diff = serverPos - ownerPos;
 		
 		
-		//		PlayerRequest playerRequest = (new GameObject()).AddComponent<PlayerRequest>();
-		//		playerRequest.SetPlayerPosition(playerAttributes, serverPos);
-		
-		
-		if (Vector3.SqrMagnitude(diff) > sqrMaxServerError)
-		{
+		if (Vector3.SqrMagnitude(diff) > sqrMaxServerError) {
 			networkView.UnreliableRPC("AdjustOwnerPos", uLink.RPCMode.Owner, serverPos);
-		}
-		else
-		{
+		} else {
 			networkView.UnreliableRPC("GoodOwnerPos", uLink.RPCMode.Owner);
 		}
 	}

@@ -5,8 +5,6 @@ using uLink;
 
 public class GalaxyProxy : LGMonoBehaviour {
 
-	Hashtable loadedSectorCache = new Hashtable();
-
 	// Use this for initialization
 	void Start () {
 		WorldObject.galaxy = gameObject;
@@ -33,9 +31,9 @@ public class GalaxyProxy : LGMonoBehaviour {
 
 	[RPC]
 	void LoadSector (string sectorName) {
-		if (loadedSectorCache[sectorName] == null) {
+		if (LG.cache[sectorName] == null) {
 			GameObject sector = (GameObject)Resources.Load (sectorName);
-			loadedSectorCache[sectorName] = (GameObject)Instantiate(sector);
+			LG.cache[sectorName] = (GameObject)Instantiate(sector);
 		}
 	}
 
