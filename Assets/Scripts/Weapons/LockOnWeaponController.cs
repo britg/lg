@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class LockOnWeaponController : ControllerBehaviour {
+public class LockOnWeaponController : WeaponController {
 
 	public float lockCheckInterval = 0.1f;
 

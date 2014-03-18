@@ -91,8 +91,7 @@ public class Player : LGMonoBehaviour {
 	}
 
 	public static string Client_LoadWeapon = "LoadWeapon";
-	[RPC]
-	void LoadWeapon (string weaponName) {
+	[RPC] void LoadWeapon (string weaponName) {
 		GameObject weaponPrefab = (GameObject) Resources.Load (weaponName);
 		Weapon weapon = ((GameObject)Instantiate(weaponPrefab)).GetComponent<Weapon>();
 		weapon.transform.parent = transform;

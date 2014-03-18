@@ -39,14 +39,15 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   controlType: 0
-  ammoType: 0
+  projectileType: 0
   ammoPerShot: 3
-  projectilePrefab: {fileID: 0}
-  projectileLife: 0
-  projectileVelocity: 0
+  projectilePrefab: {fileID: 100000, guid: cdfe90511422f4626b960413b1ff467e, type: 2}
+  projectileLife: 1
+  projectileVelocity: 5000
   destroyOnImpact: 0
-  shotDelay: .100000001
+  shotDelay: .5
   target: {fileID: 0}
+  direction: {x: 0, y: 0, z: 0}
 --- !u!1001 &100100000
 Prefab:
   m_ObjectHideFlags: 1
