@@ -1,9 +1,10 @@
 using UnityEngine;
 using System.Collections;
 
-public class MenuTrigger : LGMonoBehaviour {
+public class MenuDisplay : DisplayBehaviour {
 
 	public GameObject menuGUI;
+	public GameObject labelsGUI;
 	public bool allowMenu = false;
 
 	void Update () {
@@ -12,17 +13,37 @@ public class MenuTrigger : LGMonoBehaviour {
 
 	void DetectInput () {
 		if (allowMenu && Input.GetKeyDown(KeyCode.Escape)) {
-			menuGUI.SetActive(!menuGUI.activeSelf);
+			ToggleMenu();
 		}
 	}
 
-	public void OnDisconnectButtonPress () {
+	void ToggleMenu () {
+		if (menuGUI.activeSelf) {
+			DeactivateMenu();
+		} else {
+			ActivateMenu();
+		}
+	}
+
+	void ActivateMenu () {
+		NotificationCenter.PostNotification(this, LG.n_showMenu);
+		labelsGUI.SetActive(false);
+		menuGUI.SetActive(true);
+	}
+
+	void DeactivateMenu () {
+		NotificationCenter.PostNotification(this, LG.n_hideMenu);
+		labelsGUI.SetActive(true);
 		menuGUI.SetActive(false);
+	}
+
+	public void OnDisconnectButtonPress () {
+		DeactivateMenu();
 		uLink.Network.Disconnect();
 	}
 
 	public void OnRespawnButtonPress () {
-		menuGUI.SetActive(false);
+		DeactivateMenu();
 		player.RequestRespawn();
 	}
 

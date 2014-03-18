@@ -5,7 +5,6 @@ public class LockOnWeaponController : WeaponController {
 
 	public float lockCheckInterval = 0.1f;
 
-	bool weaponsActive = false;
 	WeaponLock weaponLock = new WeaponLock();
 	WeaponLockDisplay weaponLockDisplay;
 
@@ -15,41 +14,25 @@ public class LockOnWeaponController : WeaponController {
 		}
 	}
 
-	void Start () {
+	protected override void ControllerStart () {
 		weaponLockDisplay = gameObject.AddComponent<WeaponLockDisplay>();
 		NotificationCenter.AddObserver(this, LG.n_playerStatsLoaded);
 		NotificationCenter.AddObserver(this, LG.n_registerWeapon);
 	}
 
-	void OnPlayerStatsLoaded () {
-		Activate();
-	}
-
-	void Activate () {
-		weaponsActive = true;
-	}
-
-	void Update () {
-		if (weaponsActive) {
-			DetectInput();
-		}
-
+	protected override void ControllerUpdate () {
 		if (weaponLock.isLocking) {
 			weaponLock.ContinueLocking(Time.deltaTime);
 		}
 	}
 
-	void DetectInput () {
+	protected override void DetectInput () {
 
-		if (Input.GetMouseButtonUp(0) && (weaponLock.isLocking)) {
+		if (Input.GetMouseButtonUp(0)) {
 			BreakLock();
 		}
 
-		if (Input.GetMouseButtonUp(0) && weaponLock.isLocked) {
-			TriggerWeapon();
-		}
-
-		if (Input.GetMouseButton(0) && weaponLock.isNotLocked) {
+		if (Input.GetMouseButton(0) && !weaponLock.isActive) {
 			StartLockAttempt();
 		}
 
@@ -67,14 +50,12 @@ public class LockOnWeaponController : WeaponController {
 	}
 
 	void ContinueLockAttempt () {
-//		Debug.Log ("Continuing lock attempt");
 		networkView.UnreliableRPC(LockOnWeaponProcessor.Server_CheckTargetLock, uLink.RPCMode.Server, currentLookDirection);
 		weaponLockDisplay.UpdateDisplay(lockPercentage);
 	}
 
 	public static string Client_BreakLock = "BreakLock";
-	[RPC]
-	void BreakLock () {
+	[RPC] void BreakLock () {
 		Debug.Log ("Breaking lock");
 		weaponLock.Break();
 		CancelInvoke();
@@ -82,22 +63,14 @@ public class LockOnWeaponController : WeaponController {
 	}
 
 	public static string Client_CompleteLock = "CompleteLock";
-	[RPC]
-	void CompleteLock () {
+	[RPC] void CompleteLock () {
 		Debug.Log ("Lock completed");
 		weaponLock.Locked();
-		CancelInvoke();
 		weaponLockDisplay.CompleteDisplay();
-		TriggerWeapon();
-	}
-
-	void TriggerWeapon () {
-		networkView.UnreliableRPC(LockOnWeaponProcessor.Server_TriggerWeapon, uLink.RPCMode.Server, currentLookDirection);
 	}
 
 	public static string Client_TriggerWeaponDisplay = "TriggerWeaponDisplay";
-	[RPC]
-	void TriggerWeaponDisplay () {
+	[RPC] void TriggerWeaponDisplay () {
 		Debug.Log ("Triggering weapon display");
 		if (weaponLock.currentTarget != null) {
 			weapon.Fire(weaponLock.currentTarget.transform);

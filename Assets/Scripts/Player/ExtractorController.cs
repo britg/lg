@@ -9,24 +9,20 @@ public class ExtractorController : ControllerBehaviour {
 	bool isExtracting = false;
 	float extractRPCRate = 0.1f;
 
-	void Start () {
+	protected override void ControllerStart () {
 	}
 
 	// Update is called once per frame
-	void Update () {
-		DetectInput();
-		TurnExtractor();
-		if(isExtracting) {
-//			DebugExtractor();
-		}
+	protected override void ControllerUpdate () {
 	}
 
-	void DetectInput () {
+	protected override void DetectInput () {
 		if (Input.GetMouseButtonDown(1)) {
 			StartExtracting();
 		} else if (Input.GetMouseButtonUp(1)) {
 			StopExtracting();
 		}
+		TurnExtractor();
 	}
 
 	void StartExtracting () {

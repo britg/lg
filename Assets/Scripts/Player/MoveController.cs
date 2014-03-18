@@ -6,7 +6,7 @@ using UnityEngine;
 using uLink;
 
 [RequireComponent(typeof(uLinkNetworkView))]
-public class MoveController : LGMonoBehaviour {
+public class MoveController : ControllerBehaviour {
 
 	public float thrustNotificationDelay = 20f;
 
@@ -23,17 +23,17 @@ public class MoveController : LGMonoBehaviour {
 		character = GetComponent<CharacterController>();
 	}
 	
-	void Start () {
+	protected override void ControllerStart () {
 		moveSerializer = GetComponent<MoveSerializer>();
 		referenceFrame = GameObject.Find ("CameraAnchor").transform;
 	}
 
-	void Update() {
-		DetectInput();
+	protected override void DetectInput() {
+		TranslatePlayer();
 		RotatePlayer();
 	}
 	
-	void DetectInput () {
+	void TranslatePlayer () {
 		Vector3 raw = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0);
 		Quaternion offset = Quaternion.Euler(referenceFrame.eulerAngles);
 		moveDirection = offset * Vector3.ClampMagnitude(raw, 1f);

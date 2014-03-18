@@ -10,7 +10,7 @@ GameObject:
   - 4: {fileID: 400000}
   - 114: {fileID: 11400000}
   m_Layer: 0
-  m_Name: HeatSeekingMissiles
+  m_Name: LockingRailgun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -41,11 +41,13 @@ MonoBehaviour:
   controlType: 0
   projectileType: 0
   ammoPerShot: 3
+  shotDelay: 0
+  shotsPerVolley: 0
+  volleyDelay: 0
   projectilePrefab: {fileID: 100000, guid: cdfe90511422f4626b960413b1ff467e, type: 2}
   projectileLife: 1
   projectileVelocity: 5000
   destroyOnImpact: 0
-  shotDelay: .100000001
   target: {fileID: 0}
   direction: {x: 0, y: 0, z: 0}
 --- !u!1001 &100100000

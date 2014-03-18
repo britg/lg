@@ -2,7 +2,7 @@ using UnityEngine;
 using System.Collections;
 using Vectrosity;
 
-public class LookController : LGMonoBehaviour {
+public class LookController : ControllerBehaviour {
 
 	public Color cursorColor = Color.gray;
 	public Vector3 worldLookPoint = Vector3.zero;
@@ -18,14 +18,14 @@ public class LookController : LGMonoBehaviour {
 	Vector2 lastMousePos;
 
 	// Use this for initialization
-	void Start () {
+	protected override void ControllerStart () {
 		lookAnchor = GameObject.Find("LookAnchor").transform;
 		lastMousePos = Vector2.zero;
 		CreatePointer();
 	}
 	
 	// Update is called once per frame
-	void Update () {
+	protected override void DetectInput () {
 		FollowMouse();
 		FollowThumbstick();
 	}

@@ -4,17 +4,11 @@ using System.Collections;
 public class InstantWeaponController : WeaponController {
 
 	// Use this for initialization
-	void Start () {
+	protected override void ControllerStart () {
 	
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		DetectInput();
 	}
 
-	
-	void DetectInput () {
+	protected override void DetectInput () {
 		if (Input.GetMouseButtonDown(0)) {
 			TriggerWeapon();
 		}

@@ -6,6 +6,9 @@ public class Weapon : LGMonoBehaviour {
 	public WeaponControlType controlType;
 	public ProjectileType projectileType;
 	public int ammoPerShot;
+	public int shotDelay;
+	public int shotsPerVolley;
+	public int volleyDelay;
 
 
 	public GameObject projectilePrefab;
@@ -13,7 +16,6 @@ public class Weapon : LGMonoBehaviour {
 	public float projectileVelocity;
 	public bool destroyOnImpact;
 
-	public float shotDelay = 0.1f;
 
 	[HideInInspector]
 	public Transform target;

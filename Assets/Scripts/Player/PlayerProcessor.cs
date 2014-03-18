@@ -35,26 +35,26 @@ public class PlayerProcessor : APIBehaviour {
 		LoadModules();
 	}
 
-	[RPC]
-	public void SyncToClient () {
+	public static string Server_SyncToClient = "SyncToClient";
+	[RPC] public void SyncToClient () {
 		Debug.Log ("syncing to client raw " + lastAPIObject.raw);
-		networkView.RPC("SyncFromServer", uLink.RPCMode.Owner, lastAPIObject.raw);
+		networkView.RPC(Player.Client_SyncFromServer, uLink.RPCMode.Owner, lastAPIObject.raw);
 	}
 
 	public void SyncToClientInterval () {
 		if (stats.ShouldSync()) {
-			networkView.UnreliableRPC("SyncStatsUpdateFromServer", uLink.RPCMode.Owner, stats.StatsToSync());
+			networkView.UnreliableRPC(Player.Client_SyncStatsUpdateFromServer, uLink.RPCMode.Owner, stats.StatsToSync());
 			stats.FlushStatsToSync();
 		}
 
 		if (resources.ShouldSync()) {
-			networkView.UnreliableRPC("SyncResourcesUpdateFromServer", uLink.RPCMode.Owner, resources.ResourcesToSync());
+			networkView.UnreliableRPC(Player.Client_SyncResourcesUpdateFromServer, uLink.RPCMode.Owner, resources.ResourcesToSync());
 			resources.FlushResourcesToSync();
 		}
 	}
 
-	[RPC]
-	void Respawn () {
+	public static string Server_Respawn = "Respawn";
+	[RPC] void Respawn () {
 		WWWForm f = new WWWForm();
 		f.AddField("player[name]", playerName);
 		Post ("/players/" + playerId + "/respawn", f, RespawnSuccess);
@@ -75,8 +75,9 @@ public class PlayerProcessor : APIBehaviour {
 
 
 	void LoadWeapon () {
+		UnloadWeapon();
 		// TEMP
-		string weaponName = "HeatSeekingMissiles";
+		string weaponName = "LockingRailgun";
 		GameObject weaponPrefab = (GameObject) Resources.Load (weaponName);
 
 		Weapon weapon = ((GameObject)Instantiate(weaponPrefab)).GetComponent<Weapon>();
@@ -87,6 +88,10 @@ public class PlayerProcessor : APIBehaviour {
 		proc.weapon = weapon;
 
 		networkView.UnreliableRPC(Player.Client_LoadWeapon, uLink.RPCMode.Owner, weaponName);
+	}
+
+	void UnloadWeapon () {
+		Destroy (GetComponent<WeaponController>());
 	}
 
 }

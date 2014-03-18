@@ -16,10 +16,11 @@ public class Player : LGMonoBehaviour {
 	public FuelController fuelController;
 
 	public GameObject nameLabel;
+	public string loadedWeaponName;
 
 	void Start () {
 		fuelController = GetComponent<FuelController>();
-		networkView.RPC ("SyncToClient", uLink.RPCMode.Server);
+		networkView.RPC (PlayerProcessor.Server_SyncToClient, uLink.RPCMode.Server);
 	}
 
 	void uLink_OnNetworkInstantiate (uLink.NetworkMessageInfo info) {
@@ -38,8 +39,8 @@ public class Player : LGMonoBehaviour {
 		NotificationCenter.PostNotification(this, LG.n_playerLoaded, notificationData);
 	}
 
-	[RPC] 
-	void SyncFromServer (string rawAPIObject) {
+	public static string Client_SyncFromServer = "SyncFromServer";
+	[RPC] void SyncFromServer (string rawAPIObject) {
 		APIObject apiPlayer = new APIObject(rawAPIObject);
 		transform.position = apiPlayer.position;
 		transform.rotation = apiPlayer.quaternion;
@@ -50,8 +51,8 @@ public class Player : LGMonoBehaviour {
 		AnnounceLoadComplete();
 	}
 
-	[RPC]
-	void SyncStatsUpdateFromServer (string[] statArr) {
+	public static string Client_SyncStatsUpdateFromServer = "SyncStatsUpdateFromServer";
+	[RPC] void SyncStatsUpdateFromServer (string[] statArr) {
 		for (int i = 0; i < statArr.Length; i+=2) {
 			string statName = statArr[i];
 			float statValue;
@@ -60,8 +61,8 @@ public class Player : LGMonoBehaviour {
 		}
 	}
 
-	[RPC]
-	void SyncResourcesUpdateFromServer (string[] resourceArr) {
+	public static string Client_SyncResourcesUpdateFromServer = "SyncResourcesUpdateFromServer";
+	[RPC] void SyncResourcesUpdateFromServer (string[] resourceArr) {
 		for (int i = 0; i < resourceArr.Length; i+=2) {
 			string resourceName = resourceArr[i];
 			int resourceValue;
@@ -79,7 +80,7 @@ public class Player : LGMonoBehaviour {
 	}
 
 	public void RequestRespawn () {
-		networkView.RPC ("Respawn", uLink.RPCMode.Server);
+		networkView.RPC (PlayerProcessor.Server_Respawn, uLink.RPCMode.Server);
 	}
 
 	public float stat (string name) {
@@ -92,6 +93,8 @@ public class Player : LGMonoBehaviour {
 
 	public static string Client_LoadWeapon = "LoadWeapon";
 	[RPC] void LoadWeapon (string weaponName) {
+		UnloadWeapon();
+
 		GameObject weaponPrefab = (GameObject) Resources.Load (weaponName);
 		Weapon weapon = ((GameObject)Instantiate(weaponPrefab)).GetComponent<Weapon>();
 		weapon.transform.parent = transform;
@@ -100,5 +103,9 @@ public class Player : LGMonoBehaviour {
 		WeaponController weaponController = gameObject.AddComponent(controlScriptName) as WeaponController;
 		weaponController.weapon = weapon;
 		NotificationCenter.PostNotification(this, LG.n_registerWeapon, LG.Hash("weapon", weapon));
+	}
+
+	void UnloadWeapon () {
+		Destroy(GetComponent<WeaponController>());
 	}
 }

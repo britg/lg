@@ -3,21 +3,19 @@ using System.Collections;
 
 public class LockOnWeaponProcessor : WeaponProcessor {
 
-	public float timeToHit = 0.2f;
 	WeaponLock weaponLock = new WeaponLock();
 
 	GameObject thisTarget;
+	Vector3 currentDirection;
 
 	void Update () {
-		if (weaponLock.isLocking) {
+		if (weaponLock.isActive) {
 			weaponLock.ContinueLocking(Time.deltaTime);
 		}
 	}
 
 	public const string Server_StartTargetLock = "StartTargetLock";
-	[RPC]
-	void StartTargetLock (Vector3 direction) {
-//		Debug.Log ("Starting weapon lock state");
+	[RPC] void StartTargetLock (Vector3 direction) {
 		GameObject currentTarget = AimTarget(direction, playerProcessor.stat(Stat.weaponRange));
 		if (weaponLock.ValidTarget(currentTarget)) {
 			weaponLock.StartLocking(currentTarget);
@@ -27,16 +25,14 @@ public class LockOnWeaponProcessor : WeaponProcessor {
 	}
 
 	public const string Server_CheckTargetLock = "CheckTargetLock";
-	[RPC]
-	void CheckTargetLock (Vector3 direction) {
-//		Debug.Log ("Checking weapon lock " + direction);
-
+	[RPC] void CheckTargetLock (Vector3 direction) {
+		currentDirection = direction;
 		if (weaponLock.currentLockingTime >= playerProcessor.stat(Stat.weaponTargetTime)) {
 			LockSuccess();
 			return;
 		}
 
-		GameObject currentTarget = AimTarget(direction, playerProcessor.stat(Stat.weaponRange));
+		GameObject currentTarget = AimTarget(currentDirection, playerProcessor.stat(Stat.weaponRange));
 		if (currentTarget != null) {
 			if (currentTarget != weaponLock.currentTarget) {
 				BreakLock();
@@ -56,9 +52,12 @@ public class LockOnWeaponProcessor : WeaponProcessor {
 		Debug.Log ("Lock success from server");
 		weaponLock.Locked();
 		networkView.UnreliableRPC(LockOnWeaponController.Client_CompleteLock, uLink.RPCMode.Owner);
+		TriggerWeapon();
+		InvokeRepeating (Server_TriggerWeapon, weapon.volleyDelay, weapon.volleyDelay);
 	}
 
 	void BreakLock () {
+		CancelInvoke();
 		if (weaponLock.isActive) {
 			Debug.Log ("Breaking server lock");
 			weaponLock.Break();
@@ -67,12 +66,11 @@ public class LockOnWeaponProcessor : WeaponProcessor {
 	}
 
 	public const string Server_TriggerWeapon = "TriggerWeapon";
-	[RPC]
-	void TriggerWeapon (Vector3 direction) {
-		thisTarget = AimTarget(direction, playerProcessor.stat (Stat.weaponRange));
+	void TriggerWeapon () {
+		thisTarget = AimTarget(currentDirection, playerProcessor.stat (Stat.weaponRange));
 		if (weaponLock.ValidTarget(thisTarget)) {
 			networkView.UnreliableRPC(LockOnWeaponController.Client_TriggerWeaponDisplay, uLink.RPCMode.Owner);
-			Invoke ("DoDamage", timeToHit);
+			DoDamage();
 		} else {
 			BreakLock();
 		}
@@ -81,6 +79,5 @@ public class LockOnWeaponProcessor : WeaponProcessor {
 	void DoDamage () {
 		float amount = playerProcessor.stat(Stat.weaponDamage);
 		thisTarget.SendMessage(WorldObject.Server_TakeDamage, amount);
-		BreakLock();
 	}
 }
