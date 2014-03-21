@@ -7,6 +7,16 @@ public class MenuDisplay : DisplayBehaviour {
 	public GameObject labelsGUI;
 	public bool allowMenu = false;
 
+	BlurEffect _blur;
+	BlurEffect blur {
+		get {
+			if (_blur == null) {
+				_blur = Camera.main.GetComponent<BlurEffect>();
+			}
+			return _blur;
+		}
+	}
+
 	void Update () {
 		DetectInput();
 	}
@@ -29,12 +39,14 @@ public class MenuDisplay : DisplayBehaviour {
 		NotificationCenter.PostNotification(this, LG.n_showMenu);
 		labelsGUI.SetActive(false);
 		menuGUI.SetActive(true);
+		blur.enabled = true;
 	}
 
 	void DeactivateMenu () {
 		NotificationCenter.PostNotification(this, LG.n_hideMenu);
 		labelsGUI.SetActive(true);
 		menuGUI.SetActive(false);
+		blur.enabled = false;
 	}
 
 	public void OnDisconnectButtonPress () {

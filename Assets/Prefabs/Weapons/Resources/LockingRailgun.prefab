@@ -41,9 +41,9 @@ MonoBehaviour:
   controlType: 0
   projectileType: 0
   ammoPerShot: 3
-  shotDelay: 0
-  shotsPerVolley: 0
-  volleyDelay: 0
+  shotDelay: .100000001
+  shotsPerVolley: 3
+  volleyDelay: 2
   projectilePrefab: {fileID: 100000, guid: cdfe90511422f4626b960413b1ff467e, type: 2}
   projectileLife: 1
   projectileVelocity: 5000

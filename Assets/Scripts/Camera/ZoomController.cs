@@ -15,6 +15,7 @@ public class ZoomController : MonoBehaviour {
 	public float bounceAmount = 100f;
 
 	public Transform target;
+	public BlurEffect blur;
 
 	void Start () {
 		// Cache the 'Camera Anchor' transform;

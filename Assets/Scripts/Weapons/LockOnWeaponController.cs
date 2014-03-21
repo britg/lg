@@ -50,8 +50,13 @@ public class LockOnWeaponController : WeaponController {
 	}
 
 	void ContinueLockAttempt () {
+		GameObject currentTarget = AimTarget(player.stat(Stat.weaponRange));
 		networkView.UnreliableRPC(LockOnWeaponProcessor.Server_CheckTargetLock, uLink.RPCMode.Server, currentLookDirection);
-		weaponLockDisplay.UpdateDisplay(lockPercentage);
+		if (weaponLock.ValidTarget(currentTarget)) {
+			weaponLockDisplay.UpdateDisplay(lockPercentage);
+		} else {
+			BreakLock();
+		}
 	}
 
 	public static string Client_BreakLock = "BreakLock";

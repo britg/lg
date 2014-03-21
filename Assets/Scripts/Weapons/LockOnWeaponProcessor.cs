@@ -28,7 +28,9 @@ public class LockOnWeaponProcessor : WeaponProcessor {
 	[RPC] void CheckTargetLock (Vector3 direction) {
 		currentDirection = direction;
 		if (weaponLock.currentLockingTime >= playerProcessor.stat(Stat.weaponTargetTime)) {
-			LockSuccess();
+			if (weaponLock.isLocking)  {
+				LockSuccess();
+			}
 			return;
 		}
 

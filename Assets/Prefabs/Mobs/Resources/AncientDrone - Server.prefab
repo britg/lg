@@ -465,7 +465,7 @@ MonoBehaviour:
   worldObjectId: 0
   worldObjectName: 
   alive: 1
-  removeTime: 60
+  removeTime: 10
 --- !u!114 &11400004
 MonoBehaviour:
   m_ObjectHideFlags: 1

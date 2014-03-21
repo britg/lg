@@ -53,6 +53,13 @@ public class Mob : WorldObject {
 		Invoke (Server_Remove, removeTime);
 	}
 
+	void Extract (ExtractorProcessor processor) {
+		Resource[] extraction = new Resource[2];
+		extraction[0] = new Resource(Resource.tier1, 2);
+		extraction[1] = new Resource(Resource.tier2, 1);
+		processor.YieldResources(extraction);
+	}
+
 	public static string Server_Remove = "Remove";
 	public void Remove () {
 		uLink.Network.Destroy(gameObject);

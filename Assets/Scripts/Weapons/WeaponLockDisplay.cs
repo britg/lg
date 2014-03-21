@@ -28,7 +28,9 @@ public class WeaponLockDisplay : DisplayBehaviour {
 	
 	public void BreakDisplay () {
 		//		weaponLockLabel.text = "Broken!";
-		labelObj.SetActive(false);
+		if (labelObj != null) {
+			labelObj.SetActive(false);
+		}
 	}
 	
 	public void CompleteDisplay () {

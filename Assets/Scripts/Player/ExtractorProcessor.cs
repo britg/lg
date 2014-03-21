@@ -38,7 +38,6 @@ public class ExtractorProcessor : LGMonoBehaviour {
 		float extendLength = playerProcessor.stat(Stat.extractorLength);
 		RaycastHit hit;
 		if (Physics.Raycast(transform.position, direction, out hit, extendLength)) {
-//			Debug.Log ("Extractor hit something " + hit.collider.gameObject);
 			hit.collider.gameObject.SendMessage("Extract", this, SendMessageOptions.DontRequireReceiver);
 		}
 	}

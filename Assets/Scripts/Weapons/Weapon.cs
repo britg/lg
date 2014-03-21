@@ -6,9 +6,9 @@ public class Weapon : LGMonoBehaviour {
 	public WeaponControlType controlType;
 	public ProjectileType projectileType;
 	public int ammoPerShot;
-	public int shotDelay;
+	public float shotDelay;
 	public int shotsPerVolley;
-	public int volleyDelay;
+	public float volleyDelay;
 
 
 	public GameObject projectilePrefab;
@@ -39,7 +39,7 @@ public class Weapon : LGMonoBehaviour {
 	}
 	
 	public void FireVolley () {
-		for (int i = 0; i < ammoPerShot; i++) {
+		for (int i = 0; i < shotsPerVolley; i++) {
 			Invoke("FireProjectile", shotDelay * i);
 		}
 	}
