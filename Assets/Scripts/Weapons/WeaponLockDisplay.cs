@@ -8,7 +8,7 @@ public class WeaponLockDisplay : DisplayBehaviour {
 	UIFollowTarget labelFollow;
 	
 	public void ConnectDisplay () {
-		labelObj = labeler.weaponLockLabel;
+		labelObj = labelsDisplay.weaponLockLabel;
 		label = GetLabel(labelObj);
 		labelFollow = GetFollow(labelObj);
 	}

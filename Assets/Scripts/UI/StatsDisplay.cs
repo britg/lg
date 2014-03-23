@@ -10,15 +10,7 @@ public class StatsDisplay : DisplayBehaviour {
 	public UILabel shields;
 	public UILabel hull;
 	public UILabel fuel;
-
-	public UILabel tier1;
-	public UILabel tier2;
-	public UILabel tier3;
-	public UILabel tier4;
-	public UILabel tier5;
-	public UILabel tier6;
-	public UILabel tier7;
-
+	
 	void Awake () {
 		NotificationCenter.AddObserver(this, LG.n_playerStatsLoaded);
 	}
@@ -46,7 +38,6 @@ public class StatsDisplay : DisplayBehaviour {
 		UpdateShields();
 		UpdateHull ();
 		UpdateFuel();
-		UpdateResources();
 	}
 
 	void UpdatePos () {
@@ -67,14 +58,5 @@ public class StatsDisplay : DisplayBehaviour {
 
 	void UpdateFuel () {
 		fuel.text = "Fuel: " + player.stat(Stat.fuel).ToString("F2");
-	}
-
-	void UpdateResources () {
-		tier1.text = player.resource(Resource.tier1).ToString();
-		tier2.text = player.resource(Resource.tier2).ToString();
-		tier3.text = player.resource(Resource.tier3).ToString();
-		tier4.text = player.resource(Resource.tier4).ToString();
-		tier5.text = player.resource(Resource.tier5).ToString();
-		tier6.text = player.resource(Resource.tier6).ToString();
 	}
 }

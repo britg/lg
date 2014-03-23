@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class PanController : LGMonoBehaviour {
+public class PanController : ControllerBehaviour {
 
 	struct PanDir {
 		public static int Left = -1;
@@ -12,28 +12,20 @@ public class PanController : LGMonoBehaviour {
 	public float panPercent;
 	public float panTime;
 
-	void Start () {
+	protected override void ControllerStart () {
 		NotificationCenter.AddObserver(this, LG.n_playerStatsLoaded);
 	}
 
 	void OnPlayerStatsLoaded () {
 		lookTarget = thePlayer().transform;
 	}
-	
-	void Update () {
-		if (lookTarget != null) {
-			DetectInput();
-		}
+
+	protected override void OnPanLeftDown () {
+		Pan(PanDir.Left);
 	}
 
-	void DetectInput () {
-		if (Input.GetKeyDown(KeyCode.Q)) {
-			Pan(PanDir.Left);
-		}
-
-		if (Input.GetKeyDown(KeyCode.E)) {
-			Pan(PanDir.Right);
-		}
+	protected override void OnPanRightDown () {
+		Pan(PanDir.Right);
 	}
 
 	void Pan (int dir) {

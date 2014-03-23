@@ -522,6 +522,7 @@ MonoBehaviour:
   playerId: 0
   fuelController: {fileID: 0}
   nameLabel: {fileID: 100000, guid: aba00c7980edc4405b8d3b7423144f6d, type: 2}
+  loadedWeaponName: 
 --- !u!114 &11400004
 MonoBehaviour:
   m_ObjectHideFlags: 1

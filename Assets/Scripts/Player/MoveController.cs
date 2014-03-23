@@ -14,7 +14,6 @@ public class MoveController : ControllerBehaviour {
 	MoveSerializer moveSerializer;
 	bool movedThisFrame = false;
 	Vector3 moveDirection = Vector3.zero;
-	Transform referenceFrame;
 
 	bool fuelNotified = false;
 
@@ -25,7 +24,6 @@ public class MoveController : ControllerBehaviour {
 	
 	protected override void ControllerStart () {
 		moveSerializer = GetComponent<MoveSerializer>();
-		referenceFrame = GameObject.Find ("CameraAnchor").transform;
 	}
 
 	protected override void DetectInput() {
@@ -35,8 +33,7 @@ public class MoveController : ControllerBehaviour {
 	
 	void TranslatePlayer () {
 		Vector3 raw = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0);
-		Quaternion offset = Quaternion.Euler(referenceFrame.eulerAngles);
-		moveDirection = offset * Vector3.ClampMagnitude(raw, 1f);
+		moveDirection = player.referenceOffset * Vector3.ClampMagnitude(raw, 1f);
 		if (moveDirection.sqrMagnitude > 0f) {
 			bool enoughFuel = player.fuelController.HasEnoughFuel(Time.deltaTime);
 			if (!enoughFuel) {

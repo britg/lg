@@ -41,13 +41,13 @@ public class ResourceCollection {
 	}
 
 	public int Add (string name, int amount) {
-		int v = Get (name).value + amount;
+		int v = Get (name).quantity + amount;
 		Set (name, v);
 		return v;
 	}
 
 	public int Add (Resource res) {
-		return Add (res.name, res.value);
+		return Add (res.name, res.quantity);
 	}
 	
 	public int Remove (string name, int amount) {
@@ -100,7 +100,7 @@ public class ResourceCollection {
 		foreach (string resourceName in resourcesToSync) {
 			arr[i] = resourceName;
 			i++;
-			arr[i] = Get(resourceName).value.ToString();
+			arr[i] = Get(resourceName).quantity.ToString();
 			i++;
 		}
 		

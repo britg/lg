@@ -24,7 +24,6 @@ public class LookController : ControllerBehaviour {
 		CreatePointer();
 	}
 	
-	// Update is called once per frame
 	protected override void DetectInput () {
 		FollowMouse();
 		FollowThumbstick();
@@ -53,11 +52,11 @@ public class LookController : ControllerBehaviour {
 	}
 
 	void FollowThumbstick () {
-//		Vector2 lookDirection = new Vector2(Input.GetAxis("Look X"), -Input.GetAxis("Look Y")).normalized * 1;
-//		if (lookDirection.sqrMagnitude > 0f) {
-//			Vector2 screenLookPoint = playerScreenPos + lookDirection;
-//			UpdateLook (screenLookPoint);
-//		}
+		Vector3 lookDirection = new Vector3(Input.GetAxis("Look X"), -Input.GetAxis("Look Y"), 0f).normalized;
+		if (lookDirection.sqrMagnitude > 0f) {
+			worldLookPoint = player.transform.position + player.referenceOffset * lookDirection;
+			UpdateLook ();
+		}
 	}
 
 	void UpdateLook () {

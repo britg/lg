@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-public class ZoomController : MonoBehaviour {
+public class ZoomController : ControllerBehaviour {
 
 	public Vector3 angles = new Vector3(323.55f, 0f, 0f);
 	public Vector3 offset = new Vector3(0f, -370f, -500);
@@ -27,12 +27,10 @@ public class ZoomController : MonoBehaviour {
 		transform.localPosition = offset;
 	}
 
-	void Update () {
+	protected override void ControllerUpdate () {
 		if (target == null) {
 			return;
 		}
-
-		DetectInput();
 
 		if (TooClose()) {
 			BounceOut();
@@ -46,7 +44,10 @@ public class ZoomController : MonoBehaviour {
 
 	}
 
-	void DetectInput () {
+	protected override void DetectInput () {
+		if (target == null) {
+			return;
+		}
 		float wheelInput = Input.GetAxis ("Mouse ScrollWheel");
 		Vector3 pos = transform.position;
 		currentDistance = Vector3.Distance(pos, target.position);

@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System.Collections;
 
 public class DisplayBehaviour : LGMonoBehaviour {
@@ -39,13 +39,13 @@ public class DisplayBehaviour : LGMonoBehaviour {
 		}
 	}
 
-	Labeler _labeler;
-	public Labeler labeler {
+	LabelsDisplay _labelsDisplay;
+	public LabelsDisplay labelsDisplay {
 		get {
-			if (_labeler == null) {
-				_labeler = labels.GetComponent<Labeler>();
+			if (_labelsDisplay == null) {
+				_labelsDisplay = labels.GetComponent<LabelsDisplay>();
 			}
-			return _labeler;
+			return _labelsDisplay;
 		}
 	}
 

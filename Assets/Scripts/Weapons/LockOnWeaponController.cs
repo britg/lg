@@ -6,7 +6,15 @@ public class LockOnWeaponController : WeaponController {
 	public float lockCheckInterval = 0.1f;
 
 	WeaponLock weaponLock = new WeaponLock();
-	WeaponLockDisplay weaponLockDisplay;
+	WeaponLockDisplay _weaponLockDisplay;
+	WeaponLockDisplay weaponLockDisplay {
+		get {
+			if (_weaponLockDisplay == null) {
+				_weaponLockDisplay = gameObject.AddComponent<WeaponLockDisplay>();
+			}
+			return _weaponLockDisplay;
+		}
+	}
 
 	public int lockPercentage {
 		get {
@@ -15,7 +23,6 @@ public class LockOnWeaponController : WeaponController {
 	}
 
 	protected override void ControllerStart () {
-		weaponLockDisplay = gameObject.AddComponent<WeaponLockDisplay>();
 		NotificationCenter.AddObserver(this, LG.n_playerStatsLoaded);
 		NotificationCenter.AddObserver(this, LG.n_registerWeapon);
 	}

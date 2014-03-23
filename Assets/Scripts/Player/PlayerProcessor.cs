@@ -1,5 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
+using System;
 
 [RequireComponent(typeof(WeaponLockTarget))]
 public class PlayerProcessor : APIBehaviour {
@@ -17,6 +18,8 @@ public class PlayerProcessor : APIBehaviour {
 	public ResourceCollection resources;
 	[HideInInspector]
 	public FuelProcessor fuelProcessor;
+
+	public Inventory inventory;
 
 	void Start () {
 		fuelProcessor = GetComponent<FuelProcessor>();

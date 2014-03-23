@@ -1,7 +1,7 @@
 using UnityEngine;
 using System.Collections;
 
-public class LGMonoBehaviour : uLink.MonoBehaviour {
+public class LGMonoBehaviour : InputBehaviour {
 
 	protected GameObject projectileGrouping;
 	protected GameObject projectile;

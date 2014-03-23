@@ -1,4 +1,4 @@
-﻿using UnityEngine;
+using UnityEngine;
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -18,8 +18,18 @@ public class Player : LGMonoBehaviour {
 	public GameObject nameLabel;
 	public string loadedWeaponName;
 
+	public Inventory inventory;
+
+	public Transform referenceFrame;
+	public Quaternion referenceOffset {
+		get {
+			return Quaternion.Euler(referenceFrame.eulerAngles);
+		}
+	}
+
 	void Start () {
 		fuelController = GetComponent<FuelController>();
+		referenceFrame = GameObject.Find ("CameraAnchor").transform;
 		networkView.RPC (PlayerProcessor.Server_SyncToClient, uLink.RPCMode.Server);
 	}
 
@@ -88,7 +98,7 @@ public class Player : LGMonoBehaviour {
 	}
 
 	public int resource (string name) {
-		return (int)resources.Get(name).value;
+		return (int)resources.Get(name).quantity;
 	}
 
 	public static string Client_LoadWeapon = "LoadWeapon";
