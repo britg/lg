@@ -30,7 +30,7 @@ public class ControllerBehaviour : LGMonoBehaviour {
 	}
 
 	void Start () {
-		OffOnMenu();
+		SubscribeToMessages();
 		ControllerStart();
 	}
 
@@ -42,9 +42,22 @@ public class ControllerBehaviour : LGMonoBehaviour {
 
 	protected virtual void ControllerUpdate () {}
 
-	protected void OffOnMenu () {
+	protected void SubscribeToMessages () {
 		NotificationCenter.AddObserver(this, LG.n_showMenu);
 		NotificationCenter.AddObserver(this, LG.n_hideMenu);
 	}
+
+	void OnShowMenu () {
+		base.context = InputContext.Menu;
+		OnControllerShowMenu();
+	}
+
+	void OnHideMenu () {
+		base.context = InputContext.Game;
+		OnControllerHideMenu();
+	}
+
+	protected virtual void OnControllerShowMenu () {}
+	protected virtual void OnControllerHideMenu () {}
 
 }

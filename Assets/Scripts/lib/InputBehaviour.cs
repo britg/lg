@@ -8,6 +8,11 @@ public class InputBehaviour : uLink.MonoBehaviour {
 		Menu
 	}
 
+	protected InputBehaviour inputBase {
+		get {
+			return this;
+		}
+	}
 	protected InputContext context = InputContext.Game;
 
 	protected bool acceptInput = true;
@@ -28,7 +33,6 @@ public class InputBehaviour : uLink.MonoBehaviour {
 			return Input.GetKeyDown(KeyCode.Escape);
 		}
 	}
-
 
 	void Update () {
 
@@ -65,7 +69,6 @@ public class InputBehaviour : uLink.MonoBehaviour {
 		}
 
 		if (menuDown) {
-			context = InputContext.Menu;
 			OnMenuDown();
 		}
 	}
@@ -80,7 +83,6 @@ public class InputBehaviour : uLink.MonoBehaviour {
 		}
 
 		if (menuDown) {
-			context = InputContext.Game;
 			OnMenuMenuDown();
 		}
 	}

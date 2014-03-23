@@ -10,7 +10,6 @@ public class ClientNetworkManager : uLink.MonoBehaviour {
 
 	public GameObject serverConnectionGUI;
 	public GameObject connectingGUI;
-	public GameObject statsGUI;
 	public UIInput playerNameInput;
 	
 	void Awake() {
@@ -60,12 +59,10 @@ public class ClientNetworkManager : uLink.MonoBehaviour {
 	void uLink_OnConnectedToServer () {
 		connectingGUI.SetActive(false);
 		serverConnectionGUI.SetActive(false);
-		statsGUI.SetActive(true);
 	}
 
 	void uLink_OnDisconnectedFromServer(uLink.NetworkDisconnection mode) {
 		serverConnectionGUI.SetActive(true);
-		statsGUI.SetActive(false);
 	}
 }
 

@@ -24,18 +24,5 @@ public class MenuDisplay : DisplayBehaviour {
 		blur.enabled = false;
 	}
 
-	public void OnDisconnectButtonPress () {
-		DeactivateMenu();
-		uLink.Network.Disconnect();
-	}
-
-	public void OnRespawnButtonPress () {
-		DeactivateMenu();
-		player.RequestRespawn();
-	}
-
-	public void OnQuitButtonPress () {
-		Application.Quit();
-	}
 
 }

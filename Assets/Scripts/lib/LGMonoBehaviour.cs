@@ -3,9 +3,6 @@ using System.Collections;
 
 public class LGMonoBehaviour : InputBehaviour {
 
-	protected GameObject projectileGrouping;
-	protected GameObject projectile;
-
 	Player _player;
 	protected Player player {
 		get {
@@ -24,15 +21,6 @@ public class LGMonoBehaviour : InputBehaviour {
 			}
 			return _playerProcessor;
 		}
-	}
-
-	protected void InitProjectiles () {
-		projectileGrouping = GameObject.Find("Projectiles");
-		if (projectileGrouping == null) {
-			projectileGrouping = (GameObject)Instantiate(new GameObject(), Vector3.zero, Quaternion.identity);
-			projectileGrouping.name = "Projectiles";
-		}
-		projectile = (GameObject)Resources.Load("Projectile");
 	}
 
 	protected GameObject thePlayer () {
