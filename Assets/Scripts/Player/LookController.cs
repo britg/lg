@@ -23,7 +23,7 @@ public class LookController : ControllerBehaviour {
 		lastMousePos = Vector2.zero;
 		CreatePointer();
 	}
-	
+
 	protected override void DetectInput () {
 		FollowMouse();
 		FollowThumbstick();

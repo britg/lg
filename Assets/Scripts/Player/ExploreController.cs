@@ -4,7 +4,7 @@ using System;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ExploreController : LGMonoBehaviour {
+public class ExploreController : ControllerBehaviour {
 
 	public float speed = 100f;
 	
@@ -22,11 +22,7 @@ public class ExploreController : LGMonoBehaviour {
 		NotificationCenter.PostNotification(this, LG.n_playerStatsLoaded);
 	}
 	
-	void Update() {
-		DetectInput();
-	}
-	
-	void DetectInput () {
+	protected override void DetectInput () {
 		Vector3 raw = new Vector3(Input.GetAxis("Horizontal"), Input.GetAxis("Vertical"), 0);
 		Quaternion offset = Quaternion.Euler(referenceFrame.eulerAngles);
 		moveDirection = offset * Vector3.ClampMagnitude(raw, 1f);
